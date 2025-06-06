@@ -1,0 +1,6 @@
+//- phút 35 bài 21
+//- tách ra một file riêng để có thế tái sử dụng
+mixin fiter-status(filterStatus) 
+  each item in filterStatus
+    button(class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
+      button-status=item.status) #{item.name}

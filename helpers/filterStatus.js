@@ -1,3 +1,4 @@
+// phút 30 bài 21
 module.exports = (query) =>{
   // mảng này dùng để chứa các trạng thái cho từng nút bấm để
   // vẽ giao diện trong trang products
