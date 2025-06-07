@@ -54,3 +54,20 @@ module.exports.index = async (req, res) => {
     pagination : objectPagination
 });
 }
+
+// [PATCH] /adim/product/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  // console.log(req.params); dùng để tra tên status và id
+  const status = req.params.status
+  const id = req.params.id
+
+  await Product.updateOne({_id: id}, {availabilityStatus: status});
+  // hàm updateOne này dùng để update một sản phầm với các thông số truyền vào
+  // tìm hiểu thêm thông tin ở mongoose -> queries
+
+  res.redirect(req.get("Referer") || "/");
+  // thay cho res.redirect("back")
+  // sau khi thay đổi trạng thái thì nó sẽ link sang trang khác để update trạng thái sản phẩm 
+  // nhưng khi dùng câu lệnh trên thì nó sẽ tự động back về trang cũ sau khi update
+
+}

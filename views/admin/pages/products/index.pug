@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search-text.pug
+include ../../mixins/pagination.pug
 
 block main 
   h1 Danh Sách Sản Phẩm
@@ -44,33 +45,36 @@ block main
                 td #{item.price}$
                 td
                   if(item.availabilityStatus == "In Stock")
-                    a(href="#" class="badge badge-success") Hoạt động 
+                    //- "javascript:;" chức năng của thẻ a bây giờ sẽ được biểu diễn trong file js
+                    a(
+                      href="javascript:;"
+                      data-status=item.availabilityStatus
+                      data-id=item.id 
+                      button-change-status 
+                      class="badge badge-success"
+                    ) Hoạt động 
                   else 
-                    a(href="#" class="badge badge-danger") Dừng hoạt động
+                    a(
+                      href="javascript:;"
+                      data-status=item.availabilityStatus
+                      data-id=item.id 
+                      button-change-status 
+                      class="badge badge-danger"
+                    ) Dừng hoạt động
                 td 
                   button(class="btn btn-warning btn-sm") Sửa
                   button(class="btn btn-danger btn-sm ml-1") Xóa
   
   //- 1h25 bài 21 phân trang
-  nav 
-    ul(class='pagination')
-      if(pagination.currentPage > 1)
-        li(class="page-item")
-          button(
-            class="page-link"
-            button-pagination=pagination.currentPage-1
-          ) Trang trước
+  +pagination(pagination)
+  
+  //- mục đích để tạo form này để khi submit
+    nó sẽ gửi lên cái form có đường dẫn trong phần action
+  form(
+    action="" 
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/products/change-status`
+  ) 
 
-      - for (var i = 1; i <= pagination.totalPages; i++)
-        li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
-          button(
-            class="page-link"
-            button-pagination=i
-          ) #{i}
-      
-      if(pagination.currentPage < pagination.totalPages)
-        li(class="page-item")
-          button(
-            class="page-link"
-            button-pagination=pagination.currentPage+1
-            ) Trang sau
+  script(src="/admin/js/product.js") 

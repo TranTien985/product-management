@@ -104,6 +104,20 @@ luồng chạy: index.routes -> file.routes -> file.controller -> view
 
 - trong view tạo y hệt như bên client thay vì home thì thay bằng dashboard
 
-- "?availabilityStatus=In%20Stock" câu truy vấn tìm kiếm ("%20" là dấu cách)
+- "?availabilityStatus=In+Stock" câu truy vấn tìm kiếm 
     => sau khi có câu lệnh này xong thì mới sử dụng console.log(req.query) 
         để hiển thị query bắt đầu viết hàm lọc
+
+- req.query là các biến sau dấu "?" của url
+- còn nếu như bình thường ta muốn tìm biến sau dấu "/"
+    thì nó là req.params
+
+bài 19-20: tạo bộ lọc và chức năng tìm kiếm 
+
+bài 21: làm tiếp chức năng tìm kiếm và chức năng phân trang
+
+bài 22: cập nhật trạng thái sản phẩm 
+    +Từ đầu -> 37p: xong phần FE
+
+    +Tiếp -> 1h : xong phần BE
+        cài thư viện "npm i method-override" để có thể sử dụng phương thức PATCH trong pug(html)
