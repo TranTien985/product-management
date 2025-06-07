@@ -130,3 +130,7 @@ bài 22:
 
     + 1h50 -> hết : xong phần controller 
         sử dụng updateMany() của mongoose
+
+bài 23:
+- Xóa vĩnh viễn sản phẩm
+    + Từ đầu -> 23p
