@@ -9,4 +9,6 @@ router.patch('/change-status/:status/:id', controller.changeStatus);
 // :status dùng để truyền data động vào url
 // router này sử dụng phương thức patch 
 
+router.patch('/change-multi', controller.changeMulti);
+
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require('express')
 const methodOverride = require('method-override')
 const database = require("./config/database")
 require("dotenv").config();
+const bodyParser = require('body-parser') // dùng để đọc dữ liệu req.body
 
 const systemConfig = require("./config/system")
 
@@ -11,6 +12,8 @@ const app = express()
 const port = process.env.PORT;
 
 app.use(methodOverride('_method')) // thư viện ghi đề phương thức PATCH 
+
+app.use(bodyParser.urlencoded()) // body-parser
 
 database.connect(); // liên kết database
 

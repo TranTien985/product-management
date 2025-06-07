@@ -26,5 +26,4 @@ if(buttonChangeStatus.length > 0){
     })
   })
 }
-
 //End Change Status

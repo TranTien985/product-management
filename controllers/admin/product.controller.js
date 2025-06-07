@@ -71,3 +71,25 @@ module.exports.changeStatus = async (req, res) => {
   // nhưng khi dùng câu lệnh trên thì nó sẽ tự động back về trang cũ sau khi update
 
 }
+
+// [PATCH] /adim/product/change-multi
+module.exports.changeMulti = async (req, res) => {
+  const type = req.body.type;
+  const ids = req.body.ids.split(", ");
+  // dùng split(", ") để convert nó thành một mảng 
+
+  // sử dụng updateMany của mongoose
+  switch (type) {
+    case "In Stock":
+      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "In Stock"} );
+      break;
+    case "Low Stock":
+      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "Low Stock"} );
+      break;
+  
+    default:
+      break;
+  }
+  res.redirect(req.get("Referer") || "/");
+  
+}

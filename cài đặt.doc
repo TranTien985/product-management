@@ -116,8 +116,17 @@ bài 19-20: tạo bộ lọc và chức năng tìm kiếm
 
 bài 21: làm tiếp chức năng tìm kiếm và chức năng phân trang
 
-bài 22: cập nhật trạng thái sản phẩm 
+bài 22: 
+- cập nhật trạng thái một sản phẩm 
     +Từ đầu -> 37p: xong phần FE
 
     +Tiếp -> 1h : xong phần BE
         cài thư viện "npm i method-override" để có thể sử dụng phương thức PATCH trong pug(html)
+
+- cập nhật trạng thái nhiều sản phẩm
+    + Tiếp -> 1h50 : xong phần event và giao diện
+        cài thư viện "npm install body-parser" thư viện này hỗ trợ phân tích cú pháp dữ liệu cho thằng NodeJS (phần mềm xử lí trung gian)
+        => sau khi chúng ta submit dữ liệu sẽ được gửi lên và ta phải dùng thư viện này để thằng NodeJs mới có thể đọc dữ liệu trong phần "req.body"
+
+    + 1h50 -> hết : xong phần controller 
+        sử dụng updateMany() của mongoose
