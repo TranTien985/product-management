@@ -4,20 +4,27 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect index.js"
+    "start": "nodemon --inspect index.js",
+    "postinstall": "patch-package"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.1",
     "method-override": "^3.0.0",
     "mongoose": "^8.15.1",
     "pug": "^3.0.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

@@ -70,6 +70,9 @@ module.exports.changeStatus = async (req, res) => {
   // hàm updateOne này dùng để update một sản phầm với các thông số truyền vào
   // tìm hiểu thêm thông tin ở mongoose -> queries
 
+  req.flash('success', 'Cập nhật trạng thái thành công');
+  // sử dụng thư viện express-flash
+
   res.redirect(req.get("Referer") || "/");
   // thay cho res.redirect("back")
   // sau khi thay đổi trạng thái thì nó sẽ link sang trang khác để update trạng thái sản phẩm 

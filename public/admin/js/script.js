@@ -150,4 +150,17 @@ if(formChangeMulti){
 }
 // End Form change multi
 
+//Show alert
+const showAlert = document.querySelector("[show-alert]");
+if (showAlert) {
+  const time = showAlert.getAttribute("data-time");
 
+
+  if (!isNaN(time)) {
+    setTimeout(() => {
+      showAlert.classList.add("alert-hidden");
+    }, time);
+  }
+}
+
+//End Show alert

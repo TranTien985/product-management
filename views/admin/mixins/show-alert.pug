@@ -1,0 +1,9 @@
+mixin show-alert(times)
+  //- hiện thông báo và biến success ở bên controller
+  - if (messages.success)
+    .message.info
+      div(
+        class="alert alert-success "
+        show-alert
+        data-time=times
+      ) #{messages.success}
