@@ -108,6 +108,7 @@ if(formChangeMulti){
     const CheckboxMulti = document.querySelector("[checkbox-multi]");
     const inputsChecked = CheckboxMulti.querySelectorAll("input[name='id']:checked");
 
+    // delete-all
     const typeChange = e.target.elements.type.value
     if(typeChange == "delete-all"){
       const isConfirm = confirm("Bạn có chắc muốn xóa những sản phẩm này?")
@@ -124,6 +125,7 @@ if(formChangeMulti){
       inputsChecked.forEach(input => {
         const id = input.value;
 
+        // change-position
         if(typeChange == "change-position"){
           const position = input.closest("tr").querySelector("input[name='position']").value
           // hàm closest để trỏ đến thẻ cha
@@ -139,7 +141,6 @@ if(formChangeMulti){
       inputIds.value = ids.join(", ")
       // vì ids là một mảng mà input chỉ lưu dc dạng string 
       // nên ta dùng join để biến nó thành một chuỗi.
-
       formChangeMulti.submit();
     }
     else{
