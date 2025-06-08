@@ -3,8 +3,12 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search-text.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
+include ../../mixins/show-alert.pug
+
 
 block main 
+  +show-alert(5000)
+
   h1 Danh Sách Sản Phẩm
 
   .card.mb-3 
