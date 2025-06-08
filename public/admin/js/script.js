@@ -123,7 +123,17 @@ if(formChangeMulti){
 
       inputsChecked.forEach(input => {
         const id = input.value;
-        ids.push(id)
+
+        if(typeChange == "change-position"){
+          const position = input.closest("tr").querySelector("input[name='position']").value
+          // hàm closest để trỏ đến thẻ cha
+          // tại vì từ ô input ko thể trỏ đến ô input được
+
+          ids.push(`${id}-${position}`);
+        }
+        else{
+          ids.push(id)
+        }
       });
 
       inputIds.value = ids.join(", ")

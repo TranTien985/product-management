@@ -5,7 +5,7 @@ module.exports.index = async (req, res) => {
     // hàm lọc
     const products = await Product.find({
         availabilityStatus: 'In Stock'
-    });
+    }).sort({position: "desc"});
 
     // hàm này dùng để tính giá tiền khi có giảm giá
     const newProducts = products.map(item => {

@@ -43,7 +43,10 @@ module.exports.index = async (req, res) => {
   );
 // End pagination
 
-  const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
+  const products = await Product.find(find)
+  .sort({position: "desc"})
+  .limit(objectPagination.limitItems)
+  .skip(objectPagination.skip);
   // limit(objectPagination.limitItems) giới hạn một trang có bao nhiêu sản phẩm
   // skip(objectPagination.skip) khi bấm vào trang kế tiếp thì nó sẽ skip qua bao nhiêu sản phẩm
   
@@ -93,6 +96,18 @@ module.exports.changeMulti = async (req, res) => {
         deleted: true,
         deletedAt: new Date() 
       });
+      break;
+    case "change-position":
+      // vì các giá trị của position khác nhau nên ta sẽ phải sử dụng forof 
+      // để có thể duyệt qua từng phần tử trong mảng
+      for (const item of ids) {
+        let [id, position] = item.split("-"); // sau đó ta sẽ từ mảng tách chuỗi ra 
+        position = parseInt(position); // vì position là number nên ta phải convert lại kiểu cho dữ liệu
+
+        await Product.updateOne({_id: id},{
+          position: position
+        });
+      }
       break;
   
     default:
