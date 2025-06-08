@@ -22,6 +22,7 @@ const productSchema = new mongoose.Schema({
   meta: Object,
   images: Array,
   thumbnail: String, //*
+  position: Number,
   deleted: Boolean,
   deletedAt : Date
 });
