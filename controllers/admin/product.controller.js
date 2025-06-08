@@ -8,7 +8,9 @@ const paginationHelper = require("../../helpers/pagination") // phân trang
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query)
 
-  let find = {} // biến này tượng trưng cho bộ lọc
+  let find = {
+    deleted: false,
+  } // biến này tượng trưng cho bộ lọc
 
   // nếu có yêu cầu lọc thì mới sử dụng hàm này không thì thôi
   if(req.query.availabilityStatus){
@@ -34,7 +36,7 @@ module.exports.index = async (req, res) => {
   let objectPagination = paginationHelper(
     {
       currentPage : 1,
-      limitItems : 7
+      limitItems : 6
     },
     req.query,
     countProducts
@@ -86,6 +88,12 @@ module.exports.changeMulti = async (req, res) => {
     case "Low Stock":
       await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "Low Stock"} );
       break;
+    case "delete-all":
+      await Product.updateMany({_id: ids}, {
+        deleted: true,
+        deletedAt: new Date() 
+      });
+      break;
   
     default:
       break;
@@ -98,8 +106,13 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id
 
-  await Product.deleteOne({_id: id})
-  
+  // await Product.deleteOne({_id: id}) dùng để xóa vĩnh viễn 
+
+  await Product.updateOne({_id: id}, {
+    deleted: true,
+    deletedAt: new Date()  // hàm để lấy ra thời gian hiên tại
+  });
+
   res.redirect(req.get("Referer") || "/");
   
 }

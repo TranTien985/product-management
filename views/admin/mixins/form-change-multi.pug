@@ -10,8 +10,10 @@ mixin form-change-multi(path)
     .d-flex.align-items-start 
       .form-group 
         select(name="type" class="form-control")
+          option(disabled selected) -- Chọn hành động --
           option(value="In Stock") Hoạt động
           option(value="Low Stock") Dừng hoạt động
+          option(value="delete-all") Xóa tất cả
       .form-group 
         input(
           type="text"

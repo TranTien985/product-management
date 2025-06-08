@@ -132,5 +132,6 @@ bài 22:
         sử dụng updateMany() của mongoose
 
 bài 23:
-- Xóa vĩnh viễn sản phẩm
-    + Từ đầu -> 23p
+- Xóa vĩnh viễn sản phẩm (thay bằng xóa mềm)
+    + Từ đầu -> 23p 
+        thay vì xóa vĩnh viễn trong db thì ta xóa mềm nó sẽ ko bị mất dữ liệu 

@@ -44,7 +44,6 @@ if(buttonDelete.length > 0){
 
         console.log(action);
         
-
         formDeleteItem.action = action;
         formDeleteItem.submit();
       }

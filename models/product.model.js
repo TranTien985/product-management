@@ -22,6 +22,8 @@ const productSchema = new mongoose.Schema({
   meta: Object,
   images: Array,
   thumbnail: String, //*
+  deleted: Boolean,
+  deletedAt : Date
 });
 
 const Product = mongoose.model("Product", productSchema, "products"); // products này là 1 collection trong mongoose
