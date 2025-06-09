@@ -23,6 +23,9 @@ database.connect(); // liên kết database
 // express-flash
 app.use(cookieParser('aksdjhasdvajsdia'));
 app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
   cookie: { maxAge: 60000 }
 }))
 app.use(flash());
