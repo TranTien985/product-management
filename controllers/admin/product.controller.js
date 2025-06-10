@@ -89,16 +89,19 @@ module.exports.changeMulti = async (req, res) => {
   // sử dụng updateMany của mongoose
   switch (type) {
     case "In Stock":
-      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "In Stock"} );
+      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "In Stock"});
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "Low Stock":
-      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "Low Stock"} );
+      await Product.updateMany({_id: {$in: ids}},{availabilityStatus: "Low Stock"});
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "delete-all":
       await Product.updateMany({_id: ids}, {
         deleted: true,
         deletedAt: new Date() 
       });
+      req.flash("success", `Đã xóa thành công ${ids.length} sản phẩm!`);
       break;
     case "change-position":
       // vì các giá trị của position khác nhau nên ta sẽ phải sử dụng forof 
@@ -111,6 +114,7 @@ module.exports.changeMulti = async (req, res) => {
           position: position
         });
       }
+      req.flash("success", `Cập nhật vị trí thành công ${ids.length} sản phẩm!`);
       break;
   
     default:
@@ -130,7 +134,38 @@ module.exports.deleteItem = async (req, res) => {
     deleted: true,
     deletedAt: new Date()  // hàm để lấy ra thời gian hiên tại
   });
+  req.flash("success", `Xóa thành công sản phẩm!`);
 
   res.redirect(req.get("Referer") || "/");
   
+}
+
+// [GET] /adim/product/create
+module.exports.create = async (req,res) => {
+  res.render("admin/pages/products/create", {
+    pageTitle: 'Trang Thêm mới sản phẩm'
+  });
+}
+
+// [POST] /adim/product/create
+module.exports.createPost = async (req,res) => {
+  // chuyển dữ liệu từ string -> number
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+
+  // nếu người dùng không nhập vị trí thì hệ thống sẽ tự động tăng thêm 1
+  if(req.body.position == ""){
+    const countProducts = await Product.countDocuments();
+    req.body.position = countProducts + 1
+  }
+  else{
+    req.body.position = parseInt(req.body.position);
+  }
+  console.log(req.body);
+  
+  const product = new Product(req.body); // tạo mới một sản phẩm
+  await product.save(); // lưu dữ liệu sản phẩm mới vào model db
+  
+  res.redirect(`/admin/products`);
 }
