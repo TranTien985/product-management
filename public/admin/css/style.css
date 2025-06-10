@@ -55,6 +55,7 @@
   top: 70px;
   right: 0;
   z-index: 9999;
+  animation: countdown 4s ease forwards;
   animation: show-alert 2s ease forwards;
 }
 
@@ -62,6 +63,26 @@
   animation-name: alert-hidden;
   animation-duration: 0.5s; /* thời gian animation chạy */
   animation-fill-mode: both;/*chỉ định kiểu cho phần tử khi thực hiện animation và both là sẽ thực hiện cả 2 hướng */
+}
+
+[show-alert] [close-alert]{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@keyframes countdown{
+    0%{
+        width: 100%;
+    }
+    100%{
+        width: 0%;
+    }
 }
 
 @keyframes show-alert{
@@ -98,14 +119,10 @@
     }
 }
 
-[show-alert] [close-alert]{
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  font-weight: 600;
-  border-radius: 50%;
-  cursor: pointer;
+[button-add-product]{
+  position: absolute;
+  right: 0;
 }
+
 /* End show alert */
+
