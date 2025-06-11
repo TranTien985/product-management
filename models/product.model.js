@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const slug = require('mongoose-slug-updater');
+
+mongoose.plugin(slug);
 
 const productSchema = new mongoose.Schema({
   title: String, //*
@@ -23,6 +26,11 @@ const productSchema = new mongoose.Schema({
   images: Array,
   thumbnail: String, //*
   position: Number,
+  slug: { 
+    type: String, 
+    slug: "title",
+    unique: true // set slug luôn luôn là duy nhất
+  },
   // khi ta thêm mới sản phẩm thì ko có trường này nên ta sẽ phải set như này 
   // để khi sản phẩm mới thêm vào thì sẽ tự động có trường deleted = false
   deleted: {

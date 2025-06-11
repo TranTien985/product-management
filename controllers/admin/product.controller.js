@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model"); //database
 
+const systemConfig = require("../../config/system")
 const filterStatusHelper = require("../../helpers/filterStatus") // lọc
 const SearchHelper = require("../../helpers/search") // tìm kiếm
 const paginationHelper = require("../../helpers/pagination") // phân trang
@@ -162,10 +163,9 @@ module.exports.createPost = async (req,res) => {
   else{
     req.body.position = parseInt(req.body.position);
   }
-  console.log(req.body);
   
   const product = new Product(req.body); // tạo mới một sản phẩm
   await product.save(); // lưu dữ liệu sản phẩm mới vào model db
   
-  res.redirect(`/admin/products`);
+  res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
