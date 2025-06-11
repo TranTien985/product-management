@@ -1,11 +1,11 @@
-const express = require('express')
-const methodOverride = require('method-override')
-const database = require("./config/database")
-require("dotenv").config();
-const flash = require('express-flash');
+const express = require('express');
+const methodOverride = require('method-override');
+const database = require("./config/database");
+const flash = require('express-flash'); // thư viện hỗ trợ tạo thông báo
 const cookieParser = require('cookie-parser'); // hỗ trợ cho express-flash
 const session = require('express-session'); // hỗ trợ cho express-flash
 const bodyParser = require('body-parser') // dùng để đọc dữ liệu req.body
+require("dotenv").config();
 
 const systemConfig = require("./config/system")
 
