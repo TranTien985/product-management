@@ -126,3 +126,26 @@
 
 /* End show alert */
 
+/* upload image */
+.upload-image{
+  margin-top: 10px;
+  width: 300px;
+  position: relative;
+}
+
+[upload-image-preview]{
+  width: 100%;
+  object-fit: cover;
+}
+
+.upload-image i{
+  position: absolute;
+  top: -33px;
+  right: 0;
+  cursor: pointer;
+}
+
+.hide{
+  display: none;
+}
+/* end upload image */
