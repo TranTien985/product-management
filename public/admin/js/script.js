@@ -164,5 +164,38 @@ if (showAlert) {
     showAlert.classList.add("alert-hidden")
   });
 }
-
 //End Show alert
+
+
+// Upload image
+const uploadImage = document.querySelector("[upload-image]")
+
+if(uploadImage){
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+  const iconDeleteImage = document.querySelector("[icon-delete-image]")
+
+  uploadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+
+    if(file){
+      uploadImagePreview.src = URL.createObjectURL(file); 
+      // tạo url cho ảnh khi thêm ảnh từ file để view ảnh lên giao diện
+      iconDeleteImage.classList.remove('hide');// nếu có ảnh thì sẽ hiện dấu x lên
+    }
+    else {
+      uploadImagePreview.src = '';
+      iconDeleteImage.classList.add('hide'); // nếu ko có thì ẩn đi
+    }
+    
+  })
+
+  // xử lí sự kiện nút x
+  iconDeleteImage.addEventListener('click', () => {
+    uploadImageInput.value = ""
+    uploadImagePreview.src = ""
+    iconDeleteImage.classList.add('hide')
+  })
+
+}
+// End Upload image
