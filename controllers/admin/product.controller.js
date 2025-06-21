@@ -159,8 +159,7 @@ module.exports.createPost = async (req,res) => {
   if(req.body.position == ""){
     const countProducts = await Product.countDocuments();
     req.body.position = countProducts + 1
-  }
-  else{
+  }else{
     req.body.position = parseInt(req.body.position);
   }
 
@@ -172,4 +171,49 @@ module.exports.createPost = async (req,res) => {
   await product.save(); // lưu dữ liệu sản phẩm mới vào model db
   
   res.redirect(`${systemConfig.prefixAdmin}/products`);
+}
+
+// [GET] /adim/product/edit/:id
+module.exports.edit = async (req,res) => {
+  // dùng try catch để tránh trường hợp tự ý ghi id linh tinh gây ra die server
+  try {
+    const find = {
+    deleted: false,
+    _id: req.params.id
+    };
+
+    const product = await Product.findOne(find);
+    
+    res.render("admin/pages/products/edit", {
+      pageTitle: 'Chỉnh sửa sản phẩm',
+      product: product
+    });
+  } catch (error) {
+    req.flash("error", "Không tồn tại sản phẩm")
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
+}
+
+// [PATCH] /adim/product/edit/:id
+module.exports.editPatch = async (req,res) => {
+  const id = req.params.id
+
+  req.body.price = parseFloat(req.body.price);
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+
+  req.body.position = parseInt(req.body.position);
+
+  if(req.file){
+    req.body.thumbnail = `/uploads/${req.file.filename}`; // dường dẫn của ảnh
+  }
+  
+  try {
+    await Product.updateOne({_id: id}, req.body)
+    req.flash("success", "Cập nhật thành công!");
+  } catch (error) {
+    req.flash("error", "Cập nhật thất bại!");
+  }
+  
+  res.redirect(req.get("Referer") || "/");
 }
