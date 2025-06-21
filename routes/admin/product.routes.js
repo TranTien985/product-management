@@ -30,4 +30,12 @@ router.post(
   controller.createPost);
 // router này thực hiện phương thức post khi muốn gửi dữ liệu sản phẩm 
 
+router.get("/edit/:id", controller.edit)
+
+router.patch(
+  "/edit/:id",
+  upload.single('thumbnail'), 
+  validate.createPost, 
+  controller.editPatch)
+
 module.exports = router;
