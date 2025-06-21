@@ -151,24 +151,29 @@ module.exports.create = async (req,res) => {
 // [POST] /adim/product/create
 module.exports.createPost = async (req,res) => {
   // chuyển dữ liệu từ string -> number
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.price = parseFloat(req.body.price);
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
 
-  // nếu người dùng không nhập vị trí thì hệ thống sẽ tự động tăng thêm 1
-  if(req.body.position == ""){
-    const countProducts = await Product.countDocuments();
-    req.body.position = countProducts + 1
-  }else{
-    req.body.position = parseInt(req.body.position);
-  }
+  try {
+    // nếu người dùng không nhập vị trí thì hệ thống sẽ tự động tăng thêm 1
+    if(req.body.position == ""){
+      const countProducts = await Product.countDocuments();
+      req.body.position = countProducts + 1
+    }else{
+      req.body.position = parseInt(req.body.position);
+    }
 
-  if(req.file){
-    req.body.thumbnail = `/uploads/${req.file.filename}`; // dường dẫn của ảnh
+    if(req.file){
+      req.body.thumbnail = `/uploads/${req.file.filename}`; // dường dẫn của ảnh
+    }
+    
+    const product = new Product(req.body); // tạo mới một sản phẩm
+    await product.save(); // lưu dữ liệu sản phẩm mới vào model db
+
+  } catch (error) {
+    res.redirect(req.get("Referer") || "/");
   }
-  
-  const product = new Product(req.body); // tạo mới một sản phẩm
-  await product.save(); // lưu dữ liệu sản phẩm mới vào model db
   
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
@@ -216,4 +221,27 @@ module.exports.editPatch = async (req,res) => {
   }
   
   res.redirect(req.get("Referer") || "/");
+}
+
+// [GET] /adim/product/detail/:id
+module.exports.detail = async (req,res) => {
+  try {
+    const find = {
+    deleted: false,
+    _id: req.params.id
+    };
+
+    const product = await Product.findOne(find);
+
+    console.log(product);
+    
+    
+    res.render("admin/pages/products/detail", {
+      pageTitle: product.title,
+      product: product
+    });
+  } catch (error) {
+    req.flash("error", "Không tồn tại sản phẩm")
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
 }
