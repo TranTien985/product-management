@@ -32,6 +32,10 @@
   left: 150px;
   width: calc(100% - 180px);
 }
+
+[button-edit]{
+  margin-left: 4px;
+}
 /* End Body */
 
 /* Sider */
@@ -149,3 +153,13 @@
   display: none;
 }
 /* end upload image */
+
+/* detail product */
+[image-detail-product]{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/*End detail product */
