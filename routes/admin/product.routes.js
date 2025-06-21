@@ -8,6 +8,7 @@ const upload = multer({ storage: storageMulter() }); // đường dẫn lưu ả
 
 
 const controller = require("../../controllers/admin/product.controller")
+const validate = require("../../validates/admin/product.validate")
 
 router.get('/', controller.index);
 
@@ -22,7 +23,11 @@ router.delete('/delete/:id', controller.deleteItem);
 router.get('/create', controller.create);
 // router này để hiển thị trang thêm sản phẩm
 
-router.post('/create', upload.single('thumbnail'), controller.createPost);
+router.post(
+  '/create', 
+  upload.single('thumbnail'), 
+  validate.createPost,
+  controller.createPost);
 // router này thực hiện phương thức post khi muốn gửi dữ liệu sản phẩm 
 
 module.exports = router;
