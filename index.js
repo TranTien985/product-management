@@ -32,11 +32,11 @@ app.use(flash());
 //End express-flash
 
 // pug
-app.set('views', './views');
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
 // css, js
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`)); // biến __dirname dùng để trỏ cấu trúc thư mục của dự án
 
 // App locals Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin
