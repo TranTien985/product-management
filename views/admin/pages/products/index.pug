@@ -4,6 +4,7 @@ include ../../mixins/search-text.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/sort.pug
 
 
 block main 
@@ -22,6 +23,13 @@ block main
 
         .col-6 
           +search-text(keyword)
+  
+  .card.mb-3 
+    .card-header Sắp xếp 
+    .card-body 
+      .row 
+        .col-3 
+          +sort()
 
   .card.mb-3 
     .card-header Danh Sách
