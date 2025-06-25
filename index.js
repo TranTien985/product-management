@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path'); // dành cho TinyMCE
 const methodOverride = require('method-override');
 const database = require("./config/database");
 const flash = require('express-flash'); // thư viện hỗ trợ tạo thông báo
@@ -30,6 +31,10 @@ app.use(session({
 }))
 app.use(flash());
 //End express-flash
+
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End TinyMCE
 
 // pug
 app.set('views', `${__dirname}/views`);

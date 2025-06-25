@@ -35,7 +35,8 @@ block main
         div(class="mb-4") Vị trí: <b>#{product.position}</b>
 
       if(product.description)
-        div(class="mb-4") #{product.description}
+        div(class="mb-4") !{product.description}
+        //- nếu dùng #{} thì sẽ hiện lên mã html nên ta phải thay bằng dấu !{}
 
   a(
     href=`${prefixAdmin}/products/edit/${product.id}`
