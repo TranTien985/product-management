@@ -1,45 +1,16 @@
 extends ../../layouts/default.pug
-include ../../mixins/filter-status.pug
-include ../../mixins/search-text.pug
-include ../../mixins/pagination.pug
-include ../../mixins/form-change-multi.pug
-include ../../mixins/show-alert.pug
-include ../../mixins/sort.pug
-
 
 block main 
-  +alert-success(5000)
-  +alert-error(5000)
-
-  h1 Danh Sách Sản Phẩm
-
-  .card.mb-3 
-    .card-header Bộ lọc và Tìm kiếm
-    .card-body
-      .row 
-        .col-6
-          //- sử dụng mixins
-          +fiter-status(filterStatus)
-
-        .col-6 
-          +search-text(keyword)
-  
-  .card.mb-3 
-    .card-header Sắp xếp 
-    .card-body 
-      .row 
-        .col-3 
-          +sort()
+  h1 Danh Mục Sản Phẩm
 
   .card.mb-3 
     .card-header Danh Sách
       .card-body
         .row 
           .col-8 
-            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
           .col-4  
             a(
-              href=`${prefixAdmin}/products/create`
+              href=`${prefixAdmin}/products-category/create`
               class="btn btn-outline-success "
             ) + Thêm mới
 
@@ -53,14 +24,13 @@ block main
                 input(type="checkbox" name="checkall")
               th STT 
               th Hình ảnh 
-              th Tiêu đề
-              th Giá 
+              th Tiêu đề 
               th Vị trí 
               th Trạng thái 
               th Hành động
 
           tbody
-            each item,index in products 
+            each item,index in records
               tr
                 td 
                   input(
@@ -77,7 +47,6 @@ block main
                     height="auto"
                   )
                 td #{item.title}
-                td #{item.price}$
                 td 
                   input(
                     type="number"
@@ -106,11 +75,11 @@ block main
                     ) Dừng hoạt động
                 td 
                   a(
-                    href=`${prefixAdmin}/products/detail/${item.id}`
+                    href=`${prefixAdmin}/products-category/detail/${item.id}`
                     class="btn btn-secondary btn-sm"
                   ) Chi tiết
                   a(
-                    href=`${prefixAdmin}/products/edit/${item.id}`
+                    href=`${prefixAdmin}/products-category/edit/${item.id}`
                     class="btn btn-warning btn-sm"
                     button-edit
                   ) Sửa
@@ -119,24 +88,3 @@ block main
                     button-delete
                     data-id=item.id
                   ) Xóa
-  
-  //- 1h25 bài 21 phân trang
-  +pagination(pagination)
-  
-  //- mục đích để tạo form này để khi submit
-    nó sẽ gửi lên cái form có đường dẫn trong phần action
-  form(
-    action=""  
-    method="POST"
-    id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`
-  ) 
-
-  form(
-    action="" 
-    method="POST"
-    id="form-delete-item"
-    data-path=`${prefixAdmin}/products/delete`
-  ) 
-
-  script(src="/admin/js/product.js") 
