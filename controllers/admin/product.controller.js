@@ -214,10 +214,6 @@ module.exports.editPatch = async (req,res) => {
   req.body.stock = parseInt(req.body.stock);
 
   req.body.position = parseInt(req.body.position);
-
-  if(req.file){
-    req.body.thumbnail = `/uploads/${req.file.filename}`; // dường dẫn của ảnh
-  }
   
   try {
     await Product.updateOne({_id: id}, req.body)
