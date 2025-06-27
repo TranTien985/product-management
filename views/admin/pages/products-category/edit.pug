@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/select-tree.pug
 
 block main 
   +alert-success(5000)
@@ -8,7 +9,7 @@ block main
   h1(class="mb-4") Chỉnh sửa sản phẩm
 
   form(
-    action=`${prefixAdmin}/products-category/edit/${records.id}?_method=PATCH`
+    action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
     id="form-edit-product-category"
     method="POST"
     enctype="multipart/form-data" 
@@ -21,17 +22,18 @@ block main
         class="form-control"
         id="title"
         name="title"
-        value=records.title
+        value=data.title
       )
     div(class="form-group")
       label(for="parent_id") Danh mục cha
-      input(
-        type="text"
-        class="form-control"
-        id="parent_id"
+      select(
         name="parent_id"
-        value=records.parent_id
+        id="parent_id"
+        class="form-control"
       )
+        option(value="") -- chọn danh mục cha --
+          if(records)
+            +select-tree(records, 0, data.parent_id)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
@@ -39,7 +41,7 @@ block main
         id="desc"
         name="description"
         rows="5"
-      ) #{records.description}
+      ) #{data.description}
     div(
       class="form-group"
       upload-image 
@@ -55,7 +57,7 @@ block main
       )
       div(class="upload-image")
         img(
-          src=records.thumbnail
+          src=data.thumbnail
           upload-image-preview
         )
         i(
@@ -71,7 +73,7 @@ block main
         name="position"
         placeholder="tự động tăng"
         min="1"
-        value=records.position
+        value=data.position
       )
     div(class="form-group form-check form-check-inline")
       input(
@@ -80,7 +82,7 @@ block main
         id="statusActive"
         name="availabilityStatus"
         value="In Stock"
-        checked=(records.availabilityStatus == "In Stock" ? true : false)
+        checked=(data.availabilityStatus == "In Stock" ? true : false)
       ) 
       label(for="statusActive" class="form-check-label") Hoạt động 
     div(class="form-group form-check form-check-inline")
@@ -90,7 +92,7 @@ block main
         id="statusInActive"
         name="availabilityStatus"
         value="Low Stock"
-        checked=(records.availabilityStatus == "Low Stock" ? true : false)
+        checked=(data.availabilityStatus == "Low Stock" ? true : false)
       ) 
       label(for="statusInActive" class="form-check-label") Dừng hoạt động 
     
@@ -99,5 +101,3 @@ block main
         type="submit"
         class="btn btn-primary"
       ) Cập nhật
-
-  script(src="/admin/js/product.js") 
