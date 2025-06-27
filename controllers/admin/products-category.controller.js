@@ -56,16 +56,21 @@ module.exports.createPost = async (req, res) => {
 // [GET] /admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {
-    const find = {
+    const data = await ProductCategory.findOne({
       deleted: false,
       _id: req.params.id,
-    };
+    });
 
-    const record = await ProductCategory.findOne(find);
+    const record = await ProductCategory.find({
+    deleted: false,
+    });
+
+    const newRecord = createTreeHelper.tree(record);
 
     res.render("admin/pages/products-category/edit", {
       pageTitle: "Chỉnh sửa sản phẩm",
-      records: record
+      data: data,
+      records: record,
     });
   } catch (error) {
     req.flash("error", "Không tồn tại sản phẩm");
