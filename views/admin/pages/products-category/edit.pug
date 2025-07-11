@@ -33,7 +33,7 @@ block main
       )
         option(value="") -- chọn danh mục cha --
           if(records)
-            +select-tree(records, 0, data.parent_id)
+            +select-tree(records, 1, data.parent_id)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(

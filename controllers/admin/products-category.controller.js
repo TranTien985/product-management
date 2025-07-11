@@ -70,7 +70,7 @@ module.exports.edit = async (req, res) => {
     res.render("admin/pages/products-category/edit", {
       pageTitle: "Chỉnh sửa sản phẩm",
       data: data,
-      records: record,
+      records: newRecord,
     });
   } catch (error) {
     req.flash("error", "Không tồn tại sản phẩm");
