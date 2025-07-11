@@ -1,4 +1,4 @@
-mixin table-tree(items, level = 0)
+mixin table-tree(items, level = 1)
   each item,index in items
     - const prefix = Array(level + 1).join("-- ")
     tr
