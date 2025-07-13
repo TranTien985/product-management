@@ -41,7 +41,7 @@ module.exports.edit = async (req, res) => {
     const records = await Role.findOne(find)
 
     res.render("admin/pages/roles/edit", {
-      pageTitle: 'Trang nhóm quyền',
+      pageTitle: 'Chỉnh sửa nhóm quyền',
       records: records
     });
   } catch (error) {
@@ -62,5 +62,36 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Cập nhật không thành công!");
   }
 
+  res.redirect(req.get("Referer") || "/");
+}
+
+// [GET] /adim/roles/permission
+module.exports.permission = async (req, res) => {
+  let find = {
+    deleted: false
+  }
+
+  const record = await Role.find(find)
+
+  res.render("admin/pages/roles/permission", {
+    pageTitle: 'Phân quyền',
+    record: record
+});
+}
+
+// [PATCH] /adim/roles/permission
+module.exports.permissionPatch = async (req, res) => {
+  try {
+    const permission = JSON.parse(req.body.permission) 
+    // dữ liệu bên fe truyền sang đang là json nên phải chuyển thành một mảng để xử lí để lưu vào database
+
+    for(const item of permission){
+      await Role.updateOne({_id: item.id}, {permissions: item.permission});
+    }
+
+    req.flash("success", "Cập nhật thành công")
+  } catch (error) {
+    req.flash("error", "Cập nhật thất bại");
+  }
   res.redirect(req.get("Referer") || "/");
 }
