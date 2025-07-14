@@ -58,7 +58,6 @@ module.exports.editPatch = async (req, res) => {
     await Role.updateOne({_id: id}, req.body)
     req.flash("success", "Cập nhật thành công!");
   } catch (error) {
-    console.log(error);
     req.flash("error", "Cập nhật không thành công!");
   }
 
