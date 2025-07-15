@@ -39,6 +39,14 @@ module.exports.loginPost = async (req, res) => {
   
   // khi ta đăng nhập sẽ phải gửi cái token từ db sang cho fe để lưu vào cookie bên phía máy client
   res.cookie("token", user.token);
-  
+
   res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+}
+
+// [GET] /adim/auth/logout
+module.exports.logout = (req, res) => {
+  // xóa token trong cookie
+  res.clearCookie("token");
+
+  res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
 }
