@@ -56,9 +56,9 @@ module.exports.editPatch = async (req, res) => {
 
   try {
     await Role.updateOne({_id: id}, req.body)
-    req.flash("success", "Cập nhật thành công!");
+    req.flash("success", "Cập nhật thành công")
   } catch (error) {
-    req.flash("error", "Cập nhật không thành công!");
+    req.flash("error", "Cập nhật thất bại");
   }
 
   res.redirect(req.get("Referer") || "/");

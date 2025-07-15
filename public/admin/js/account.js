@@ -1,7 +1,6 @@
-// file này dùng để xử lí logic của sản phẩm
-
-//Change Status
+// button change status
 const buttonChangeStatus = document.querySelectorAll("[button-change-status]")
+
 
 if(buttonChangeStatus.length > 0){
   const formChangeStatus = document.querySelector("#form-change-status");
@@ -25,13 +24,14 @@ if(buttonChangeStatus.length > 0){
     })
   })
 }
-//End Change Status
+// end button change status
 
-// Delete item
+// button delete
 const buttonDelete = document.querySelectorAll("[button-delete]")
 if(buttonDelete.length > 0){
-  const formDeleteItem = document.querySelector("#form-delete-item");
+  const formDeleteItem = document.querySelector("#form-delete-account");
   const path = formDeleteItem.getAttribute("data-path");
+  
   buttonDelete.forEach(button => {
     button.addEventListener("click", () => {
       const isConfirm = confirm("bạn có chắc muốn xóa sản phẩm này")
@@ -47,4 +47,5 @@ if(buttonDelete.length > 0){
     })
   })
 }
-//End Delete item
+
+// end button delete
