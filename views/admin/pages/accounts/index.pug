@@ -42,11 +42,11 @@ block main
           td #{item.role.title}
           td #{item.email}
           td
-            if(item.availabilityStatus == "In Stock")
+            if(item.status == "active")
               //- "javascript:;" chức năng của thẻ a bây giờ sẽ được biểu diễn trong file js
               a(
                 href="javascript:;"
-                data-status=item.availabilityStatus
+                data-status=item.status
                 data-id=item.id 
                 button-change-status 
                 class="badge badge-success"
@@ -54,7 +54,7 @@ block main
             else 
               a(
                 href="javascript:;"
-                data-status=item.availabilityStatus
+                data-status=item.status
                 data-id=item.id 
                 button-change-status 
                 class="badge badge-danger"
