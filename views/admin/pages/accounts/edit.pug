@@ -86,9 +86,9 @@ block main
         type="radio"
         class="form-check-input"
         id="statusActive"
-        name="availabilityStatus"
+        name="status"
         value="In Stock"
-        checked=(data.availabilityStatus == "In Stock" ? true : false)
+        checked=(data.status == "active" ? true : false)
       ) 
       label(for="statusActive" class="form-check-label") Hoạt động 
     div(class="form-group form-check form-check-inline")
@@ -96,9 +96,9 @@ block main
         type="radio"
         class="form-check-input"
         id="statusInActive"
-        name="availabilityStatus"
+        name="status"
         value="Low Stock"
-        checked=(data.availabilityStatus == "Low Stock" ? true : false)
+        checked=(data.status == "inactive" ? true : false)
       ) 
       label(for="statusInActive" class="form-check-label") Dừng hoạt động 
     

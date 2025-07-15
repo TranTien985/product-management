@@ -12,7 +12,7 @@ const accountSchema = new mongoose.Schema({
   phone: String,
   avatar: String,
   role_id: String,
-  availabilityStatus: String,
+  status: String,
   deleted: {
     type: Boolean,
     default: false
