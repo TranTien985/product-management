@@ -4,7 +4,7 @@ const systemConfig = require("../../config/system");
 
 const md5 = require('md5');
 
-// [GET] /adim/account
+// [GET] /adim/accounts
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
@@ -27,6 +27,38 @@ module.exports.index = async (req, res) => {
     records: records
 });
 }
+
+// [PATCH] /adim/accounts/change-status/:id
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+
+  await Account.updateOne({ _id: id }, { availabilityStatus: status });
+  // hàm updateOne này dùng để update một sản phầm với các thông số truyền vào
+  // tìm hiểu thêm thông tin ở mongoose -> queries
+
+  req.flash("success", "Cập nhật trạng thái thành công");
+
+  res.redirect(req.get("Referer") || "/");
+}
+
+// [DELETE] /adim/accounts/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id;
+
+  // await Product.deleteOne({_id: id}) dùng để xóa vĩnh viễn
+
+  await Account.updateOne(
+    { _id: id },
+    {
+      deleted: true,
+      deletedAt: new Date(), // hàm để lấy ra thời gian hiên tại
+    }
+  );
+  req.flash("success", `Xóa thành công sản phẩm!`);
+
+  res.redirect(req.get("Referer") || "/");
+};
 
 // [GET] /adim/accounts/create
 module.exports.create = async (req, res) => {
