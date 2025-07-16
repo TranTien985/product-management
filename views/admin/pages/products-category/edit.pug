@@ -5,99 +5,99 @@ include ../../mixins/select-tree.pug
 block main 
   +alert-success(5000)
   +alert-error(5000)
+  if(role.permissions.includes("products-category_edit"))
+    h1(class="mb-4") Chỉnh sửa sản phẩm
 
-  h1(class="mb-4") Chỉnh sửa sản phẩm
-
-  form(
-    action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
-    id="form-edit-product-category"
-    method="POST"
-    enctype="multipart/form-data" 
-  )
-    //- phương thức enctype dùng để sử dụng thư viện "multer"
-    div(class="form-group")
-      label(for="title") Tiêu đề
-      input(
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        value=data.title
-      )
-    div(class="form-group")
-      label(for="parent_id") Danh mục cha
-      select(
-        name="parent_id"
-        id="parent_id"
-        class="form-control"
-      )
-        option(value="") -- chọn danh mục cha --
-          if(records)
-            +select-tree(records, 1, data.parent_id)
-    div(class="form-group")
-      label(for="desc") Mô tả
-      textarea(
-        class="form-control textarea-mce"
-        id="desc"
-        name="description"
-        rows="5"
-      ) #{data.description}
-    div(
-      class="form-group"
-      upload-image 
+    form(
+      action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
+      id="form-edit-product-category"
+      method="POST"
+      enctype="multipart/form-data" 
     )
-      label(for="thumbnail") Ảnh
-      input(
-        type="file"
-        class="form-control-file"
-        id="thumbnail"
-        name="thumbnail"
-        accept="image/*"
-        upload-image-input
-      )
-      div(class="upload-image")
-        img(
-          src=data.thumbnail
-          upload-image-preview
+      //- phương thức enctype dùng để sử dụng thư viện "multer"
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input(
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          value=data.title
         )
-        i(
-          class="fa-solid fa-x hide"
-          icon-delete-image
+      div(class="form-group")
+        label(for="parent_id") Danh mục cha
+        select(
+          name="parent_id"
+          id="parent_id"
+          class="form-control"
         )
-    div(class="form-group")
-      label(for="position") Vị trí
-      input(
-        type="number"
-        class="form-control"
-        id="position"
-        name="position"
-        placeholder="tự động tăng"
-        min="1"
-        value=data.position
+          option(value="") -- chọn danh mục cha --
+            if(records)
+              +select-tree(records, 1, data.parent_id)
+      div(class="form-group")
+        label(for="desc") Mô tả
+        textarea(
+          class="form-control textarea-mce"
+          id="desc"
+          name="description"
+          rows="5"
+        ) #{data.description}
+      div(
+        class="form-group"
+        upload-image 
       )
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusActive"
-        name="availabilityStatus"
-        value="In Stock"
-        checked=(data.availabilityStatus == "In Stock" ? true : false)
-      ) 
-      label(for="statusActive" class="form-check-label") Hoạt động 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusInActive"
-        name="availabilityStatus"
-        value="Low Stock"
-        checked=(data.availabilityStatus == "Low Stock" ? true : false)
-      ) 
-      label(for="statusInActive" class="form-check-label") Dừng hoạt động 
-    
-    div(class="form-group")
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Cập nhật
+        label(for="thumbnail") Ảnh
+        input(
+          type="file"
+          class="form-control-file"
+          id="thumbnail"
+          name="thumbnail"
+          accept="image/*"
+          upload-image-input
+        )
+        div(class="upload-image")
+          img(
+            src=data.thumbnail
+            upload-image-preview
+          )
+          i(
+            class="fa-solid fa-x hide"
+            icon-delete-image
+          )
+      div(class="form-group")
+        label(for="position") Vị trí
+        input(
+          type="number"
+          class="form-control"
+          id="position"
+          name="position"
+          placeholder="tự động tăng"
+          min="1"
+          value=data.position
+        )
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusActive"
+          name="availabilityStatus"
+          value="In Stock"
+          checked=(data.availabilityStatus == "In Stock" ? true : false)
+        ) 
+        label(for="statusActive" class="form-check-label") Hoạt động 
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusInActive"
+          name="availabilityStatus"
+          value="Low Stock"
+          checked=(data.availabilityStatus == "Low Stock" ? true : false)
+        ) 
+        label(for="statusInActive" class="form-check-label") Dừng hoạt động 
+      
+      div(class="form-group")
+        button(
+          type="submit"
+          class="btn btn-primary"
+        ) Cập nhật
