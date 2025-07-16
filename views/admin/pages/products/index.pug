@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/show-alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 
 block main 
@@ -58,6 +59,7 @@ block main
               th Giá 
               th Vị trí 
               th Trạng thái 
+              th Người tạo  
               th Hành động
 
           tbody
@@ -119,6 +121,10 @@ block main
                         data-id=item.id 
                         class="badge badge-danger"
                       ) Dừng hoạt động
+                td 
+                  p #{item.accountFullName} 
+                  p 
+                    +formatDateTime(item.createdBy.createdAt)
                 td 
                   a(
                     href=`${prefixAdmin}/products/detail/${item.id}`
