@@ -1,5 +1,5 @@
 const Account = require("../../models/account.model")
-const Role = require("../../models/roles.modal")
+const Role = require("../../models/roles.model")
 const systemConfig = require("../../config/system");
 
 const md5 = require('md5');

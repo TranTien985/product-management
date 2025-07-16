@@ -26,38 +26,54 @@ mixin table-tree(items, level = 1)
           style="width: 60px"
         )
       td
-        if(item.availabilityStatus == "In Stock")
-          //- "javascript:;" chức năng của thẻ a bây giờ sẽ được biểu diễn trong file js
-          a(
-            href="javascript:;"
-            data-status=item.availabilityStatus
-            data-id=item.id 
-            button-change-status 
-            class="badge badge-success"
-          ) Hoạt động 
-        else 
-          a(
-            href="javascript:;"
-            data-status=item.availabilityStatus
-            data-id=item.id 
-            button-change-status 
-            class="badge badge-danger"
-          ) Dừng hoạt động
+        if(role.permissions.includes("products-category_edit"))
+          if(item.availabilityStatus == "In Stock")
+            //- "javascript:;" chức năng của thẻ a bây giờ sẽ được biểu diễn trong file js
+            a(
+              href="javascript:;"
+              data-status=item.availabilityStatus
+              data-id=item.id 
+              button-change-status 
+              class="badge badge-success"
+            ) Hoạt động 
+          else 
+            a(
+              href="javascript:;"
+              data-status=item.availabilityStatus
+              data-id=item.id 
+              button-change-status 
+              class="badge badge-danger"
+            ) Dừng hoạt động
+        else
+          if(item.availabilityStatus == "In Stock")
+            a(
+              data-status=item.availabilityStatus
+              data-id=item.id 
+              class="badge badge-success"
+            ) Hoạt động 
+          else 
+            a(
+              data-status=item.availabilityStatus
+              data-id=item.id 
+              class="badge badge-danger"
+            ) Dừng hoạt động
       td 
         a(
           href=`${prefixAdmin}/products-category/detail/${item.id}`
           class="btn btn-secondary btn-sm"
         ) Chi tiết
-        a(
-          href=`${prefixAdmin}/products-category/edit/${item.id}`
-          class="btn btn-warning btn-sm"
-          button-edit
-        ) Sửa
-        button(
-          class="btn btn-danger btn-sm ml-1"
-          button-delete
-          data-id=item.id
-        ) Xóa
+        if(role.permissions.includes("products-category_edit"))
+          a(
+            href=`${prefixAdmin}/products-category/edit/${item.id}`
+            class="btn btn-warning btn-sm"
+            button-edit
+          ) Sửa
+        if(role.permissions.includes("products-category_delete"))
+          button(
+            class="btn btn-danger btn-sm ml-1"
+            button-delete
+            data-id=item.id
+          ) Xóa
         
     if item.children && item.children.length > 0
       +table-tree(item.children, level + 1)

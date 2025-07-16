@@ -1,4 +1,4 @@
-const Role = require("../../models/roles.modal")
+const Role = require("../../models/roles.model")
 const systemConfig = require("../../config/system");
 
 // [GET] /adim/roles

@@ -32,6 +32,7 @@ block main
             each item in record 
               td(class="text-center")
                 input(type="text" value=item.id)
+        //- danh mục sản phẩm
         tr 
           td(colspan="4")
             b Danh mục sản Phẩm
@@ -59,6 +60,7 @@ block main
             td(class="text-center")
               input(type="checkbox")
 
+        //- sản phẩm
         tr 
           td(colspan="4")
             b Sản phẩm
@@ -86,6 +88,7 @@ block main
             td(class="text-center")
               input(type="checkbox")
 
+        //- Nhóm quyền
         tr 
           td(colspan="4")
             b Nhóm quyền
@@ -115,6 +118,28 @@ block main
 
         tr(data-name="roles_permission")
           td Phân quyền 
+          each item in record
+            td(class="text-center")
+              input(type="checkbox")
+        
+        //- danh sách tài khoản
+        tr 
+          td(colspan="4")
+            b Danh sách tài khoản
+        tr(data-name="account_view")
+          td Xem 
+          each item in record
+            td(class="text-center")
+              input(type="checkbox")
+
+        tr(data-name="account_create")
+          td Thêm mới 
+          each item in record
+            td(class="text-center")
+              input(type="checkbox")
+
+        tr(data-name="account_edit")
+          td Chỉnh sửa 
           each item in record
             td(class="text-center")
               input(type="checkbox")
