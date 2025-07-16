@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model"); //database
 const ProductCategory = require("../../models/product-category.model"); //database
+const Account = require("../../models/account.model"); //database
 
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus"); // lọc
@@ -63,6 +64,15 @@ module.exports.index = async (req, res) => {
   // limit(objectPagination.limitItems) giới hạn một trang có bao nhiêu sản phẩm
   // skip(objectPagination.skip) khi bấm vào trang kế tiếp thì nó sẽ skip qua bao nhiêu sản phẩm
 
+  for(const product of products){
+    const user = await Account.findOne({
+      _id : product.createdBy.account_id
+    });
+
+    if(user){
+      product.accountFullName = user.fullName
+    }
+  }
   res.render("admin/pages/products/index", {
     pageTitle: "Trang Danh Sách Sản Phẩm",
     products: products,
@@ -203,6 +213,10 @@ module.exports.createPost = async (req, res) => {
     } else {
       req.body.position = parseInt(req.body.position);
     }
+
+    req.body.createdBy = {
+      account_id: res.locals.user.id
+    };
 
     const product = new Product(req.body); // tạo mới một sản phẩm
     await product.save(); // lưu dữ liệu sản phẩm mới vào model db

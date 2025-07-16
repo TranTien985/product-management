@@ -35,19 +35,27 @@ const productSchema = new mongoose.Schema({
     slug: "title",
     unique: true // set slug luôn luôn là duy nhất
   },
+  createdBy: {
+    account_id: String,
+    createdAt : {
+      type: Date,
+      default: Date.now
+    }
+  },
   // khi ta thêm mới sản phẩm thì ko có trường này nên ta sẽ phải set như này 
   // để khi sản phẩm mới thêm vào thì sẽ tự động có trường deleted = false
   deleted: {
     type: Boolean,
     default: false
   },
-  deletedAt : Date
+  deletedAt : Date,
 },
 // thư viện mongoose giúp cập nhật ngày tháng khi thêm mới hoặc update sản phẩm
 // đọc thêm ở phần timestamps
   {
-  timestamps: true
-});
+    timestamps: true
+  }
+);
 
 const Product = mongoose.model("Product", productSchema, "products"); // products này là 1 collection trong mongoose
 

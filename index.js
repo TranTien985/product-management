@@ -6,6 +6,7 @@ const flash = require('express-flash'); // thư viện hỗ trợ tạo thông b
 const cookieParser = require('cookie-parser'); // hỗ trợ cho express-flash
 const session = require('express-session'); // hỗ trợ cho express-flash
 const bodyParser = require('body-parser') // dùng để đọc dữ liệu req.body
+const moment = require('moment');
 require("dotenv").config();
 
 const systemConfig = require("./config/system")
@@ -44,7 +45,8 @@ app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`)); // biến __dirname dùng để trỏ cấu trúc thư mục của dự án
 
 // App locals Variable
-app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 routeAdmin(app)
 route(app)
