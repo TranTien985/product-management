@@ -65,12 +65,24 @@ module.exports.index = async (req, res) => {
   // skip(objectPagination.skip) khi bấm vào trang kế tiếp thì nó sẽ skip qua bao nhiêu sản phẩm
 
   for(const product of products){
+    // lấy ra thông tin người tạo 
     const user = await Account.findOne({
       _id : product.createdBy.account_id
     });
 
     if(user){
       product.accountFullName = user.fullName
+    }
+
+    // lấy ra thông tin người câp nhật gần nhất 
+    const updatedBy = product.updatedBy.slice(-1)[0]; // lấy ra bản ghi ở vị trí cuối cùng
+
+    if(updatedBy){
+      const userUpdated = await Account.findOne({
+        _id : updatedBy.account_id
+      });
+
+      updatedBy.accountFullName = user.fullName
     }
   }
   res.render("admin/pages/products/index", {
@@ -88,7 +100,15 @@ module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
 
-  await Product.updateOne({ _id: id }, { availabilityStatus: status });
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
+
+  await Product.updateOne({ _id: id }, { 
+    availabilityStatus: status,
+    $push: {updatedBy: updatedBy} // cú pháp của mongoose
+   });
   // hàm updateOne này dùng để update một sản phầm với các thông số truyền vào
   // tìm hiểu thêm thông tin ở mongoose -> queries
 
@@ -107,12 +127,18 @@ module.exports.changeMulti = async (req, res) => {
   const ids = req.body.ids.split(", ");
   // dùng split(", ") để convert nó thành một mảng
 
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
+
   // sử dụng updateMany của mongoose
   switch (type) {
     case "In Stock":
-      await Product.updateMany(
-        { _id: { $in: ids } },
-        { availabilityStatus: "In Stock" }
+      await Product.updateMany({ _id: { $in: ids } },{
+        availabilityStatus: "In Stock",
+        $push: {updatedBy: updatedBy} 
+        }
       );
       req.flash(
         "success",
@@ -120,9 +146,10 @@ module.exports.changeMulti = async (req, res) => {
       );
       break;
     case "Low Stock":
-      await Product.updateMany(
-        { _id: { $in: ids } },
-        { availabilityStatus: "Low Stock" }
+      await Product.updateMany({ _id: { $in: ids } },{
+        availabilityStatus: "Low Stock", 
+        $push: {updatedBy: updatedBy} 
+        }
       );
       req.flash(
         "success",
@@ -134,7 +161,10 @@ module.exports.changeMulti = async (req, res) => {
         { _id: ids },
         {
           deleted: true,
-          deletedAt: new Date(),
+          deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date(), 
+          }
         }
       );
       req.flash("success", `Đã xóa thành công ${ids.length} sản phẩm!`);
@@ -150,6 +180,7 @@ module.exports.changeMulti = async (req, res) => {
           { _id: id },
           {
             position: position,
+            $push: {updatedBy: updatedBy} 
           }
         );
       }
@@ -175,7 +206,10 @@ module.exports.deleteItem = async (req, res) => {
     { _id: id },
     {
       deleted: true,
-      deletedAt: new Date(), // hàm để lấy ra thời gian hiên tại
+      deletedBy: {
+        account_id: res.locals.user.id,
+        deletedAt: new Date(), 
+      }
     }
   );
   req.flash("success", `Xóa thành công sản phẩm!`);
@@ -266,7 +300,16 @@ module.exports.editPatch = async (req, res) => {
   req.body.position = parseInt(req.body.position);
 
   try {
-    await Product.updateOne({ _id: id }, req.body);
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+    req.body.updateBy = updatedBy;
+
+    await Product.updateOne({ _id: id }, {
+      ...req.body, // lấy những phần tử cũ trong req.body
+      $push: {updatedBy: updatedBy} // cú pháp của mongoose
+    });
     req.flash("success", "Cập nhật thành công!");
   } catch (error) {
     req.flash("error", "Cập nhật thất bại!");
