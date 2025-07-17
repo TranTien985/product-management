@@ -48,7 +48,17 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  deletedAt : Date,
+  // deletedAt : Date,
+  deletedBy: {
+    account_id: String,
+    deletedAt : Date
+  },
+  updatedBy: [
+    {
+      account_id: String,
+      updatedAt: Date
+    }
+  ],
 },
 // thư viện mongoose giúp cập nhật ngày tháng khi thêm mới hoặc update sản phẩm
 // đọc thêm ở phần timestamps
