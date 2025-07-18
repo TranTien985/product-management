@@ -1,6 +1,7 @@
 const ProductCategory = require("../../models/product-category.model"); //database
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree")
+const Account = require("../../models/account.model"); //database
 
 // [GET] /admin/product-category
 module.exports.index = async (req, res) => {
@@ -11,6 +12,18 @@ module.exports.index = async (req, res) => {
   const record = await ProductCategory.find(find);
 
   const newRecord = createTreeHelper.tree(record)
+
+  for (const record of newRecord) {
+    const updatedBy = record.updatedBy.slice(-1)[0]; // lấy ra bản ghi ở vị trí cuối cùng
+
+    if(updatedBy){
+      const userUpdated = await Account.findOne({
+        _id : updatedBy.account_id
+      });
+
+      updatedBy.accountFullName = userUpdated.fullName
+    }
+  }
 
   res.render("admin/pages/products-category/index", {
     pageTitle: "Trang Danh Sách Sản Phẩm",
@@ -81,13 +94,24 @@ module.exports.edit = async (req, res) => {
 // [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id
-
   req.params.position = parseInt(req.params.position)
 
   try {
-    await ProductCategory.updateOne({_id: id}, req.body)
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+    req.body.updateBy = updatedBy
+
+    await ProductCategory.updateOne({_id: id}, {
+      ...req.body, // lấy những phần tử cũ trong req.body
+      $push: {updatedBy: updatedBy} // cú pháp của mongoose
+    });
+
     req.flash("success", "Cập nhật thành công!");
   } catch (error) {
+    console.log(error);
+    
     req.flash("error", "Cập nhật không thành công!");
   }
 
