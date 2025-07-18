@@ -13,9 +13,6 @@ module.exports.index = async (req, res) => {
         // hàm toFixed() dùng để làm tròn
         return item
     });
-
-
-    // console.log(newProducts);
     
     res.render("client/pages/products/index", {
         pageTitle: 'Trang danh sách sản phẩm',
