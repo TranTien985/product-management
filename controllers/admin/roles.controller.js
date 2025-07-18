@@ -1,5 +1,6 @@
 const Role = require("../../models/roles.model")
 const systemConfig = require("../../config/system");
+const Account = require("../../models/account.model");
 
 // [GET] /adim/roles
 module.exports.index = async (req, res) => {
@@ -8,6 +9,18 @@ module.exports.index = async (req, res) => {
   }
 
   const records = await Role.find(find)
+
+  for (const record of records) {
+    const updatedBy = record.updatedBy.slice(-1)[0];
+
+    if(updatedBy){
+      const userUpdated = await Account.findOne({
+        _id : updatedBy.account_id
+      });
+
+      updatedBy.accountFullName = userUpdated.fullName
+    }
+  }
   res.render("admin/pages/roles/index", {
     pageTitle: 'Trang nhóm quyền',
     records: records
@@ -54,8 +67,18 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id
 
+  const updatedBy = {
+    account_id : res.locals.user.id,
+    updatedAt : new Date()
+  }
+  
+  req.body.updateBy = updatedBy
+
   try {
-    await Role.updateOne({_id: id}, req.body)
+    await Role.updateOne({_id: id}, {
+      ...req.body,
+      $push : {updatedBy: updatedBy} 
+    })
     req.flash("success", "Cập nhật thành công")
   } catch (error) {
     req.flash("error", "Cập nhật thất bại");

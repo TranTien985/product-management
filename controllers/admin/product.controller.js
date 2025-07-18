@@ -82,7 +82,7 @@ module.exports.index = async (req, res) => {
         _id : updatedBy.account_id
       });
 
-      updatedBy.accountFullName = user.fullName
+      updatedBy.accountFullName = userUpdated.fullName
     }
   }
   res.render("admin/pages/products/index", {
