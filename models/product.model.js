@@ -23,6 +23,7 @@ const productSchema = new mongoose.Schema({
   warrantyInformation: String,
   shippingInformation: String,
   availabilityStatus: String, //* trạng thái 
+  featured: String,
   reviews: Array,
   returnPolicy: String,
   minimumOrderQuantity: Number,
