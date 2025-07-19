@@ -51,19 +51,26 @@ module.exports.create = async (req, res) => {
   });
 };
 
-// [POST] /admin/product/create
+// [POST] /admin/product/createPost
 module.exports.createPost = async (req, res) => {
-  if (req.body.position == "") {
-    const count = await ProductCategory.countDocuments();
-    req.body.position = count + 1;
-  } else {
-    req.body.position = parseInt(req.body.position);
+  const permissions = res.locals.role.permissions
+
+  if(permissions.includes("products-category_create")){
+    if (req.body.position == "") {
+      const count = await ProductCategory.countDocuments();
+      req.body.position = count + 1;
+    } else {
+      req.body.position = parseInt(req.body.position);
+    }
+
+    const record = new ProductCategory(req.body); // tạo mới một sản phẩm
+    await record.save();
+
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+  }else{
+    res.send("403")
+    return;
   }
-
-  const record = new ProductCategory(req.body); // tạo mới một sản phẩm
-  await record.save();
-
-  res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
 
 // [GET] /admin/product-category/edit/:id
@@ -93,27 +100,34 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id
-  req.params.position = parseInt(req.params.position)
+  const permissions = res.locals.role.permissions
+  
+  if(permissions.includes("products-category_edit")){
+    const id = req.params.id
+    req.params.position = parseInt(req.params.position)
 
-  try {
-    const updatedBy = {
-      account_id: res.locals.user.id,
-      updatedAt: new Date()
+    try {
+      const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+      }
+      req.body.updateBy = updatedBy
+
+      await ProductCategory.updateOne({_id: id}, {
+        ...req.body, // lấy những phần tử cũ trong req.body
+        $push: {updatedBy: updatedBy} // cú pháp của mongoose
+      });
+
+      req.flash("success", "Cập nhật thành công!");
+    } catch (error) {
+      console.log(error);
+      
+      req.flash("error", "Cập nhật không thành công!");
     }
-    req.body.updateBy = updatedBy
 
-    await ProductCategory.updateOne({_id: id}, {
-      ...req.body, // lấy những phần tử cũ trong req.body
-      $push: {updatedBy: updatedBy} // cú pháp của mongoose
-    });
-
-    req.flash("success", "Cập nhật thành công!");
-  } catch (error) {
-    console.log(error);
-    
-    req.flash("error", "Cập nhật không thành công!");
+    res.redirect(req.get("Referer") || "/");
+  }else{
+    res.send("403")
+    return;
   }
-
-  res.redirect(req.get("Referer") || "/");
 };
