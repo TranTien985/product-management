@@ -232,7 +232,7 @@ module.exports.create = async (req, res) => {
   });
 };
 
-// [POST] /adim/product/create
+// [POST] /adim/product/createPost
 module.exports.createPost = async (req, res) => {
   // chuyển dữ liệu từ string -> number
   req.body.price = parseFloat(req.body.price);
