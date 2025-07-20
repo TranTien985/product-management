@@ -1,19 +1,20 @@
 const ProductCategory = require("../../models/product-category.model"); //database
-const systemConfig = require("../../config/system");
-const createTreeHelper = require("../../helpers/createTree")
+const Product = require("../../models/product.model"); //database
+const productsHelper = require("../../helpers/products")
 
 // [GET] /
 module.exports.index = async (req, res) => {
-  let find = {
+  // Lấy ra sản phẩm nổi bật
+  const productsFeatured = await Product.find({
+    featured: "1",
     deleted: false,
-  };
+    availabilityStatus: "In Stock"
+  }).limit(3);
 
-  const productCategory = await ProductCategory.find(find);
-
-  const newProductCategory = createTreeHelper.tree(productCategory);
-  // vì biến này cần dùng lại nhiều nên ta phải tạo middlewares để tái sử dụng nó
+  const newProducts = productsHelper.priceNewProducts(productsFeatured)
 
   res.render("client/pages/home/index", {
     pageTitle: "Trang chủ",
+    productsFeatured: newProducts
   });
 };
