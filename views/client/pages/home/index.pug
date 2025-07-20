@@ -1,6 +1,11 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
 
-//- bắt buộc phải cách 4 dấu cách dưới block main không là lỗi
 block main 
-    h1 trang chu 
-    
+  .container.my-3 
+    .row 
+      .col-12 
+        +box-head("Sản phẩm nổi bật")
+
+    +product-grid(productsFeatured)
