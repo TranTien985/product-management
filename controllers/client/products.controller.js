@@ -20,17 +20,29 @@ module.exports.index = async (req, res) => {
     });
 }
 
-// [GET] /products/:slug
+// [GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
     try {
     const find = {
     deleted: false,
-    slug: req.params.slug,
+    slug: req.params.slugProduct,
     availabilityStatus: "In Stock"
     };
 
-    const product = await Product.findOne(find);
+    const product = await Product.findOne(find).lean();
+    // hàm lean này để chuyển product thành obj thuần thì bên view mới dùng dc product.category.title
 
+    if(product.product_category_id){
+      const category = await ProductCategory.findOne({
+        _id:product.product_category_id,
+        availabilityStatus: "In Stock",
+        deleted: false,
+      });
+
+      product.category = category;
+    }
+
+    product.priceNew = productsHelper.priceNewProduct(product);
     
     
     res.render("client/pages/products/detail", {
