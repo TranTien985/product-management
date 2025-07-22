@@ -3,6 +3,7 @@ const categoryMiddlewares = require("../../middlewares/clients/category.middlewa
 // muốn import file routes vào file index thì phải export nó ra trước
 const homeRouter = require("./home.route");
 const productRouter = require("./products.routes");
+const searchRouter = require("./search.route");
 
 module.exports = (app) => {
   app.use(categoryMiddlewares.category)// khi bất kì vào trang nào thì nó đều đi qua cái thằng này
@@ -11,4 +12,6 @@ module.exports = (app) => {
   app.use("/",  homeRouter);
 
   app.use("/products",  productRouter);
+
+  app.use("/search",  searchRouter);
 };
