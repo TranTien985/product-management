@@ -1,0 +1,19 @@
+mixin alert-success(times)
+  //- hiện thông báo và biến success ở bên controller
+  - if (messages.success)
+    .message.info
+      div(
+        class="alert alert-success "
+        show-alert
+        data-time=times
+      ) #{messages.success} <span close-alert> x </span>
+
+mixin alert-error(times)
+  //- hiện thông báo và biến success ở bên controller
+  - if (messages.error)
+    .message.info
+      div(
+        class="alert alert-danger"
+        show-alert
+        data-time=times
+      ) #{messages.error} <span close-alert> x </span>

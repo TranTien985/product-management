@@ -28,8 +28,9 @@ block main
           if(product.stock)
             div(class="inner-stock") Còn lại: <span>#{product.stock}</span> sản phẩm
 
+          //- vì hàm lean() nên ta phải trỏ là "product._id" thay vì "product.id"
           form(
-            action=`/cart/add/${product.id}`
+            action=`/cart/add/${product._id}` 
             method="POST"
           )
             input(
