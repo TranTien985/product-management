@@ -14,7 +14,14 @@ module.exports.cartId = async (req, res, next) => {
       expires: new Date(Date.now() + expiresCookies) // xét thời gian hết hạn cho cookie
     });
   }else{
-    // lấy ra giỏ hàng
+    const cart = await Cart.findOne({
+      _id: req.cookies.cartId
+    });
+
+    cart.totalQuantity = cart.product.reduce((sum, item) => sum + item.quantity, 0);
+
+    res.locals.miniCart = cart
+    
   }
 
   next()
