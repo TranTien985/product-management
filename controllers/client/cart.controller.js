@@ -83,10 +83,28 @@ module.exports.delete = async (req, res) => {
   await Cart.updateOne({
     _id: cartId
   },{
-    $pull: {product: {product_id : productId}} // dùng pull để xóa dữ liệu
+    $pull: {product: {product_id : productId}} // dùng pull để xóa dữ liệu một bản ghi trong một mảng
   });
 
   req.flash("success", "Đã xóa sản phẩm ra khỏi giỏ hàng!");
+  
+  res.redirect(req.get("Referer") || "/");
+}
+
+// [GET] /cart/update/:productId/:quantity
+module.exports.update = async (req, res) => {
+  const cartId = req.cookies.cartId
+  const productId = req.params.productId //giá trị có dấu : trên url thì dc lưu vào obj req.params
+  const quantity = req.params.quantity
+
+  await Cart.updateOne({
+    _id: cartId,
+    'product.product_id' : productId,
+  },{
+    $set: {
+      'product.$.quantity': quantity,
+    }
+  });
   
   res.redirect(req.get("Referer") || "/");
 }

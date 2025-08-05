@@ -10,18 +10,18 @@ block main
 
     .row 
       .col-12 
-        table(class="table table-bordered")
-          thead 
-            tr 
-              th STT
-              th Ảnh 
-              th Tên 
-              th Giá 
-              th Số lượng 
-              th Tổng tiền 
-              th Hành động 
-          tbody 
-            if (cartDetail.product.length > 0)
+        if (cartDetail.product.length > 0)
+          table(class="table table-bordered")
+            thead 
+              tr 
+                th STT
+                th Ảnh 
+                th Tên 
+                th Giá 
+                th Số lượng 
+                th Tổng tiền 
+                th Hành động 
+            tbody 
               each item, index in cartDetail.product
                 tr 
                   td #{index + 1}
@@ -36,7 +36,7 @@ block main
                       name="quantity"
                       value=item.quantity
                       min="1"
-                      item-id=item.product_id 
+                      product-id=item.product_id 
                       style="width: 60px"
                     )
                   td #{item.totalPrice}$
@@ -45,11 +45,12 @@ block main
                       href=`/cart/delete/${item.product_id }`
                       class=" btn btn-danger"
                     ) Xóa 
-              else 
-                p Không có sản phẩm nào trong giỏ hàng
+          
+          h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
 
-        h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
-
-        div(class="text-right mt-3")
-          a(href="/checkout" class="btn btn-success") THANH TOÁN
-        
+          div(class="text-right mt-3")
+            a(href="/checkout" class="btn btn-success") THANH TOÁN
+        else 
+          p Không có sản phẩm nào trong giỏ hàng
+          
+  script(src="/js/cart.js")       
