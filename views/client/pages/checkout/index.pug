@@ -10,7 +10,7 @@ block main
 
     .row 
       .col-12 
-        if (cartDetail.product.length > 0)
+        if (cartDetail.products.length > 0)
           table(class="table table-bordered")
             thead 
               tr 
@@ -21,7 +21,7 @@ block main
                 th Số lượng 
                 th Tổng tiền 
             tbody 
-              each item, index in cartDetail.product
+              each item, index in cartDetail.products
                 tr 
                   td #{index + 1}
                   td 
@@ -39,7 +39,7 @@ block main
               class="text_center"
             ) Giỏ hàng trống     
     
-    if (cartDetail.product.length > 0)
+    if (cartDetail.products.length > 0)
       .row 
         .col-12 
           .card.p-4.my-4 

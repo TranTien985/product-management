@@ -10,8 +10,8 @@ module.exports.index = async (req, res) => {
     _id: cartId
   });
   
-  if(cart.product.length > 0){
-    for (const item of cart.product) {
+  if(cart.products.length > 0){
+    for (const item of cart.products) {
       const productId = item.product_id
       const productInfo = await Product.findOne({
         _id: productId,
@@ -26,7 +26,7 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  cart.totalPrice = cart.product.reduce((sum, item) => sum + item.totalPrice, 0);
+  cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0);
   
   
   res.render("client/pages/cart/index", {
@@ -41,11 +41,13 @@ module.exports.addPost = async (req, res) => {
   const quantity = parseInt(req.body.quantity);
   const cartId = req.cookies.cartId
 
+  
+
   const cart = await Cart.findOne({
     _id: cartId
   });
   
-  const existProductInCart = cart.product.find(item => item.product_id == productId); // hàm find này của js dùng để tìm một bản ghi
+  const existProductInCart = cart.products.find(item => item.product_id == productId); // hàm find này của js dùng để tìm một bản ghi
 
   if(existProductInCart){
     const quantityNew = quantity + existProductInCart.quantity;
@@ -53,10 +55,10 @@ module.exports.addPost = async (req, res) => {
     // cập nhật quantity khi mà thêm sản phẩm trùng
     await Cart.updateOne({
       _id: cartId,
-      'product.product_id' : productId
+      'products.product_id' : productId
     },{
       $set: {
-        'product.$.quantity': quantityNew
+        'products.$.quantity': quantityNew
       }
     });
     
@@ -67,7 +69,7 @@ module.exports.addPost = async (req, res) => {
     }
     await Cart.updateOne(
       { _id: cartId},
-      { $push: { product: objectCart }} // sử dụng $push để thêm một obj vào một mảng
+      { $push: { products: objectCart }} // sử dụng $push để thêm một obj vào một mảng
     )
   }
   req.flash("success", "Đã thêm sản phẩm vào giỏ hàng")
@@ -83,7 +85,7 @@ module.exports.delete = async (req, res) => {
   await Cart.updateOne({
     _id: cartId
   },{
-    $pull: {product: {product_id : productId}} // dùng pull để xóa dữ liệu một bản ghi trong một mảng
+    $pull: {products: {product_id : productId}} // dùng pull để xóa dữ liệu một bản ghi trong một mảng
   });
 
   req.flash("success", "Đã xóa sản phẩm ra khỏi giỏ hàng!");
@@ -99,10 +101,10 @@ module.exports.update = async (req, res) => {
 
   await Cart.updateOne({
     _id: cartId,
-    'product.product_id' : productId,
+    'products.product_id' : productId,
   },{
     $set: {
-      'product.$.quantity': quantity,
+      'products.$.quantity': quantity,
     }
   });
   

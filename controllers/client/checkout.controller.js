@@ -11,8 +11,8 @@ module.exports.index = async (req, res) => {
     _id: cartId
   });
   
-  if(cart.product.length > 0){
-    for (const item of cart.product) {
+  if(cart.products.length > 0){
+    for (const item of cart.products) {
       const productId = item.product_id
       const productInfo = await Product.findOne({
         _id: productId,
@@ -27,7 +27,7 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  cart.totalPrice = cart.product.reduce((sum, item) => sum + item.totalPrice, 0);
+  cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0);
 
   res.render("client/pages/checkout/index", {
     pageTitle: "Đặt hàng",
@@ -46,7 +46,7 @@ module.exports.order = async (req, res) => {
 
   const product = []
 
-  for (const item of cart.product) {
+  for (const item of cart.products) {
     const objectProduct = {
       product_id: item.product_id,
       price: 0,
@@ -77,7 +77,7 @@ module.exports.order = async (req, res) => {
   await Cart.updateOne({
     _id: cartId,
   },{
-    product: []
+    products: []
   });
 
   res.redirect(`/checkout/success/${order.id}`);
@@ -85,7 +85,27 @@ module.exports.order = async (req, res) => {
 
 // [GET] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
+  const order = await Order.findOne({
+    _id: req.params.orderId
+  });
+
+  for (const product of order.products) {
+    const productInfo = await Product.findOne({
+      _id: product.product_id
+    }).select("title thumbnail");
+
+    product.productInfo = productInfo;
+
+    product.priceNew = productsHelper.priceNewProduct((product));
+
+    product.totalPrice = parseInt((product.priceNew * product.quantity).toFixed(0));
+  }
+
+  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
+  
+
   res.render("client/pages/checkout/success", {
     pageTitle: "Đặt hàng thành công",
+    order: order
   });
 }
