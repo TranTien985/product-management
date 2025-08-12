@@ -7,6 +7,7 @@ const productRouter = require("./products.routes");
 const searchRouter = require("./search.route");
 const cartRouter = require("./cart.route");
 const checkoutRouter = require("./checkout.route");
+const userRouter = require("./user.route");
 
 module.exports = (app) => {
   app.use(categoryMiddlewares.category)// khi bất kì vào trang nào thì nó đều đi qua cái thằng này
@@ -22,4 +23,6 @@ module.exports = (app) => {
   app.use("/cart",  cartRouter);
 
   app.use("/checkout",  checkoutRouter);
+
+  app.use("/user",  userRouter);
 };
