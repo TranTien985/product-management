@@ -48,8 +48,15 @@ app.use(express.static(`${__dirname}/public`)); // biến __dirname dùng để 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.moment = moment;
 
+//Routes
 routeAdmin(app)
 route(app)
+app.all(/.*/, (req, res) => {
+  res.render("client/pages/error/404", {
+    pageTitle: "404 Not Found",
+  });
+});
+
 
 // này là để mở cổng port
 app.listen(port, () => {
