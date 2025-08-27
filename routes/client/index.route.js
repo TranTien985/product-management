@@ -1,6 +1,7 @@
 const categoryMiddlewares = require("../../middlewares/clients/category.middlewares");
 const cartMiddlewares = require("../../middlewares/clients/cart.middleware");
 const userMiddlewares = require("../../middlewares/clients/user.middlewares")
+const settingMiddlewares = require("../../middlewares/clients/setting.middleware")
 
 // muốn import file routes vào file index thì phải export nó ra trước
 const homeRouter = require("./home.route");
@@ -15,6 +16,7 @@ module.exports = (app) => {
   app.use(categoryMiddlewares.category)
   app.use(cartMiddlewares.cartId)
   app.use(userMiddlewares.infoUser)
+  app.use(settingMiddlewares.settingGeneral)
 
   // trong file home cả product đã có get rồi nên ở đây chỉ cần use là dc
   app.use("/",  homeRouter);
