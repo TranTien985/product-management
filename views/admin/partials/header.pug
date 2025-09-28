@@ -3,15 +3,21 @@ header.header
     .row.align-item-center 
       .col-3 
         .inner-logo 
-          a(href="/admin/dashboard") ADMIN
+          a(href="/admin/dashboard") S
+          h1 SHOP ADMIN
 
-      .col-9 
-        div(class="text-right")
-          a(
-            href=`${prefixAdmin}/my-account`
-            class="btn btn-primary btn-sm mr-2"
-          ) #{user.fullName}
-          a(
-            href=`${prefixAdmin}/auth/logout`
-            class="btn btn-danger btn-sm"
-          ) Đăng xuất
+      .col-9
+        .text-right
+          .user-menu
+            a.userIcon(href="#")
+              i(class="fas fa-user-circle fa-2x")
+            ul.userDropdown.menu
+              li
+                a(href=`${prefixAdmin}/my-account`)
+                  i(class="fas fa-user mr-2")
+                  | Tài khoản của tôi
+              li
+                a(href=`${prefixAdmin}/auth/logout`)
+                  i(class="fas fa-sign-out-alt mr-2")
+                  | Đăng xuất
+
