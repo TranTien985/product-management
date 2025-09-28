@@ -2,21 +2,26 @@
   .inner-menu 
     ul 
       li 
-        a(href=`${prefixAdmin}/dashboard`) Tổng Quan
+        a(href=`${prefixAdmin}/dashboard`) <i class="fa-solid fa-chart-pie"></i>  Tổng Quan 
+
+      div(class="products") SẢN PHẨM
       if(role.permissions.includes("products-category_view"))
         li 
-          a(href=`${prefixAdmin}/products-category`) Danh Mục Sản Phẩm
+          a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
       if(role.permissions.includes("products_view"))
         li 
-          a(href=`${prefixAdmin}/products`) Danh Sách Sản Phẩm
+          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Danh Sách 
+
+      div(class="products") PHÂN QUYỀN
       if(role.permissions.includes("roles_view"))
         li 
-          a(href=`${prefixAdmin}/roles`) Nhóm quyền
+          a(href=`${prefixAdmin}/roles`) <i class="fa-solid fa-users"></i> Nhóm quyền
       if(role.permissions.includes("roles_permission"))
         li 
-          a(href=`${prefixAdmin}/roles/permission`) Phân quyền
+          a(href=`${prefixAdmin}/roles/permission`) <i class="fa-solid fa-user-shield"></i> Phân quyền
+      div(class="products") CÀI ĐẶT
       if(role.permissions.includes("account_view"))
         li 
-          a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+          a(href=`${prefixAdmin}/accounts`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
       li 
-        a(href=`${prefixAdmin}/settings/general`) Cài đặt chung 
+        a(href=`${prefixAdmin}/settings/general`) <i class="fa-solid fa-cog"></i> Cài đặt chung 
