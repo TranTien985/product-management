@@ -4,23 +4,23 @@ block main
   h1 Trang tổng quan
 
   .row.mt-4 
-    //- .col-12 
-    //-   .card-mb-4 
-    //-     .card-header Thông tin tài khoản 
-    //-     .card-body 
-    //-       if(user.avatar)
-    //-         img(
-    //-           src= user.avatar 
-    //-           style= "height: 100px; margin-bottom: 15px"
-    //-         )
-    //-       if(user.fullName)
-    //-         p Họ tên: <b>#{user.fullName}</b>
-    //-       if(user.email)
-    //-         p Email: <b>#{user.email}</b>
-    //-       if(user.phone)
-    //-         p Số điện thoại: <b>#{user.phone}</b>
-    //-       if(role.title)
-    //-         p Quyền hạn: <b>#{role.title}</b>
+    .col-12 
+      .card-mb-4 
+        .card-header Thông tin tài khoản 
+        .card-body 
+          if(user.avatar)
+            img(
+              src= user.avatar 
+              style= "height: 100px; margin-bottom: 15px"
+            )
+          if(user.fullName)
+            p Họ tên: <b>#{user.fullName}</b>
+          if(user.email)
+            p Email: <b>#{user.email}</b>
+          if(user.phone)
+            p Số điện thoại: <b>#{user.phone}</b>
+          if(role.title)
+            p Quyền hạn: <b>#{role.title}</b>
 
 
     .col-12  
@@ -59,26 +59,26 @@ block main
               span Hoạt động #{statistic.categoryProduct.active}
               span Dừng hoạt động #{statistic.categoryProduct.inactive}
 
-    //- .col-12 
-    //-   .card.mb-4 
-    //-     .card-header Sản phẩm 
-    //-     .card-body 
-    //-       p Số lượng <b>#{statistic.product.total}</b>
-    //-       p Hoạt động <b>#{statistic.product.active}</b>
-    //-       p Dừng hoạt động <b>#{statistic.product.inactive}</b>
+    .col-12 
+      .card.mb-4 
+        .card-header Sản phẩm 
+        .card-body 
+          p Số lượng <b>#{statistic.product.total}</b>
+          p Hoạt động <b>#{statistic.product.active}</b>
+          p Dừng hoạt động <b>#{statistic.product.inactive}</b>
 
-    //- .col-12 
-    //-   .card.mb-4 
-    //-     .card-header Tài khoản admin 
-    //-     .card-body 
-    //-       p Số lượng <b>#{statistic.account.total}</b>
-    //-       p Hoạt động <b>#{statistic.account.active}</b>
-    //-       p Dừng hoạt động <b>#{statistic.account.inactive}</b>
+    .col-12 
+      .card.mb-4 
+        .card-header Tài khoản admin 
+        .card-body 
+          p Số lượng <b>#{statistic.account.total}</b>
+          p Hoạt động <b>#{statistic.account.active}</b>
+          p Dừng hoạt động <b>#{statistic.account.inactive}</b>
 
-    //- .col-12 
-    //-   .card.mb-4 
-    //-     .card-header Tài khoản client
-    //-     .card-body 
-    //-       p Số lượng <b>#{statistic.user.total}</b>
-    //-       p Hoạt động <b>#{statistic.user.active}</b>
-    //-       p Dừng hoạt động <b>#{statistic.user.inactive}</b>
+    .col-12 
+      .card.mb-4 
+        .card-header Tài khoản client
+        .card-body 
+          p Số lượng <b>#{statistic.user.total}</b>
+          p Hoạt động <b>#{statistic.user.active}</b>
+          p Dừng hoạt động <b>#{statistic.user.inactive}</b>
