@@ -15,7 +15,7 @@ body{
   gap: 20px;
 }
 
-.card{
+.card-dashboard{
   background: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -27,11 +27,11 @@ body{
   transition: transform 0.2s;
 }
 
-.card:hover {
+.card-dashboard:hover {
   transform: translateY(-5px);
 }
 
-.card .icon-box{
+.card-dashboard .icon-box{
   width: 70px;
   height: 70px;
   border-radius: 12px;
@@ -43,21 +43,21 @@ body{
   margin-right: 15px;
 }
 
-.card .info h4 {
+.card-dashboard .info h4 {
   font-size: 14px;
   color: #6b7280;
   margin: 0;
   font-weight: 600;
 }
 
-.card .info p {
+.card-dashboard.info p {
   font-size: 20px;
   font-weight: bold;
   margin: 5px 0 0;
   color: #111827;
 }
 
-.card .info div{
+.card-dashboard .info div{
   font-size: 13px;
   gap: 15px;
 }
