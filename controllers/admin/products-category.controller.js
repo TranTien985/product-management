@@ -3,6 +3,8 @@ const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree")
 const Account = require("../../models/account.model"); //database
 
+const paginationHelper = require("../../helpers/pagination"); // phân trang
+
 // [GET] /admin/product-category
 module.exports.index = async (req, res) => {
   let find = {
@@ -25,9 +27,27 @@ module.exports.index = async (req, res) => {
     }
   }
 
+  //Pagination
+  const countProducts = await ProductCategory.countDocuments(find);
+  // dùng để đếm tổng số lượng danh mục có trong db
+
+  // đây dùng để truyền đối số sang cho hàm paginationHelper
+  // sau khi truyền hàm bên kia sẽ thực hiện logic và trả lại kết quả cho bên này
+  // cuối cùng là update object
+  let objectPagination = paginationHelper(
+    {
+      currentPage: 1,
+      limitItems: 6,
+    },
+    req.query,
+    countProducts
+  );
+  // End pagination
+
   res.render("admin/pages/products-category/index", {
     pageTitle: "Trang Danh Sách Sản Phẩm",
     records: newRecord,
+    pagination: objectPagination,
   });
 };
 

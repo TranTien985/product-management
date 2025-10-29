@@ -13,7 +13,7 @@ block main
         div(class="alert alert-success")
           | Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng trong khoảng thời gian sớm nhất. 
 
-    if(order)
+    if(guest)
       .row 
         .col-12 
           h4(class="mb-2") Thông tin cá nhân 
@@ -22,19 +22,19 @@ block main
               tr 
                 td Họ tên 
                 td 
-                  b #{order.userInfo.fullName} 
+                  b #{guest.userInfo.fullName} 
               tr 
                 td Số điện thoại 
                 td 
-                  b #{order.userInfo.phone}
+                  b #{guest.userInfo.phone}
               tr 
                 td Địa chỉ 
                 td 
-                  b #{order.userInfo.address}
+                  b #{guest.userInfo.address}
 
       .row 
         .col-12 
-          if (order.products.length > 0)
+          if (guest.products.length > 0)
             h4(class="mb-2") Thông tin đơn hàng 
             table(class="table table-bordered")
               thead 
@@ -46,7 +46,7 @@ block main
                   th Số lượng 
                   th Tổng tiền 
               tbody 
-                each item, index in order.products
+                each item, index in guest.products
                   tr 
                     td #{index + 1}
                     td 
@@ -56,4 +56,4 @@ block main
                     td #{item.quantity}
                     td #{item.totalPrice}$
             
-            h3(class="text-right") Tổng đơn hàng: #{order.totalPrice}$            
+            h3(class="text-right") Tổng đơn hàng: #{guest.totalPrice}$            

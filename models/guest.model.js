@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
+const GuestSchema = new mongoose.Schema({
   // user_id: String,
   cart_id: String,
   userInfo: {
@@ -28,6 +28,6 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 });
 
-const Order = mongoose.model("Order", orderSchema, "orders"); // products này là 1 collection trong mongoose
+const Guest = mongoose.model("Guest", GuestSchema, "guests"); // products này là 1 collection trong mongoose
 
-module.exports = Order;
+module.exports = Guest;

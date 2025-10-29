@@ -4,31 +4,19 @@ const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
 const productSchema = new mongoose.Schema({
-  title: String, //*
+  title: String, //* name
   product_category_id: {
     type : String,
     default: ""
   },
   description: String, //*
-  category: String,
+  category: String, // brand-name
   price: Number, //*
-  discountPercentage: Number, //*
+  discountPercentage: Number, //* discount
   rating: Number,
   stock: Number, //*
-  tags: Array,
-  brand: String,
-  sku: String,
-  weight: Number,
-  dimensions: Object,
-  warrantyInformation: String,
-  shippingInformation: String,
   availabilityStatus: String, //* trạng thái 
-  featured: String,
   reviews: Array,
-  returnPolicy: String,
-  minimumOrderQuantity: Number,
-  meta: Object,
-  images: Array,
   thumbnail: String, //*
   position: Number,
   slug: { 
@@ -49,7 +37,6 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  // deletedAt : Date,
   deletedBy: {
     account_id: String,
     deletedAt : Date

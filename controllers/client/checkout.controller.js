@@ -1,6 +1,6 @@
 const Cart = require("../../models/cart.model")
 const Product = require("../../models/product.model")
-const Order= require("../../models/order.model")
+const Guest= require("../../models/guest.model")
 const productsHelper = require("../../helpers/products")
 
 // [GET] /checkout
@@ -35,8 +35,8 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// [GET] /checkout/order
-module.exports.order = async (req, res) => {
+// [GET] /checkout/guest
+module.exports.guest = async (req, res) => {
   const cartId = req.cookies.cartId;
   const userInfo = req.body
 
@@ -64,14 +64,14 @@ module.exports.order = async (req, res) => {
     product.push(objectProduct);
   }
 
-  const orderInfo = {
+  const guestInfo = {
     cart_id: cartId,
     userInfo: userInfo,
     products: product,
   }
 
-  const order = new Order(orderInfo);
-  order.save();
+  const guest = new Guest(guestInfo);
+  guest.save();
 
   // sau khi đã thanh toán thì reset sản phẩm trong giỏ hàng
   await Cart.updateOne({
@@ -80,16 +80,17 @@ module.exports.order = async (req, res) => {
     products: []
   });
 
-  res.redirect(`/checkout/success/${order.id}`);
+  res.redirect(`/checkout/success/${guest.id}`);
 }
 
-// [GET] /checkout/success/:orderId
+// [GET] /checkout/success/:guestId
 module.exports.success = async (req, res) => {
-  const order = await Order.findOne({
-    _id: req.params.orderId
+  const guest = await Guest.findOne({
+    _id: req.params.guestId
   });
+  
 
-  for (const product of order.products) {
+  for (const product of guest.products) {
     const productInfo = await Product.findOne({
       _id: product.product_id
     }).select("title thumbnail");
@@ -101,11 +102,11 @@ module.exports.success = async (req, res) => {
     product.totalPrice = parseInt((product.priceNew * product.quantity).toFixed(0));
   }
 
-  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
+  guest.totalPrice = guest.products.reduce((sum, item) => sum + item.totalPrice, 0);
   
 
   res.render("client/pages/checkout/success", {
     pageTitle: "Đặt hàng thành công",
-    order: order
+    guest: guest
   });
 }

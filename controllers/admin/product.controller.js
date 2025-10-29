@@ -21,16 +21,16 @@ module.exports.index = async (req, res) => {
     find.availabilityStatus = req.query.availabilityStatus;
   }
 
-  // search
+// search
   const objectSearch = SearchHelper(req.query);
 
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
-  // end search
+// end search
 
-  // 1h bài 21
-  //Pagination
+// 1h bài 21
+//Pagination
   const countProducts = await Product.countDocuments(find);
   // dùng để đếm tổng số lượng sản phẩm có trong db
 
@@ -45,9 +45,9 @@ module.exports.index = async (req, res) => {
     req.query,
     countProducts
   );
-  // End pagination
+// End pagination
 
-  // Sort
+// Sort
   let sort = {};
 
   if (req.query.sortKey && req.query.sortValue) {
@@ -55,7 +55,7 @@ module.exports.index = async (req, res) => {
   } else {
     sort.position = "desc";
   }
-  // End Sort
+// End Sort
 
   const products = await Product.find(find)
     .sort(sort)

@@ -80,8 +80,8 @@ block main
                     width ="100px"
                     height="auto"
                   )
-                td #{item.title}
-                td #{item.price}$
+                td(style="width:400px") #{item.title}
+                td #{item.price.toLocaleString('vi-VN')}đ
                 td 
                   input(
                     type="number"

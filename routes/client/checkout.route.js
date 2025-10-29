@@ -5,8 +5,8 @@ const controller = require("../../controllers/client/checkout.controller")
 
 router.get('/', controller.index);
 
-router.post('/order', controller.order);
+router.post('/guest', controller.guest);
 
-router.get('/success/:orderId', controller.success);
+router.get('/success/:guestId', controller.success);
 
 module.exports = router;

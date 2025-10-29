@@ -1,11 +1,12 @@
 /* header */
 .header{
+  background-color: #08222F;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
 
 .inner-logo{
-    width: 50px;
+    width: 150px;
 }
 
 .inner-logo img{
