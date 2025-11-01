@@ -10,6 +10,7 @@
           a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
       if(role.permissions.includes("products_view"))
         li 
+<<<<<<< HEAD
           a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
 
       div(class="products") TIN TỨC
@@ -19,6 +20,9 @@
       if(role.permissions.includes("news_view"))
         li 
           a(href=`${prefixAdmin}/news`) <i class="fa-solid fa-newspaper"></i> Tin Tức
+=======
+          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Danh Sách 
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 
       div(class="products") PHÂN QUYỀN
       if(role.permissions.includes("roles_view"))
@@ -32,6 +36,10 @@
         li 
           a(href=`${prefixAdmin}/accounts`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
       li 
+<<<<<<< HEAD
         a(href=`${prefixAdmin}/settings/general`) <i class="fa-solid fa-cog"></i> Cài đặt chung 
 
   script(src="/admin/js/sider.js") 
+=======
+        a(href=`${prefixAdmin}/settings/general`) <i class="fa-solid fa-cog"></i> Cài đặt chung 
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd

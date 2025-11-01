@@ -4,7 +4,11 @@ const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
 const productSchema = new mongoose.Schema({
+<<<<<<< HEAD
   title: String, //* name
+=======
+  title: String, //*
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   product_category_id: {
     type : String,
     default: ""
@@ -16,6 +20,7 @@ const productSchema = new mongoose.Schema({
   rating: Number,
   stock: Number, //*
   availabilityStatus: String, //* trạng thái 
+  featured: String,
   reviews: Array,
   thumbnail: String, //*
   position: Number,
@@ -37,6 +42,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+<<<<<<< HEAD
+=======
+  // deletedAt : Date,
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   deletedBy: {
     account_id: String,
     deletedAt : Date

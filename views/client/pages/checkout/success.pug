@@ -13,7 +13,11 @@ block main
         div(class="alert alert-success")
           | Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng trong khoảng thời gian sớm nhất. 
 
+<<<<<<< HEAD
     if(guest)
+=======
+    if(order)
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
       .row 
         .col-12 
           h4(class="mb-2") Thông tin cá nhân 
@@ -22,6 +26,7 @@ block main
               tr 
                 td Họ tên 
                 td 
+<<<<<<< HEAD
                   b #{guest.userInfo.fullName} 
               tr 
                 td Số điện thoại 
@@ -35,6 +40,21 @@ block main
       .row 
         .col-12 
           if (guest.products.length > 0)
+=======
+                  b #{order.userInfo.fullName} 
+              tr 
+                td Số điện thoại 
+                td 
+                  b #{order.userInfo.phone}
+              tr 
+                td Địa chỉ 
+                td 
+                  b #{order.userInfo.address}
+
+      .row 
+        .col-12 
+          if (order.products.length > 0)
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
             h4(class="mb-2") Thông tin đơn hàng 
             table(class="table table-bordered")
               thead 
@@ -46,7 +66,11 @@ block main
                   th Số lượng 
                   th Tổng tiền 
               tbody 
+<<<<<<< HEAD
                 each item, index in guest.products
+=======
+                each item, index in order.products
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
                   tr 
                     td #{index + 1}
                     td 
@@ -56,4 +80,8 @@ block main
                     td #{item.quantity}
                     td #{item.totalPrice}$
             
+<<<<<<< HEAD
             h3(class="text-right") Tổng đơn hàng: #{guest.totalPrice}$            
+=======
+            h3(class="text-right") Tổng đơn hàng: #{order.totalPrice}$            
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd

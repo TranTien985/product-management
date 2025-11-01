@@ -2,7 +2,10 @@ const ProductCategory = require("../../models/product-category.model"); //databa
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree")
 const Account = require("../../models/account.model"); //database
+<<<<<<< HEAD
 const SearchHelper = require("../../helpers/search"); // tìm kiếm
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 
 // [GET] /admin/product-category
 module.exports.index = async (req, res) => {
@@ -10,6 +13,7 @@ module.exports.index = async (req, res) => {
     deleted: false,
   };
 
+<<<<<<< HEAD
 // search
     const objectSearch = SearchHelper(req.query);
   
@@ -18,6 +22,8 @@ module.exports.index = async (req, res) => {
     }
 // end search
 
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   const record = await ProductCategory.find(find);
 
   const newRecord = createTreeHelper.tree(record)
@@ -36,11 +42,15 @@ module.exports.index = async (req, res) => {
 
   res.render("admin/pages/products-category/index", {
     pageTitle: "Trang Danh Sách Sản Phẩm",
+<<<<<<< HEAD
     keyword: objectSearch.keyword,
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
     records: newRecord,
   });
 };
 
+<<<<<<< HEAD
 // [PATCH] /adim/product-category/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   // console.log(req.params); dùng để tra tên status và id
@@ -68,6 +78,8 @@ module.exports.changeStatus = async (req, res) => {
   // nhưng khi dùng câu lệnh trên thì nó sẽ tự động back về trang cũ sau khi update
 };
 
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 // [GET] /admin/product-category/create
 module.exports.create = async (req, res) => {
   let find = {
@@ -88,7 +100,11 @@ module.exports.create = async (req, res) => {
   });
 };
 
+<<<<<<< HEAD
 // [POST] /admin/product-category/createPost
+=======
+// [POST] /admin/product/createPost
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 module.exports.createPost = async (req, res) => {
   const permissions = res.locals.role.permissions
 
@@ -110,6 +126,7 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // [PATCH] /adim/product/change-multi
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
@@ -206,6 +223,8 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 // [GET] /admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {

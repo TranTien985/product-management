@@ -24,7 +24,11 @@ const productCategorySchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+<<<<<<< HEAD
   // deletedAt : Date,
+=======
+  deletedAt : Date,
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   updatedBy: [
     {
       account_id: String,

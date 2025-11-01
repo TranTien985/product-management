@@ -15,7 +15,11 @@ body{
   gap: 20px;
 }
 
+<<<<<<< HEAD
 .card-dashboard{
+=======
+.card{
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   background: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -27,11 +31,19 @@ body{
   transition: transform 0.2s;
 }
 
+<<<<<<< HEAD
 .card-dashboard:hover {
   transform: translateY(-5px);
 }
 
 .card-dashboard .icon-box{
+=======
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card .icon-box{
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   width: 70px;
   height: 70px;
   border-radius: 12px;
@@ -43,21 +55,33 @@ body{
   margin-right: 15px;
 }
 
+<<<<<<< HEAD
 .card-dashboard .info h4 {
+=======
+.card .info h4 {
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   font-size: 14px;
   color: #6b7280;
   margin: 0;
   font-weight: 600;
 }
 
+<<<<<<< HEAD
 .card-dashboard.info p {
+=======
+.card .info p {
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   font-size: 20px;
   font-weight: bold;
   margin: 5px 0 0;
   color: #111827;
 }
 
+<<<<<<< HEAD
 .card-dashboard .info div{
+=======
+.card .info div{
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   font-size: 13px;
   gap: 15px;
 }

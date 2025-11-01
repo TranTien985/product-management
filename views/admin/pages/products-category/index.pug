@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+<<<<<<< HEAD
 include ../../mixins/table-tree-product.pug
 include ../../mixins/moment.pug
 include ../../mixins/show-alert.pug
@@ -14,13 +15,24 @@ block main
                
     .col-3(style="padding: 20px 0")
       +search-text(keyword)
+=======
+include ../../mixins/table-tree.pug
+include ../../mixins/moment.pug
+
+block main 
+  if(role.permissions.includes("products-category_view"))
+    h1 Danh Mục Sản Phẩm
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 
     .card.mb-3 
       .card-header Danh Sách
         .card-body
           .row 
             .col-8 
+<<<<<<< HEAD
               +form-change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
             .col-4.text-right
                 if(role.permissions.includes("products-category_create"))
                   a(
@@ -45,6 +57,7 @@ block main
                 th Hành động
 
             tbody
+<<<<<<< HEAD
               +table-tree-product(records)
 
   form(
@@ -62,3 +75,6 @@ block main
   ) 
 
   script(src="/admin/js/product.js") 
+=======
+              +table-tree(records)
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd

@@ -2,5 +2,8 @@
 /node_modules
 /.pnp
 .pnp.js
+<<<<<<< HEAD
 
 .env
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd

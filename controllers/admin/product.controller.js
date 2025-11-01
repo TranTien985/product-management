@@ -21,16 +21,21 @@ module.exports.index = async (req, res) => {
     find.availabilityStatus = req.query.availabilityStatus;
   }
 
-// search
+  // search
   const objectSearch = SearchHelper(req.query);
 
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
-// end search
+  // end search
 
+<<<<<<< HEAD
 // 1h bài 21
 //Pagination
+=======
+  // 1h bài 21
+  //Pagination
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   const countProducts = await Product.countDocuments(find);
   // dùng để đếm tổng số lượng sản phẩm có trong db
 
@@ -45,9 +50,13 @@ module.exports.index = async (req, res) => {
     req.query,
     countProducts
   );
-// End pagination
+  // End pagination
 
+<<<<<<< HEAD
 // Sort
+=======
+  // Sort
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   let sort = {};
 
   if (req.query.sortKey && req.query.sortValue) {
@@ -55,7 +64,11 @@ module.exports.index = async (req, res) => {
   } else {
     sort.position = "desc";
   }
+<<<<<<< HEAD
 // End Sort
+=======
+  // End Sort
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 
   const products = await Product.find(find)
     .sort(sort)

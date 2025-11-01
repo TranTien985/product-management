@@ -1,6 +1,10 @@
 const Cart = require("../../models/cart.model")
 const Product = require("../../models/product.model")
+<<<<<<< HEAD
 const Guest= require("../../models/guest.model")
+=======
+const Order= require("../../models/order.model")
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 const productsHelper = require("../../helpers/products")
 
 // [GET] /checkout
@@ -35,8 +39,13 @@ module.exports.index = async (req, res) => {
   });
 };
 
+<<<<<<< HEAD
 // [GET] /checkout/guest
 module.exports.guest = async (req, res) => {
+=======
+// [GET] /checkout/order
+module.exports.order = async (req, res) => {
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   const cartId = req.cookies.cartId;
   const userInfo = req.body
 
@@ -64,14 +73,23 @@ module.exports.guest = async (req, res) => {
     product.push(objectProduct);
   }
 
+<<<<<<< HEAD
   const guestInfo = {
+=======
+  const orderInfo = {
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
     cart_id: cartId,
     userInfo: userInfo,
     products: product,
   }
 
+<<<<<<< HEAD
   const guest = new Guest(guestInfo);
   guest.save();
+=======
+  const order = new Order(orderInfo);
+  order.save();
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 
   // sau khi đã thanh toán thì reset sản phẩm trong giỏ hàng
   await Cart.updateOne({
@@ -80,6 +98,7 @@ module.exports.guest = async (req, res) => {
     products: []
   });
 
+<<<<<<< HEAD
   res.redirect(`/checkout/success/${guest.id}`);
 }
 
@@ -91,6 +110,18 @@ module.exports.success = async (req, res) => {
   
 
   for (const product of guest.products) {
+=======
+  res.redirect(`/checkout/success/${order.id}`);
+}
+
+// [GET] /checkout/success/:orderId
+module.exports.success = async (req, res) => {
+  const order = await Order.findOne({
+    _id: req.params.orderId
+  });
+
+  for (const product of order.products) {
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
     const productInfo = await Product.findOne({
       _id: product.product_id
     }).select("title thumbnail");
@@ -102,11 +133,19 @@ module.exports.success = async (req, res) => {
     product.totalPrice = parseInt((product.priceNew * product.quantity).toFixed(0));
   }
 
+<<<<<<< HEAD
   guest.totalPrice = guest.products.reduce((sum, item) => sum + item.totalPrice, 0);
+=======
+  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   
 
   res.render("client/pages/checkout/success", {
     pageTitle: "Đặt hàng thành công",
+<<<<<<< HEAD
     guest: guest
+=======
+    order: order
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
   });
 }

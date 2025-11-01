@@ -120,7 +120,10 @@ div .products{
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
+<<<<<<< HEAD
   transition:  color 0.3s;
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 }
 
 .sider .inner-menu ul li:hover a{
@@ -129,6 +132,7 @@ div .products{
   border-radius: 10px;
 }
 
+<<<<<<< HEAD
 .inner-menu ul a.active {
   color: black;
   background-color: #dae0f4;
@@ -137,6 +141,8 @@ div .products{
 
 
 
+=======
+>>>>>>> daedc8515f1a6e9d7a566ff5f73d85a1007f39dd
 /* End Sider */
 
 /* Show alert */
