@@ -3,7 +3,7 @@ const Product = require("../../models/product.model")
 const Account = require("../../models/account.model")
 const User = require("../../models/user.model")
 
-// [GET] /adim/dashboard
+// [GET] /admin/dashboard
 module.exports.dashboard = async (req, res) => {
   const statistic = {
     categoryProduct: {

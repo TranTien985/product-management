@@ -10,7 +10,15 @@
           a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
       if(role.permissions.includes("products_view"))
         li 
-          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Danh Sách 
+          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
+
+      div(class="products") TIN TỨC
+      if(role.permissions.includes("news-category_view"))
+        li 
+          a(href=`${prefixAdmin}/news-category`) <i class="fa-solid fa-list"></i> Danh Mục 
+      if(role.permissions.includes("news_view"))
+        li 
+          a(href=`${prefixAdmin}/news`) <i class="fa-solid fa-newspaper"></i> Tin Tức
 
       div(class="products") PHÂN QUYỀN
       if(role.permissions.includes("roles_view"))
@@ -25,3 +33,5 @@
           a(href=`${prefixAdmin}/accounts`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
       li 
         a(href=`${prefixAdmin}/settings/general`) <i class="fa-solid fa-cog"></i> Cài đặt chung 
+
+  script(src="/admin/js/sider.js") 

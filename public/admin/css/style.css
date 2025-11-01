@@ -120,6 +120,7 @@ div .products{
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
+  transition:  color 0.3s;
 }
 
 .sider .inner-menu ul li:hover a{
@@ -127,6 +128,14 @@ div .products{
   background-color: #dae0f4;
   border-radius: 10px;
 }
+
+.inner-menu ul a.active {
+  color: black;
+  background-color: #dae0f4;
+  border-radius: 10px;
+}
+
+
 
 /* End Sider */
 

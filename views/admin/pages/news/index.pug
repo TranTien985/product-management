@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+include ../../mixins/moment.pug
+include ../../mixins/pagination.pug
+
+block main 
+  if(role.permissions.includes("news_view"))
+    h1 Danh Sách Tin Tức
+
+    .card.mb-3 
+      .card-header Danh Sách
+        .card-body
+          .row 
+            .col-8 
+            .col-4.text-right
+                if(role.permissions.includes("news_create"))
+                  a(
+                    href=`${prefixAdmin}/news/create`
+                    class="btn btn-outline-success "
+                  ) + Thêm mới
+
+          table(
+            class="table table-hover table-sm"
+            checkbox-multi
+          )
+            thead 
+              tr 
+                th 
+                  input(type="checkbox" name="checkall")
+                th STT 
+                th Hình ảnh 
+                th Tiêu đề 
+                th Vị trí 
+                th Trạng thái 
+                th Người cập nhật 
+                th Hành động
+
+            tbody
+              

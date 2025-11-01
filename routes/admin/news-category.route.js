@@ -5,7 +5,7 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer(); // đường dẫn lưu ảnh khi upload ảnh lên dự án (tạm thời)
 
-const controller = require("../../controllers/admin/products-category.controller");
+const controller = require("../../controllers/admin/news-category.controller");
 const validate = require("../../validates/admin/product-category.validate");
 
 const uploadCloud = require("../../middlewares/admin/uploadCloud.middlewares");

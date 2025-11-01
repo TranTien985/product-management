@@ -11,6 +11,8 @@ const accountRouter = require("./account.route")
 const authRouter = require("./auth.route")
 const myAccountRouter = require("./my-account.route")
 const settingRouter = require("./setting.route")
+const newsRouter = require("./news.route")
+const newsCategoryRouter = require("./news-category.route")
 
 module.exports = (app) =>{
   const PATH_ADMIN = systemConfig.prefixAdmin;
@@ -57,6 +59,18 @@ module.exports = (app) =>{
     PATH_ADMIN + '/settings',
     authMiddlewares.requireAuth,
     settingRouter
+  );
+  
+  app.use(
+    PATH_ADMIN + '/news',
+    authMiddlewares.requireAuth,
+    newsRouter
+  );
+
+  app.use(
+    PATH_ADMIN + '/news-category',
+    authMiddlewares.requireAuth,
+    newsCategoryRouter
   );
 
 
