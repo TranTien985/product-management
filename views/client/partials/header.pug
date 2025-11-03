@@ -1,51 +1,149 @@
 include ../mixins/sub-menu.pug
 
-header.header 
+// header
+// fixed sticky
+header.header
+  // Tái sử dụng độ rộng phần từ các phần
   .container
-    .row.align-items-center 
-      .col-3 
-        .inner-logo 
-          a(href= "/")
-            img(src= settingGeneral.logo, alt= settingGeneral.websiteName) 
-
-      .col-5 
-        form(
-          action="/search"
-          method="GET"
-        )
-          div(class="form-group d-flex mb-0")
-            input(
-              type="text"
-              placeholder="Nhập từ khóa..."
-              class="form-control"
-              name="keyword"
-              value=keyword
-            )
-            button(
-              type="submit"
-              class="btn btn-primary"
-            ) Tìm 
-
-      .col-4 
-        .inner-menu 
-          ul 
-            li 
-              a(href="/") Trang chủ 
-            li(class="sub-menu") 
-              -const pathProduct = "/products"
-              a(href=pathProduct) Sản phẩm
-              +sub-menu(layoutProductCategory, pathProduct)
-            li
-              a(href="/cart") <i class="fa-solid fa-cart-shopping"></i> (#{miniCart ? miniCart.totalQuantity : 0})
-            if(user)
-              li 
-                a(href="/user/info") #{user.fullName}
-              li 
-                a(href="/user/logout") Đăng xuất
-            else
-              li 
-                a(href="/user/login") Đăng nhập 
+    .header-top
+      // div1
+      .header-top__logo
+        a(href='#')
+          img(src='img/The-gioi-cau-long-logo.png' alt='Logo')
+      // div2
+      .header-top__middle
+        // search
+        input.search-box__input(type='search' placeholder='Tìm kiếm sản phẩm...')
+        button.header-top__search
+          i.fa-solid.fa-magnifying-glass
+        // Hotline
+        a.header-top__hotline(href='#')
+          i.fa-solid.fa-phone
+          span.hotline-text HOTLINE
+      // User Actions
+      .header-top__actions
+        a.user-action__item(href='#')
+          i.fa-solid.fa-user
+        a.user-action__item(href='#')
+          i.fa-solid.fa-heart
+        a.user-action__item(href='#')
+          i.fa-solid.fa-cart-shopping
+        a(href='#')
+          p (0)
+    .header-bottom
+      // Main Navigation
+      nav.header-bottom__nav
+        ul.main-nav
+          li.main-nav__item
+            a(href='#') Tin t&#x1EE9;c
+          li.main-nav__item
+            a(href='#')
+              | S&#x1EA3;n ph&#x1EA9;m
+              i.fa-solid.fa-caret-down
+            ul.dropdown-menu
               li
-                a(href="/user/register") Đăng ký 
-               
-        
+                a(href='#')
+                  | V&#x1EE3;t c&#x1EA7;u l&ocirc;ng
+                  i.fa-solid.fa-caret-right
+                ul.dropdown-menu
+                  // li*14.dropdown-subitem>a[href="#"]{Lining}
+                  li.dropdown-subitem
+                    a(href='#') Winex
+                  li.dropdown-subitem
+                    a(href='#') Victor
+                  li.dropdown-subitem
+                    a(href='#') li-ning
+                  li.dropdown-subitem
+                    a(href='#') Li&ecirc;n Hi&#x1EC7;p Th&agrave;nh
+                  li.dropdown-subitem
+                    a(href='#') &Dstrok;&#x1EA1;i Nam Sport
+                  li.dropdown-subitem
+                    a(href='#') Sportslink
+                  li.dropdown-subitem
+                    a(href='#') Kunosport
+                  li.dropdown-subitem
+                    a(href='#') AOLIKES
+                  li.dropdown-subitem
+                    a(href='#') APACS
+                  li.dropdown-subitem
+                    a(href='#') BAISD BAISHIDUN
+                  li.dropdown-subitem
+                    a(href='#') EOC
+                  li.dropdown-subitem
+                    a(href='#') Winman
+                  li.dropdown-subitem
+                    a(href='#') Kawasaki
+                  li.dropdown-subitem
+                    a(href='#') Kumpoo
+                  li.dropdown-subitem
+                    a(href='#') VS
+              li
+                a.dropdown-item(href='#')
+                  | Ph&#x1EE5; ki&#x1EC7;n c&#x1EA7;u l&ocirc;ng
+                  i.fa-solid.fa-caret-right
+                ul.dropdown-menu
+                  li.dropdown-subitem
+                    a(href='#') Kawasaki
+                  li.dropdown-subitem
+                    a(href='#') Kumpoo
+                  li.dropdown-subitem
+                    a(href='#') Ch&iacute; Ph&egrave;o
+                  li.dropdown-subitem
+                    a(href='#') HAMISHU
+                  li.dropdown-subitem
+                    a(href='#') Mira
+                  li.dropdown-subitem
+                    a(href='#') Nagaki
+                  li.dropdown-subitem
+                    a(href='#') OEM
+                  li.dropdown-subitem
+                    a(href='#') Promax
+                  li.dropdown-subitem
+                    a(href='#') Prowin
+                  li.dropdown-subitem
+                    a(href='#') SPEED ART
+                  li.dropdown-subitem
+                    a(href='#') Wika
+                  li.dropdown-subitem
+                    a(href='#') XP
+              li
+                a.dropdown-item(href='#')
+                  | Gi&agrave;y c&#x1EA7;u l&ocirc;ng
+                  i.fa-solid.fa-caret-right
+                ul.dropdown-menu
+                  li.dropdown-subitem
+                    a(href='#') Ch&iacute; ph&egrave;o
+                  li.dropdown-subitem
+                    a(href='#') HAMISHU
+                  li.dropdown-subitem
+                    a(href='#') Mira
+                  li.dropdown-subitem
+                    a(href='#') Nagaki
+                  li.dropdown-subitem
+                    a(href='#') OEM
+                  li.dropdown-subitem
+                    a(href='#') Promax
+                  li.dropdown-subitem
+                    a(href='#') Prowin
+                  li.dropdown-subitem
+                    a(href='#') SPEED ART
+                  li.dropdown-subitem
+                    a(href='#') Prowin
+                  li.dropdown-subitem
+                    a(href='#') SPEED ART
+                  li.dropdown-subitem
+                    a(href='#') XP
+              li
+                a.dropdown-item(href='#')
+                  | Bao v&#x1EE3;t c&#x1EA7;u l&ocirc;ng
+                  i.fa-solid.fa-caret-right
+                ul.dropdown-menu
+                  li.dropdown-subitem
+                    a(href='#') EOC
+          li.main-nav__item
+            a(href='#') H&#x1EC7; th&#x1ED1;ng c&#x1EED;a h&agrave;ng
+      // Utility Links
+      .header-bottom__utils
+        a.util-link(href='#')
+          img(src='img/track.png' alt='track')
+          |                         Theo d&otilde;i &dstrok;&#x1A1;n h&agrave;ng

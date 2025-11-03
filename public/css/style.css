@@ -1,30 +1,274 @@
 /* header */
-.header{
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-.inner-logo{
-    width: 50px;
-}
-
-.inner-logo img{
-  width: 100%;
-}
-
-.header .inner-menu > ul{
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+body {
+  /* font-size:62.5%; */
+  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
+  line-height:1.6;
+  height:3000px;
+}
+* {
+  box-sizing: border-box;
+}
+:root{
+  --header-bg:#08222f;
+  --button-bg:#ffde02;
+  --hover-button-bg:#CCB202;
 }
 
-.header .inner-menu > ul > li{
-  margin-left: 20px;
-} 
+.header{
+  background-color: var(--header-bg);
+  width:100%;
+  position: sticky;
+  top:0px;
+  z-index: 1000;
+}
+.container{
+  max-width:1340px;
+  margin:0 auto; /* căn giữa */
+  padding-left: 15px;
+  padding-right: 15px;
+  
+}
+
+a{
+  text-decoration:none;
+}
+
+.header-top {
+  align-items: center;
+  display: flex;
+  width:100%;
+  
+}
+
+.header-top__logo img {
+  width: 190px;
+  height: 70px;
+}
+.header-top__middle {
+  display: flex;
+  
+  flex:1;/* ← Chiếm không gian còn lại */
+  margin-left:60px;
+  margin-right:20px;
+  /* padding: 0px 15px 0px 0px; */
+}
+
+/* Input search */
+
+input[type=search]{
+  height: 48px;
+  flex:1;
+  padding: 0 10px;
+  border-radius: 10px;
+  border:0px;
+}
+
+.header-top__search{
+  width: 48px;
+  height: 48px;
+  margin: 0px 0px 0px 14px;
+  padding: 0px 8px;
+  border-radius: 10px;
+  background-color: var(--button-bg);
+  border:0px;
+}
+.header-top__search i {
+  height: 16px;
+  width: 16px;
+}
+
+/* hotline */
+.header-top__hotline {
+  width: 140px;
+  height: 48px;
+  padding:3px 15px;
+  margin-left: 14px;
+  background-color: var(--button-bg);
+  border-radius: 10px;
+  display: flex;
+  /* căn giữa ở trên */
+  align-items: center;
+  /* căn giữa 2 bên */
+  justify-content: center;
+}
+
+.header-top__hotline span {
+  display:inline-block;
+  color: #221f20;
+  font-size: 18px;
+  font-weight: bold;
+}
+.header-top__hotline i {
+  width: 18px;
+  height: 17px;
+  color: #000000;
+}
+button.header-top__search:hover  {
+  background-color:#CCB202;
+}
+.header-top__hotline:hover {
+  background-color:#CCB202;
+}
+
+/* user actions */
+
+.header-top__actions {
+  width: 130px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+a.user-action__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:32px;
+  height: 32px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  color: #ffffff;
+  margin-right:7px;
+  
+}
+.user-action__item i {
+  height: 16px;
+  width: 16px;
+  
+}
+.header-top__actions p{
+  color:#ffffff;
+}
+.user-action__item:hover{
+  background-color:#221F20;
+  border:0px;
+  
+}
+
+/* css header-bottom */
+.header-bottom {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  width:100%;
+}
+/* Nav left */
+.header-bottom__nav{
+  display:flex;
+  justify-content: flex-start;
+  padding-left:235px;
+}
+.header-bottom__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+
+.main-nav a {
+  display:block;
+  padding:10px 15px;
+  color: #ffffffcc;
+  
+}
+
+
+/* dropdown */
+.main-nav li{
+  position: relative;
+}
+ul.dropdown-menu  {
+  display:none;
+  width:200px;
+  position: absolute;
+  background-color:#08222f;  
+  
+}
+
+ul.dropdown-menu a{
+  padding:0px 15px;
+}
+
+ul.dropdown-menu li  {
+  padding:10px 0px;
+  color: #ffffffcc;
+  border-bottom:1px solid #ECECEC;
+}
+ul.dropdown-menu li:last-child{
+  border-bottom:none;
+}
+
+.main-nav i{
+  float:right;
+  margin-left:10px;
+  margin-top:5px;
+}
+
+/* Style cho dropdown cấp 2 */ 
+ul.dropdown-menu ul.dropdown-menu{
+  left:200px;
+  top:0px;
+}
+ul.dropdown-menu ul.dropdown-menu li a{
+  color:#b5b5b5cc;
+}
+ul.dropdown-menu li a:hover{
+  color:var(--button-bg);
+}
+ul.dropdown-menu ul.dropdown-menu li a:hover{
+  background-color: #0b3a4a;
+  color:#ffffffcc;
+}
+ul.dropdown-menu ul.dropdown-menu li:hover{
+  background-color: #0b3a4a;
+  
+}
+
+/* khi hover vào thì tác động đến submenu(dropdown-menu) ở cấp trực tiếp */
+.main-nav li:hover>ul.dropdown-menu{
+  display:block;
+}
+
+/* Thiết lập border khi hover */
+.main-nav>li>a{
+  position:relative;
+}
+.main-nav>li>a::before{
+  content:"";
+  position:absolute;
+  left:0px;
+  bottom:0px;
+  width:0px;
+  height:2px;
+  background-color:var(--button-bg);
+  /* không dùng display:none */
+  transition:0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+/* Khi hover vào li tác động vào before của a */
+.main-nav>li:hover>a::before{
+  width:100%
+}
+
+/*Utility Links  */
+
+.header-bottom__utils a{
+    display:inline-block;
+    padding:10px 0px;
+    
+    color:#ffffffcc;
+}
+.util-link img{
+    height: 16px;
+    width:16px;
+    
+}
+.util-link:hover{
+  color:var(--button-bg);
+}
 /* End header */
 
 /* Footer */
