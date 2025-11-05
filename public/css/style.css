@@ -5,7 +5,6 @@ body {
   margin: 0;
   padding: 0;
   line-height:1.6;
-  height:3000px;
 }
 * {
   box-sizing: border-box;
@@ -32,7 +31,7 @@ body {
 }
 
 a{
-  text-decoration:none;
+  text-decoration:none !important;
 }
 
 .header-top {
@@ -55,6 +54,10 @@ a{
   /* padding: 0px 15px 0px 0px; */
 }
 
+.search-form{
+  display:flex;
+  flex:1;
+}
 /* Input search */
 
 input[type=search]{
@@ -87,6 +90,7 @@ input[type=search]{
   margin-left: 14px;
   background-color: var(--button-bg);
   border-radius: 10px;
+  border:none;
   display: flex;
   /* căn giữa ở trên */
   align-items: center;
@@ -112,6 +116,110 @@ button.header-top__search:hover  {
   background-color:#CCB202;
 }
 
+/* Holine overlay */
+
+/* Ẩn modal mặc định */
+.hotline-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+/* Hiển thị modal khi được target  */
+.hotline-modal:target {
+  display: block;
+}
+
+/* Overlay background */
+.modal-overlay {
+  position:fixed;
+  left:0;
+  right:0;
+  width: 100%;
+  height: 100%;
+  background: #00000066; /* Màu tối với opacity */
+  z-index: 1000;
+}
+
+.hotline-list{
+  position: fixed;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%); /*Dịch chuyển ngược lại 50% chiều rộng và 50% chiều cao của chính element*/
+  z-index: 1003;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: rgb(0, 0, 0) 0px 0px 25px;
+}
+/* Nút đóng */
+.modal-close {
+    position: absolute;
+    top: -5px;
+    right: 4px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    z-index: 1002;
+}
+
+.hotline-list :last-child{
+  border:none;
+  padding:0px;
+  margin:0px;
+}
+.hotline-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom:1px solid #C6C6C6;
+  margin:0px 0px 15px;
+  padding:0px 0px 15px;
+}
+.branch-info{
+  width:230px;
+  height:64px;
+}
+.branch-info h3{
+  width:auto;
+  margin:0px;
+}
+.call-btn{
+  display: flex;
+  flex-flow: column;
+  font-size: 14px;
+  width: 70px;
+  height: 62px;
+  align-items: center;
+}
+.call-btn img{
+  width:40px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+.call-btn span{
+  font-size: 14px;
+  font-weight: 400;
+  vertical-align: middle;
+  color:#103664;
+}
+
+.modal-close:hover {
+    color: #ff0000;
+}
+
+/* Ngăn scroll body khi modal mở */
+body:has(.hotline-modal:target) {
+    overflow: hidden;
+}
+
 /* user actions */
 
 .header-top__actions {
@@ -119,10 +227,11 @@ button.header-top__search:hover  {
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 a.user-action__item {
+  position:relative; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,19 +244,31 @@ a.user-action__item {
   
 }
 .user-action__item i {
+  position:absolute;
+  left:8px;
   height: 16px;
   width: 16px;
+}
+/* cart */
+.cart-handle {
+  position: absolute;
+  width: 16px;
+  height: 9px;
+  top:-9px;
   
+  border: 2px solid #FFFFFF;
+  border-radius: 10px 10px 0 0; 
+  border-bottom:none;
 }
-.header-top__actions p{
-  color:#ffffff;
-}
+
 .user-action__item:hover{
   background-color:#221F20;
   border:0px;
-  
 }
-
+.cart-item:hover{
+  background-color: #ffffff; /* ← Cart-handle thành màu trắng */
+  color:#000000;
+}
 /* css header-bottom */
 .header-bottom {
   display:flex;
@@ -168,11 +289,14 @@ a.user-action__item {
   display: flex;
 }
 
-
-.main-nav a {
+.main-nav__item a {
   display:block;
   padding:10px 15px;
   color: #ffffffcc;
+  
+}
+.main-nav__item li{
+  background-color: #fff;
   
 }
 
@@ -181,24 +305,23 @@ a.user-action__item {
 .main-nav li{
   position: relative;
 }
-ul.dropdown-menu  {
+ul.sub-menu  {
   display:none;
   width:200px;
   position: absolute;
-  background-color:#08222f;  
-  
+  box-shadow: 0 5px 15px #0000001A; /* ← Hiệu ứng nổi */
 }
 
-ul.dropdown-menu a{
+ul.sub-menu a{
   padding:0px 15px;
+  color:#000000;
 }
 
-ul.dropdown-menu li  {
+ul.sub-menu li  {
   padding:10px 0px;
-  color: #ffffffcc;
   border-bottom:1px solid #ECECEC;
 }
-ul.dropdown-menu li:last-child{
+ul.sub-menu li:last-child{
   border-bottom:none;
 }
 
@@ -209,29 +332,37 @@ ul.dropdown-menu li:last-child{
 }
 
 /* Style cho dropdown cấp 2 */ 
-ul.dropdown-menu ul.dropdown-menu{
+a.dropdown-item:hover{
+  background-color: #ffffff;
+}
+ul.sub-menu ul.sub-menu{
   left:200px;
   top:0px;
+  width:600px;
+  /* chia cột */
+  column-count: 3; /* Tự động chia cột */
+  column-width: 100px; /* Mỗi cột rộng 200px */
+  column-gap: 0;
 }
-ul.dropdown-menu ul.dropdown-menu li a{
-  color:#b5b5b5cc;
-}
-ul.dropdown-menu li a:hover{
-  color:var(--button-bg);
-}
-ul.dropdown-menu ul.dropdown-menu li a:hover{
-  background-color: #0b3a4a;
-  color:#ffffffcc;
-}
-ul.dropdown-menu ul.dropdown-menu li:hover{
-  background-color: #0b3a4a;
-  
+ul.sub-menu ul.sub-menu li{
+  box-shadow:0px 5px 15px #0000001A;
 }
 
-/* khi hover vào thì tác động đến submenu(dropdown-menu) ở cấp trực tiếp */
-.main-nav li:hover>ul.dropdown-menu{
-  display:block;
+ul.sub-menu ul.sub-menu li a{
+  color:rgba(74, 74, 74, 0.85);
 }
+
+ul.sub-menu ul.sub-menu li a:hover{
+  color:#333333;
+}
+
+
+/* khi hover vào thì tác động đến submenu(sub-menu) ở cấp trực tiếp */
+.main-nav li:hover > ul.sub-menu {
+  display: block;
+}
+
+
 
 /* Thiết lập border khi hover */
 .main-nav>li>a{
