@@ -403,11 +403,123 @@ ul.sub-menu ul.sub-menu li a:hover{
 /* End header */
 
 /* Footer */
-.footer{
-  background-color: #333;
-  text-align: center;
-  color: white;
-  padding: 5px 0;
+/* Footer */
+.footer-top{
+  background-color: var(--button-bg);
+  width:100%;
+  height: auto;
+}
+.footer-top__content{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-newsletter{
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+}
+.footer-newsletter img{
+  width: 40px;
+  height: 36px;
+}
+.newsletter-form{
+  display: flex;
+}
+.newsletter-title{
+  padding:0px 0px 0px 16px;
+}
+
+input[type="email"]{
+  width: 370px;
+  height:39px;
+  padding:0px 15px;
+  border-radius:7px 0px 0px 7px;
+  border:1px solid #DDDDDD;
+}
+.newsletter-input__btn{
+  height:39px;
+  background-color:#221F20;
+  color:#FFFFFF;
+  font-size:18px;
+  font-weight:bold;
+  margin-left:0px;
+  padding:10px 25px;
+  border:1px solid #C2A407;
+  border-radius: 0 7px 7px 0;
+
+}
+
+/* Footer main */
+.footer-main{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom:1px solid #CCCCCC;
+  padding:0 15px;
+}
+.footer-main__store{
+  text-align:center;
+}
+.footer-main__store h3{
+  font-size:24px;
+  margin:0px 0px 12px;
+}
+.footer-main__store img{
+  width:200px;
+  height:auto;
+}
+.footer-main__store p {
+  margin:0px 0px 6px;
+}
+
+/* Footer main info */
+.footer-main__info{
+  display: flex;
+}
+.footer-main__info-column{
+  width:250px;
+  padding:0px 15px;
+  margin-right:15px;
+}
+.footer-main__info-column h3{
+  font-size:20px;
+  margin:0px 0px 15px;
+}
+.footer-main__info-item{
+  
+  padding:5px 0px;
+  margin-bottom:6px;
+  border-bottom:1px solid #ECECEC;
+}
+.footer-main__info-item span{
+  color:#353535;
+}
+.footer-main__info-item span:hover{
+  color:#0b3a4a;
+}
+
+/* Footer bottom */
+.footer-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top:15px;
+}
+
+/* Footer paymenthod */
+.footer-paymentmethod{
+  display: flex;
+}
+.footer-paymentmethod div{
+  margin-right:8px;
+  background-color:#E2E2E2;
+  color:#6E6B6B;
+  padding:5px;
+  border-radius:5px;
+}
+.footer-paymentmethod div:hover{
+  color:#000000;
 }
 
 /* End footer */
