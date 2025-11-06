@@ -1,72 +1,32 @@
 include ../mixins/sub-menu.pug
 
-<<<<<<< HEAD
-// header
-=======
 //- header
-//- fixed sticky
->>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
 header.header
-
-  div #{miniCart}
   //- Tái sử dụng độ rộng phần từ các phần
   .container
     .header-top
       //- div1
       .header-top__logo
-<<<<<<< HEAD
         a(href='#')
           img(src= settingGeneral.logo alt= settingGeneral.websiteName)
-      // div2
+      //- div2
       .header-top__middle
         // search
         form.search-form(action='/search' method='GET')
           input.form-control(type='search' name='keyword' class="form-control" placeholder='Tìm kiếm sản phẩm...')
           button.header-top__search(type='submit')
             i.fa-solid.fa-magnifying-glass
-        // Hotline
-        a.header-top__hotline(href='#hotlineModal')
-=======
-        a(href='/')
-          img(src= settingGeneral.logo alt= settingGeneral.websiteName)
-      //- div2
-      .header-top__middle
-        //- search
-        form(
-          action="/search"
-          method="GET"
-        )
-          input.search-box__input(
-            type="search"
-            placeholder="Tìm kiếm sản phẩm..."
-            class="form-control"
-            name="keyword"
-            value=keyword
-          )
-
-          button(
-            type="submit"
-          ).header-top__search
-            i.fa-solid.fa-magnifying-glass
         //- Hotline
-        a.header-top__hotline(href='#')
->>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
+        a.header-top__hotline(href='#hotlineModal')
           i.fa-solid.fa-phone
           span.hotline-text HOTLINE
       //- User Actions
       .header-top__actions
         a.user-action__item(href='#')
           i.fa-solid.fa-user
-<<<<<<< HEAD
         a.user-action__item.cart-item(href='/cart')
           .cart-handle
           div 0
-=======
-        a.user-action__item(href='#')
-          i.fa-solid.fa-heart
-        a.user-action__item(href='/cart')
-          div #{miniCart ? miniCart.totalQuantity : 0}
->>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
     .header-bottom
       //- Main Navigation
       nav.header-bottom__nav
@@ -74,19 +34,18 @@ header.header
           li.main-nav__item
             a(href='#') Tin tức
           li.main-nav__item
-<<<<<<< HEAD
-            a(href='/products')
-              | S&#x1EA3;n ph&#x1EA9;m
+            -const pathProduct = "/products"
+            a(href=pathProduct) Sản phẩm
               i.fa-solid.fa-caret-down
             +sub-menu(layoutProductCategory, pathProduct)
 
           li.main-nav__item
-            a(href='#') H&#x1EC7; th&#x1ED1;ng c&#x1EED;a h&agrave;ng
-      // Utility Links
+            a(href='#') Hệ thống cửa hàng
+      //- Utility Links
       .header-bottom__utils
         a.util-link(href='#')
           img(src='img/img_header/track.png' alt='track')
-          |                         Theo d&otilde;i &dstrok;&#x1A1;n h&agrave;ng
+          |                         Theo dõi đơn hàng
 #hotlineModal.hotline-modal
   a.modal-overlay(href='#')
   .hotline-list.active
@@ -95,37 +54,25 @@ header.header
     .hotline-item
       .branch-info
         h3
-          | C&#x1A1; s&#x1EDF; 1: C&#x1EA7;u Gi&#x1EA5;y,H&agrave; N&#x1ED9;i
+          | Cơ sở 1: Cầu Giấy, Hà Nội
           span Hotline: 0838010188
       a.call-btn(href='tel:0838010188')
         img(src='img/icon-hotline.webp' alt='hotline')
-        span G&#x1ECD;i ngay
+        span Gọi ngay
     .hotline-item
       .branch-info
         h3
-          | C&#x1A1; s&#x1EDF; 2: C&#x1EA7;u Gi&#x1EA5;y,H&agrave; N&#x1ED9;i
-          span Hotline: 0814010188
+          | Cơ sở 1: Cầu Giấy, Hà Nội 
+          span Hotline: 0838010188
+
       a.call-btn(href='tel:0814010188')
         img(src='img/icon-hotline.webp' alt='hotline')
-        span G&#x1ECD;i ngay
+        span Gọi ngay
     .hotline-item
       .branch-info
         h3
-          | C&#x1A1; s&#x1EDF; 3: C&#x1EA7;u Gi&#x1EA5;y,H&agrave; N&#x1ED9;i
+          | Cơ sở 1: Cầu Giấy, Hà Nội 
           span Hotline: 0815010188
       a.call-btn(href='tel:0814010188')
         img(src='img/icon-hotline.webp' alt='hotline')
-        span G&#x1ECD;i ngay
-=======
-            -const pathProduct = "/products"
-            a(href=pathProduct) Sản phẩm
-            +sub-menu(layoutProductCategory, pathProduct)
-              
-            
-      //- Utility Links
-      .header-bottom__utils
-        a.util-link(href='#')
-          img(src='img/track.png' alt='track')
-          | Theo dõi đơn hàng
-
->>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
+        span Gọi ngay
