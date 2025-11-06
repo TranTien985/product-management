@@ -1,16 +1,16 @@
-const ProductCategory = require("../../models/product-category.model"); //database
-const Product = require("../../models/product.model"); //database
+const NewsCategory = require("../../models/news-category.model"); //database
+const News = require("../../models/news.model"); //database
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree")
 const Account = require("../../models/account.model"); //database
 
-// [GET] /admin/product-category
+// [GET] /admin/news-category
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
   };
 
-  const record = await ProductCategory.find(find);
+  const record = await NewsCategory.find(find);
 
   const newRecord = createTreeHelper.tree(record)
 
@@ -26,13 +26,13 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  res.render("admin/pages/products-category/index", {
-    pageTitle: "Trang Danh Sách Sản Phẩm",
+  res.render("admin/pages/news-category/index", {
+    pageTitle: "Trang Danh Mục Tin Tức",
     records: newRecord,
   });
 };
 
-// [PATCH] /admin/product-category/change-status/:status/:id
+// [PATCH] /admin/news-category/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   // console.log(req.params); dùng để tra tên status và id
   const status = req.params.status;
@@ -43,7 +43,7 @@ module.exports.changeStatus = async (req, res) => {
     updatedAt: new Date()
   }
 
-  await ProductCategory.updateOne({ _id: id }, { 
+  await NewsCategory.updateOne({ _id: id }, { 
     availabilityStatus: status,
     $push: {updatedBy: updatedBy} // cú pháp của mongoose
    });
@@ -59,7 +59,7 @@ module.exports.changeStatus = async (req, res) => {
   // nhưng khi dùng câu lệnh trên thì nó sẽ tự động back về trang cũ sau khi update
 };
 
-// [PATCH] /adim/product-category/change-multi
+// [PATCH] /adim/news-category/change-multi
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
@@ -73,7 +73,7 @@ module.exports.changeMulti = async (req, res) => {
   // sử dụng updateMany của mongoose
   switch (type) {
     case "In Stock":
-      await ProductCategory.updateMany({ _id: { $in: ids } },{
+      await NewsCategory.updateMany({ _id: { $in: ids } },{
         availabilityStatus: "In Stock",
         $push: {updatedBy: updatedBy} 
         }
@@ -84,7 +84,7 @@ module.exports.changeMulti = async (req, res) => {
       );
       break;
     case "Low Stock":
-      await ProductCategory.updateMany({ _id: { $in: ids } },{
+      await NewsCategory.updateMany({ _id: { $in: ids } },{
         availabilityStatus: "Low Stock", 
         $push: {updatedBy: updatedBy} 
         }
@@ -95,7 +95,7 @@ module.exports.changeMulti = async (req, res) => {
       );
       break;
     case "delete-all":
-      await ProductCategory.updateMany(
+      await NewsCategory.updateMany(
         { _id: ids },
         {
           deleted: true,
@@ -114,7 +114,7 @@ module.exports.changeMulti = async (req, res) => {
         let [id, position] = item.split("-"); // sau đó ta sẽ từ mảng tách chuỗi ra
         position = parseInt(position); // vì position là number nên ta phải convert lại kiểu cho dữ liệu
 
-        await Product.updateOne(
+        await News.updateOne(
           { _id: id },
           {
             position: position,
@@ -134,13 +134,13 @@ module.exports.changeMulti = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [DELETE] /adim/product-category/deleteItem/:id
+// [DELETE] /admin/news-category/deleteItem/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
   // await ProductCategory.deleteOne({_id: id}) dùng để xóa vĩnh viễn
 
-  await ProductCategory.updateOne(
+  await NewsCategory.updateOne(
     { _id: id },
     {
       deleted: true,
@@ -155,13 +155,13 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [GET] /admin/product-category/create
+// [GET] /admin/news-category/create
 module.exports.create = async (req, res) => {
   let find = {
     deleted: false
   };
 
-  const record = await ProductCategory.find(find)
+  const record = await NewsCategory.find(find)
 
   const newRecord = createTreeHelper.tree(record)
   // sau khi xuất được dữ liệu thì sang bên view 
@@ -169,64 +169,64 @@ module.exports.create = async (req, res) => {
   
 
 
-  res.render("admin/pages/products-category/create", {
-    pageTitle: "Tạo danh mục sản phẩm",
+  res.render("admin/pages/news-category/create", {
+    pageTitle: "Tạo danh mục tin tức",
     records: newRecord
   });
 };
 
-// [POST] /admin/product/createPost
+// [POST] /admin/news-category/createPost
 module.exports.createPost = async (req, res) => {
   const permissions = res.locals.role.permissions
 
-  if(permissions.includes("products-category_create")){
+  if(permissions.includes("news-category_create")){
     if (req.body.position == "") {
-      const count = await ProductCategory.countDocuments();
+      const count = await NewsCategory.countDocuments();
       req.body.position = count + 1;
     } else {
       req.body.position = parseInt(req.body.position);
     }
 
-    const record = new ProductCategory(req.body); // tạo mới một sản phẩm
+    const record = new NewsCategory(req.body); // tạo mới một sản phẩm
     await record.save();
 
-    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    res.redirect(`${systemConfig.prefixAdmin}/news-category`);
   }else{
     res.send("403")
     return;
   }
 };
 
-// [GET] /admin/product-category/edit/:id
+// [GET] /admin/news-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {
-    const data = await ProductCategory.findOne({
+    const data = await NewsCategory.findOne({
       deleted: false,
       _id: req.params.id,
     });
 
-    const record = await ProductCategory.find({
+    const record = await NewsCategory.find({
     deleted: false,
     });
 
     const newRecord = createTreeHelper.tree(record);
 
-    res.render("admin/pages/products-category/edit", {
-      pageTitle: "Chỉnh sửa sản phẩm",
+    res.render("admin/pages/news-category/edit", {
+      pageTitle: "Chỉnh sửa danh mục tin tức",
       data: data,
       records: newRecord,
     });
   } catch (error) {
-    req.flash("error", "Không tồn tại sản phẩm");
-    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    req.flash("error", "Không tồn tại danh mục");
+    res.redirect(`${systemConfig.prefixAdmin}/news-category`);
   }
 };
 
-// [PATCH] /admin/product-category/edit/:id
+// [PATCH] /admin/news-category/edit/:id
 module.exports.editPatch = async (req, res) => {
   const permissions = res.locals.role.permissions
   
-  if(permissions.includes("products-category_edit")){
+  if(permissions.includes("news-category_edit")){
     const id = req.params.id
     req.params.position = parseInt(req.params.position)
 
@@ -237,7 +237,7 @@ module.exports.editPatch = async (req, res) => {
       }
       req.body.updateBy = updatedBy
 
-      await ProductCategory.updateOne({_id: id}, {
+      await NewsCategory.updateOne({_id: id}, {
         ...req.body, // lấy những phần tử cũ trong req.body
         $push: {updatedBy: updatedBy} // cú pháp của mongoose
       });

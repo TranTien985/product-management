@@ -12,7 +12,7 @@ block main
   +alert-success(5000)
   +alert-error(5000)
 
-  h1 Danh Sách Sản Phẩm
+  h1 Danh Sách Tin Tức
 
   .card.mb-3 
     .card-header Bộ lọc và Tìm kiếm
@@ -37,11 +37,11 @@ block main
       .card-body
         .row 
           .col-8 
-            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+            +form-change-multi(`${prefixAdmin}/news/change-multi?_method=PATCH`)
           .col-4.text-right  
-            if(role.permissions.includes("products_create"))
+            if(role.permissions.includes("news_create"))
               a(
-                href=`${prefixAdmin}/products/create`
+                href=`${prefixAdmin}/news/create`
                 class="btn btn-outline-success "
               ) + Thêm mới
         
@@ -56,7 +56,6 @@ block main
               th STT 
               th Hình ảnh 
               th Tiêu đề
-              th Giá 
               th Vị trí 
               th Trạng thái 
               th Người tạo  
@@ -64,7 +63,7 @@ block main
               th Hành động
 
           tbody
-            each item,index in products 
+            each item,index in news
               tr
                 td 
                   input(
@@ -80,8 +79,7 @@ block main
                     width ="100px"
                     height="auto"
                   )
-                td #{item.title}
-                td #{item.price.toLocaleString('vi-VN')} ₫
+                td(width ="500px") #{item.title}
                 td 
                   input(
                     type="number"
@@ -91,7 +89,7 @@ block main
                     style="width: 60px"
                   )
                 td
-                  if(role.permissions.includes("products_edit"))
+                  if(role.permissions.includes("news_edit"))
                     if(item.availabilityStatus == "In Stock")
                       //- "javascript:;" chức năng của thẻ a bây giờ sẽ được biểu diễn trong file js
                       a(
@@ -134,16 +132,16 @@ block main
                       +formatDateTime(updatedBy.updatedAt)
                 td 
                   a(
-                    href=`${prefixAdmin}/products/detail/${item.id}`
+                    href=`${prefixAdmin}/news/detail/${item.id}`
                     class="btn btn-secondary btn-sm"
                   ) Chi tiết
-                  if(role.permissions.includes("products_edit"))
+                  if(role.permissions.includes("news_edit"))
                     a(
-                      href=`${prefixAdmin}/products/edit/${item.id}`
+                      href=`${prefixAdmin}/news/edit/${item.id}`
                       class="btn btn-warning btn-sm"
                       button-edit
                     ) Sửa
-                  if(role.permissions.includes("products_delete"))
+                  if(role.permissions.includes("news_delete"))
                     button(
                       class="btn btn-danger btn-sm ml-1"
                       button-delete
@@ -159,14 +157,14 @@ block main
     action=""  
     method="POST"
     id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`
+    data-path=`${prefixAdmin}/news/change-status`
   ) 
 
   form(
     action="" 
     method="POST"
     id="form-delete-item"
-    data-path=`${prefixAdmin}/products/delete`
+    data-path=`${prefixAdmin}/news/delete`
   ) 
 
   script(src="/admin/js/product.js") 

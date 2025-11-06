@@ -3,21 +3,15 @@ const slug = require('mongoose-slug-updater');
 
 mongoose.plugin(slug);
 
-const productSchema = new mongoose.Schema({
+const newsSchema = new mongoose.Schema({
   title: String, //*
-  product_category_id: {
+  news_category_id: {
     type : String,
     default: ""
   },
   description: String, //*
   category: String,
-  price: Number, //*
-  discountPercentage: Number, //*
-  rating: Number,
-  stock: Number, //*
   availabilityStatus: String, //* trạng thái 
-  reviews: Array,
-  images: Array,
   thumbnail: String, //*
   position: Number,
   slug: { 
@@ -57,6 +51,6 @@ const productSchema = new mongoose.Schema({
   }
 );
 
-const Product = mongoose.model("Product", productSchema, "products"); // products này là 1 collection trong mongoose
+const News = mongoose.model("News", newsSchema, "news"); // là 1 collection trong mongoose
 
-module.exports = Product;
+module.exports = News;

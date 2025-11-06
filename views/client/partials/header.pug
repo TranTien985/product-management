@@ -1,12 +1,20 @@
 include ../mixins/sub-menu.pug
 
+<<<<<<< HEAD
 // header
+=======
+//- header
+//- fixed sticky
+>>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
 header.header
-  // Tái sử dụng độ rộng phần từ các phần
+
+  div #{miniCart}
+  //- Tái sử dụng độ rộng phần từ các phần
   .container
     .header-top
-      // div1
+      //- div1
       .header-top__logo
+<<<<<<< HEAD
         a(href='#')
           img(src= settingGeneral.logo alt= settingGeneral.websiteName)
       // div2
@@ -18,22 +26,55 @@ header.header
             i.fa-solid.fa-magnifying-glass
         // Hotline
         a.header-top__hotline(href='#hotlineModal')
+=======
+        a(href='/')
+          img(src= settingGeneral.logo alt= settingGeneral.websiteName)
+      //- div2
+      .header-top__middle
+        //- search
+        form(
+          action="/search"
+          method="GET"
+        )
+          input.search-box__input(
+            type="search"
+            placeholder="Tìm kiếm sản phẩm..."
+            class="form-control"
+            name="keyword"
+            value=keyword
+          )
+
+          button(
+            type="submit"
+          ).header-top__search
+            i.fa-solid.fa-magnifying-glass
+        //- Hotline
+        a.header-top__hotline(href='#')
+>>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
           i.fa-solid.fa-phone
           span.hotline-text HOTLINE
-      // User Actions
+      //- User Actions
       .header-top__actions
         a.user-action__item(href='#')
           i.fa-solid.fa-user
+<<<<<<< HEAD
         a.user-action__item.cart-item(href='/cart')
           .cart-handle
           div 0
+=======
+        a.user-action__item(href='#')
+          i.fa-solid.fa-heart
+        a.user-action__item(href='/cart')
+          div #{miniCart ? miniCart.totalQuantity : 0}
+>>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)
     .header-bottom
-      // Main Navigation
+      //- Main Navigation
       nav.header-bottom__nav
         ul.main-nav
           li.main-nav__item
-            a(href='#') Tin t&#x1EE9;c
+            a(href='#') Tin tức
           li.main-nav__item
+<<<<<<< HEAD
             a(href='/products')
               | S&#x1EA3;n ph&#x1EA9;m
               i.fa-solid.fa-caret-down
@@ -75,3 +116,16 @@ header.header
       a.call-btn(href='tel:0814010188')
         img(src='img/icon-hotline.webp' alt='hotline')
         span G&#x1ECD;i ngay
+=======
+            -const pathProduct = "/products"
+            a(href=pathProduct) Sản phẩm
+            +sub-menu(layoutProductCategory, pathProduct)
+              
+            
+      //- Utility Links
+      .header-bottom__utils
+        a.util-link(href='#')
+          img(src='img/track.png' alt='track')
+          | Theo dõi đơn hàng
+
+>>>>>>> 8028464 (fix bug và tạo trang quản lí tin tức bên admin)

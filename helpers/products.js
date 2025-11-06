@@ -1,6 +1,6 @@
 module.exports.priceNewProducts = (products) => {
   const newProducts = products.map(item => {
-    item.priceNew = (item.price*(100-item.discountPercentage)/100).toFixed(1);
+    item.priceNew = (item.price-item.discountPercentage);
     // hàm toFixed() dùng để làm tròn
     return item
   });  
@@ -10,7 +10,7 @@ module.exports.priceNewProducts = (products) => {
 
 module.exports.priceNewProduct = (product) => {
   const priceNew = (
-    (product.price*(100 - product.discountPercentage))/100).toFixed(1);
+    (product.price - product.discountPercentage));
 
   return parseInt(priceNew);
 }

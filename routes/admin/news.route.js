@@ -5,11 +5,10 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer(); // đường dẫn lưu ảnh khi upload ảnh lên dự án (tạm thời)
 
-const controller = require("../../controllers/admin/products-category.controller");
-const validate = require("../../validates/admin/product-category.validate");
+const controller = require("../../controllers/admin/news.controller");
+const validate = require("../../validates/admin/product.validate");
 
 const uploadCloud = require("../../middlewares/admin/uploadCloud.middlewares");
-
 
 router.get("/", controller.index);
 
@@ -22,6 +21,7 @@ router.patch("/change-multi", controller.changeMulti);
 router.delete("/delete/:id", controller.deleteItem);
 
 router.get("/create", controller.create);
+// router này để hiển thị trang thêm sản phẩm
 
 router.post(
   "/create",
@@ -30,6 +30,7 @@ router.post(
   validate.createPost,
   controller.createPost
 );
+// router này thực hiện phương thức post khi muốn gửi dữ liệu sản phẩm
 
 router.get("/edit/:id", controller.edit);
 
@@ -40,5 +41,7 @@ router.patch(
   validate.createPost,
   controller.editPatch
 );
+
+router.get("/detail/:id", controller.detail);
 
 module.exports = router;

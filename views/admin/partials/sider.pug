@@ -10,7 +10,15 @@
           a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
       if(role.permissions.includes("products_view"))
         li 
-          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Danh Sách 
+          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
+
+      div(class="products") TIN TỨC
+      if(role.permissions.includes("news-category_view"))
+        li 
+          a(href=`${prefixAdmin}/news-category`) <i class="fa-solid fa-list"></i> Danh Mục 
+      if(role.permissions.includes("news_view"))
+        li 
+          a(href=`${prefixAdmin}/news`) <i class="fa-solid fa-newspaper"></i> Tin Tức 
 
       div(class="products") PHÂN QUYỀN
       if(role.permissions.includes("roles_view"))
@@ -19,6 +27,7 @@
       if(role.permissions.includes("roles_permission"))
         li 
           a(href=`${prefixAdmin}/roles/permission`) <i class="fa-solid fa-user-shield"></i> Phân quyền
+          
       div(class="products") CÀI ĐẶT
       if(role.permissions.includes("account_view"))
         li 

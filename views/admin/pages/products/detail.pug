@@ -15,7 +15,7 @@ block main
     
     .col-6 
       if(product.price)
-        div(class="mb-4") Giá: <b>#{product.price}$</b>
+        div(class="mb-4") Giá: <b>#{product.price.toLocaleString('vi-VN')} ₫</b>
 
       if(product.discountPercentage)
         div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>

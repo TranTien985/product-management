@@ -1,5 +1,5 @@
-const Product = require("../../models/product.model"); //database
-const ProductCategory = require("../../models/product-category.model"); //database
+const News = require("../../models/news.model"); //database
+const NewsCategory = require("../../models/news-category.model"); //database
 const Account = require("../../models/account.model"); //database
 
 const systemConfig = require("../../config/system");
@@ -8,7 +8,7 @@ const SearchHelper = require("../../helpers/search"); // tìm kiếm
 const paginationHelper = require("../../helpers/pagination"); // phân trang
 const createTreeHelper = require("../../helpers/createTree")
 
-// [GET] /adim/product
+// [GET] /admin/news
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
 
@@ -31,7 +31,7 @@ module.exports.index = async (req, res) => {
 
   // 1h bài 21
   //Pagination
-  const countProducts = await Product.countDocuments(find);
+  const countNews = await News.countDocuments(find);
   // dùng để đếm tổng số lượng sản phẩm có trong db
 
   // đây dùng để truyền đối số sang cho hàm paginationHelper
@@ -43,7 +43,7 @@ module.exports.index = async (req, res) => {
       limitItems: 6,
     },
     req.query,
-    countProducts
+    countNews
   );
   // End pagination
 
@@ -57,25 +57,25 @@ module.exports.index = async (req, res) => {
   }
   // End Sort
 
-  const products = await Product.find(find)
+  const news = await News.find(find)
     .sort(sort)
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
   // limit(objectPagination.limitItems) giới hạn một trang có bao nhiêu sản phẩm
   // skip(objectPagination.skip) khi bấm vào trang kế tiếp thì nó sẽ skip qua bao nhiêu sản phẩm
 
-  for(const product of products){
+  for(const News of news){
     // lấy ra thông tin người tạo 
     const user = await Account.findOne({
-      _id : product.createdBy.account_id
+      _id : News.createdBy.account_id
     });
 
     if(user){
-      product.accountFullName = user.fullName
+      News.accountFullName = user.fullName
     }
 
     // lấy ra thông tin người câp nhật gần nhất 
-    const updatedBy = product.updatedBy.slice(-1)[0]; // lấy ra bản ghi ở vị trí cuối cùng
+    const updatedBy = News.updatedBy.slice(-1)[0]; // lấy ra bản ghi ở vị trí cuối cùng
 
     if(updatedBy){
       const userUpdated = await Account.findOne({
@@ -85,16 +85,16 @@ module.exports.index = async (req, res) => {
       updatedBy.accountFullName = userUpdated.fullName
     }
   }
-  res.render("admin/pages/products/index", {
-    pageTitle: "Trang Danh Sách Sản Phẩm",
-    products: products,
+  res.render("admin/pages/news/index", {
+    pageTitle: "Trang Danh Sách Tin Tức",
+    news: news,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
     pagination: objectPagination,
   });
 };
 
-// [PATCH] /adim/product/change-status/:status/:id
+// [PATCH] /admin/news/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   // console.log(req.params); dùng để tra tên status và id
   const status = req.params.status;
@@ -105,7 +105,7 @@ module.exports.changeStatus = async (req, res) => {
     updatedAt: new Date()
   }
 
-  await Product.updateOne({ _id: id }, { 
+  await News.updateOne({ _id: id }, { 
     availabilityStatus: status,
     $push: {updatedBy: updatedBy} // cú pháp của mongoose
    });
@@ -121,7 +121,7 @@ module.exports.changeStatus = async (req, res) => {
   // nhưng khi dùng câu lệnh trên thì nó sẽ tự động back về trang cũ sau khi update
 };
 
-// [PATCH] /adim/product/change-multi
+// [PATCH] /admin/news/change-multi
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
@@ -135,29 +135,29 @@ module.exports.changeMulti = async (req, res) => {
   // sử dụng updateMany của mongoose
   switch (type) {
     case "In Stock":
-      await Product.updateMany({ _id: { $in: ids } },{
+      await News.updateMany({ _id: { $in: ids } },{
         availabilityStatus: "In Stock",
         $push: {updatedBy: updatedBy} 
         }
       );
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`
+        `Cập nhật trạng thái thành công ${ids.length} tin tức!`
       );
       break;
     case "Low Stock":
-      await Product.updateMany({ _id: { $in: ids } },{
+      await News.updateMany({ _id: { $in: ids } },{
         availabilityStatus: "Low Stock", 
         $push: {updatedBy: updatedBy} 
         }
       );
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`
+        `Cập nhật trạng thái thành công ${ids.length} tin tức!`
       );
       break;
     case "delete-all":
-      await Product.updateMany(
+      await News.updateMany(
         { _id: ids },
         {
           deleted: true,
@@ -167,7 +167,7 @@ module.exports.changeMulti = async (req, res) => {
           }
         }
       );
-      req.flash("success", `Đã xóa thành công ${ids.length} sản phẩm!`);
+      req.flash("success", `Đã xóa thành công ${ids.length} tin tức!`);
       break;
     case "change-position":
       // vì các giá trị của position khác nhau nên ta sẽ phải sử dụng forof
@@ -176,7 +176,7 @@ module.exports.changeMulti = async (req, res) => {
         let [id, position] = item.split("-"); // sau đó ta sẽ từ mảng tách chuỗi ra
         position = parseInt(position); // vì position là number nên ta phải convert lại kiểu cho dữ liệu
 
-        await Product.updateOne(
+        await News.updateOne(
           { _id: id },
           {
             position: position,
@@ -186,7 +186,7 @@ module.exports.changeMulti = async (req, res) => {
       }
       req.flash(
         "success",
-        `Cập nhật vị trí thành công ${ids.length} sản phẩm!`
+        `Cập nhật vị trí thành công ${ids.length} tin tức!`
       );
       break;
 
@@ -196,13 +196,13 @@ module.exports.changeMulti = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [DELETE] /adim/product/deleteItem/:id
+// [DELETE] /admin/news/deleteItem/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
   // await Product.deleteOne({_id: id}) dùng để xóa vĩnh viễn
 
-  await Product.updateOne(
+  await News.updateOne(
     { _id: id },
     {
       deleted: true,
@@ -217,33 +217,29 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [GET] /adim/product/create
+// [GET] /admin/news/create
 module.exports.create = async (req, res) => {
   let find = {
     deleted: false,
   };
 
-  const category = await ProductCategory.find(find);
+  const category = await NewsCategory.find(find);
 
   const newCategory = createTreeHelper.tree(category);
-  res.render("admin/pages/products/create", {
-    pageTitle: "Trang Thêm mới sản phẩm",
+  res.render("admin/pages/news/create", {
+    pageTitle: "Trang Thêm mới tin tức",
     category: newCategory
   });
 };
 
-// [POST] /adim/product/createPost
+// [POST] /admin/news/createPost
 module.exports.createPost = async (req, res) => {
-  // chuyển dữ liệu từ string -> number
-  req.body.price = parseFloat(req.body.price);
-  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
 
   try {
     // nếu người dùng không nhập vị trí thì hệ thống sẽ tự động tăng thêm 1
     if (req.body.position == "") {
-      const countProducts = await Product.countDocuments();
-      req.body.position = countProducts + 1;
+      const countNews = await News.countDocuments();
+      req.body.position = countNews + 1;
     } else {
       req.body.position = parseInt(req.body.position);
     }
@@ -252,16 +248,16 @@ module.exports.createPost = async (req, res) => {
       account_id: res.locals.user.id
     };
 
-    const product = new Product(req.body); // tạo mới một sản phẩm
-    await product.save(); // lưu dữ liệu sản phẩm mới vào model db
+    const news = new News(req.body); // tạo mới một sản phẩm
+    await news.save(); // lưu dữ liệu sản phẩm mới vào model db
   } catch (error) {
     res.redirect(req.get("Referer") || "/");
   }
 
-  res.redirect(`${systemConfig.prefixAdmin}/products`);
+  res.redirect(`${systemConfig.prefixAdmin}/news`);
 };
 
-// [GET] /adim/product/edit/:id
+// [GET] /admin/news/edit/:id
 module.exports.edit = async (req, res) => {
   // dùng try catch để tránh trường hợp tự ý ghi id linh tinh gây ra die server
   try {
@@ -270,32 +266,28 @@ module.exports.edit = async (req, res) => {
       _id: req.params.id,
     };
 
-    const product = await Product.findOne(find);
+    const news = await News.findOne(find);
 
-    const category = await ProductCategory.find({
+    const category = await NewsCategory.find({
     deleted: false,
     });
 
     const newCategory = createTreeHelper.tree(category);
 
-    res.render("admin/pages/products/edit", {
-      pageTitle: "Chỉnh sửa sản phẩm",
-      product: product,
+    res.render("admin/pages/news/edit", {
+      pageTitle: "Chỉnh sửa tin tức",
+      news: news,
       category: newCategory,
     });
   } catch (error) {
-    req.flash("error", "Không tồn tại sản phẩm");
-    res.redirect(`${systemConfig.prefixAdmin}/products`);
+    req.flash("error", "Không tồn tại tin tức");
+    res.redirect(`${systemConfig.prefixAdmin}/news`);
   }
 };
 
-// [PATCH] /adim/product/edit/:id
+// [PATCH] /admin/news/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
-
-  req.body.price = parseFloat(req.body.price);
-  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
 
   req.body.position = parseInt(req.body.position);
 
@@ -306,7 +298,7 @@ module.exports.editPatch = async (req, res) => {
     }
     req.body.updateBy = updatedBy;
 
-    await Product.updateOne({ _id: id }, {
+    await News.updateOne({ _id: id }, {
       ...req.body, // lấy những phần tử cũ trong req.body
       $push: {updatedBy: updatedBy} // cú pháp của mongoose
     });
@@ -318,7 +310,7 @@ module.exports.editPatch = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [GET] /adim/product/detail/:id
+// [GET] /admin/news/detail/:id
 module.exports.detail = async (req, res) => {
   try {
     const find = {
@@ -326,15 +318,14 @@ module.exports.detail = async (req, res) => {
       _id: req.params.id,
     };
 
-    const product = await Product.findOne(find);
+    const news = await News.findOne(find);
 
-    res.render("admin/pages/products/detail", {
-      pageTitle: product.title,
-      product: product,
+    res.render("admin/pages/news/detail", {
+      pageTitle: news.title,
+      news: news,
     });
   } catch (error) {
-    req.flash("error", "Không tồn tại sản phẩm");
-    res.redirect(`${systemConfig.prefixAdmin}/products`);
+    req.flash("error", "Không tồn tại tin tức");
+    res.redirect(`${systemConfig.prefixAdmin}/news`);
   }
 };
-
