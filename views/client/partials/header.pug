@@ -1,6 +1,6 @@
 include ../mixins/sub-menu.pug
 
-//- header
+//-header
 header.header
   //- Tái sử dụng độ rộng phần từ các phần
   .container
@@ -11,7 +11,7 @@ header.header
           img(src= settingGeneral.logo alt= settingGeneral.websiteName)
       //- div2
       .header-top__middle
-        // search
+        //- search
         form.search-form(action='/search' method='GET')
           input.form-control(type='search' name='keyword' class="form-control" placeholder='Tìm kiếm sản phẩm...')
           button.header-top__search(type='submit')
@@ -22,7 +22,7 @@ header.header
           span.hotline-text HOTLINE
       //- User Actions
       .header-top__actions
-        a.user-action__item(href='#')
+        a.user-action__item(href='/user/info')
           i.fa-solid.fa-user
         a.user-action__item.cart-item(href='/cart')
           .cart-handle
@@ -35,17 +35,32 @@ header.header
             a(href='#') Tin tức
           li.main-nav__item
             -const pathProduct = "/products"
-            a(href=pathProduct) Sản phẩm
-              i.fa-solid.fa-caret-down
+            a(href='/products')
+              | Sản phẩm
+              i.fa-solid.fa-caret-down(style='\
+              margin: 2px;\
+              ')
             +sub-menu(layoutProductCategory, pathProduct)
 
           li.main-nav__item
-            a(href='#') Hệ thống cửa hàng
-      //- Utility Links
-      .header-bottom__utils
-        a.util-link(href='#')
-          img(src='img/img_header/track.png' alt='track')
-          |                         Theo dõi đơn hàng
+            a(href='#') Hệ thống của hàng
+          li.main-nav__item
+            a.util-link(href='#')
+              img(src='images/track.png' alt='track')
+              | Theo dõi sản phẩm
+          
+      //-User account
+      ul.user-account
+        if(user)
+
+          a(href="/user/logout") Đăng xuất
+        else
+          li 
+            a(href="/user/login") Đăng nhập 
+          li
+            a(href="/user/register") Đăng ký 
+
+
 #hotlineModal.hotline-modal
   a.modal-overlay(href='#')
   .hotline-list.active
@@ -54,25 +69,25 @@ header.header
     .hotline-item
       .branch-info
         h3
-          | Cơ sở 1: Cầu Giấy, Hà Nội
+          | Cơ sở 1: Cầu Giấy,Hà Nội 
           span Hotline: 0838010188
       a.call-btn(href='tel:0838010188')
-        img(src='img/icon-hotline.webp' alt='hotline')
+        img(src='images/icon-hotline.webp' alt='hotline')
         span Gọi ngay
     .hotline-item
       .branch-info
         h3
-          | Cơ sở 1: Cầu Giấy, Hà Nội 
+          | Cơ sở 2: MỸ Đình,Hà Nội 
           span Hotline: 0838010188
 
       a.call-btn(href='tel:0814010188')
-        img(src='img/icon-hotline.webp' alt='hotline')
+        img(src='images/icon-hotline.webp' alt='hotline')
         span Gọi ngay
     .hotline-item
       .branch-info
         h3
-          | Cơ sở 1: Cầu Giấy, Hà Nội 
+          | Cơ sở 3: Hà Đông,Hà Nội 
           span Hotline: 0815010188
       a.call-btn(href='tel:0814010188')
-        img(src='img/icon-hotline.webp' alt='hotline')
+        img(src='images/icon-hotline.webp' alt='hotline')
         span Gọi ngay

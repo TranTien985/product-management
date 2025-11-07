@@ -173,6 +173,11 @@ button.header-top__search:hover  {
   border:none;
   padding:0px;
   margin:0px;
+  
+}
+.branch-info h3{
+  font-size:1.17em;
+  font-weight: bold;
 }
 .hotline-item{
   display: flex;
@@ -181,14 +186,15 @@ button.header-top__search:hover  {
   border-bottom:1px solid #C6C6C6;
   margin:0px 0px 15px;
   padding:0px 0px 15px;
+  font-size:16px;
 }
 .branch-info{
   width:230px;
   height:64px;
+  float:left;
 }
 .branch-info h3{
   width:auto;
-  margin:0px;
 }
 .call-btn{
   display: flex;
@@ -290,16 +296,16 @@ a.user-action__item {
 }
 
 .main-nav__item a {
-  display:block;
-  padding:10px 15px;
+  display:flex;
+  padding:16px 15px;
   color: #ffffffcc;
-  
+  align-items:center;
+  gap:4px;
 }
 .main-nav__item li{
   background-color: #fff;
   
 }
-
 
 /* dropdown */
 .main-nav li{
@@ -325,10 +331,13 @@ ul.sub-menu li:last-child{
   border-bottom:none;
 }
 
-.main-nav i{
-  float:right;
-  margin-left:10px;
-  margin-top:5px;
+ul.sub-menu i{
+  position:absolute;
+  left:180px;
+  color:#707070;
+}
+ul.sub-menu li:hover i {
+  color:#111111;
 }
 
 /* Style cho dropdown cấp 2 */ 
@@ -355,6 +364,7 @@ ul.sub-menu ul.sub-menu li a{
 ul.sub-menu ul.sub-menu li a:hover{
   color:#333333;
 }
+
 
 
 /* khi hover vào thì tác động đến submenu(sub-menu) ở cấp trực tiếp */
@@ -386,30 +396,37 @@ ul.sub-menu ul.sub-menu li a:hover{
 
 /*Utility Links  */
 
-.header-bottom__utils a{
-    display:inline-block;
-    padding:10px 0px;
-    
-    color:#ffffffcc;
-}
 .util-link img{
-    height: 16px;
-    width:16px;
-    
+  height: 16px;
+  width:16px;
 }
-.util-link:hover{
+/* user acconunt */
+.user-account{
+  display:flex;
+  justify-content: space-between;
+  list-style: none;
+  margin-top:1rem;
+}
+.user-account a{
+  position:relative;
+  margin-right:20px;
+  color:#ECECEC;
+}
+.user-account a:hover{
   color:var(--button-bg);
 }
+
 /* End header */
 
 /* Footer */
-/* Footer */
+
 .footer-top{
   background-color: var(--button-bg);
   width:100%;
-  height: auto;
+  
 }
 .footer-top__content{
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -423,11 +440,20 @@ ul.sub-menu ul.sub-menu li a:hover{
   width: 40px;
   height: 36px;
 }
+.newsletter-desc p{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 .newsletter-form{
   display: flex;
 }
 .newsletter-title{
   padding:0px 0px 0px 16px;
+  
+}
+.newsletter-title h3{
+  font-size: 1.17rem;
+  font-weight:bold;
 }
 
 input[type="email"]{
@@ -436,6 +462,7 @@ input[type="email"]{
   padding:0px 15px;
   border-radius:7px 0px 0px 7px;
   border:1px solid #DDDDDD;
+  
 }
 .newsletter-input__btn{
   height:39px;
@@ -447,7 +474,7 @@ input[type="email"]{
   padding:10px 25px;
   border:1px solid #C2A407;
   border-radius: 0 7px 7px 0;
-
+  line-height:19px; 
 }
 
 /* Footer main */
@@ -485,6 +512,7 @@ input[type="email"]{
 .footer-main__info-column h3{
   font-size:20px;
   margin:0px 0px 15px;
+  font-weight:bold;
 }
 .footer-main__info-item{
   
