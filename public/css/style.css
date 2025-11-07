@@ -149,7 +149,7 @@ button.header-top__search:hover  {
   position: fixed;
   top: 52%;
   left: 50%;
-  transform: translate(-50%, -50%); /*Dịch chuyển ngược lại 50% chiều rộng và 50% chiều cao của chính element*/
+  transform: translate(-50%, -50%); /*Căn giữa*/
   z-index: 1003;
   width: 90%;
   max-width: 500px;
@@ -166,7 +166,8 @@ button.header-top__search:hover  {
     font-size: 24px;
     color: #333;
     font-weight: bold;
-    z-index: 1002;
+    cursor: pointer;
+    padding: 5px 5px 0 0;
 }
 
 .hotline-list :last-child{

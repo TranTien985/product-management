@@ -7,13 +7,21 @@ header.header
     .header-top
       //- div1
       .header-top__logo
-        a(href='#')
-          img(src= settingGeneral.logo alt= settingGeneral.websiteName)
+        a(href='/')
+          img(src= settingGeneral.logo, alt= settingGeneral.websiteName)
       //- div2
       .header-top__middle
         //- search
-        form.search-form(action='/search' method='GET')
-          input.form-control(type='search' name='keyword' class="form-control" placeholder='Tìm kiếm sản phẩm...')
+        form.search-form(
+          action='/search'
+           method='GET'
+          )
+          input.form-control(
+            type='search'
+            name='keyword'
+            class="form-control"
+            placeholder='Tìm kiếm sản phẩm...'
+          )
           button.header-top__search(type='submit')
             i.fa-solid.fa-magnifying-glass
         //- Hotline
@@ -32,21 +40,22 @@ header.header
       nav.header-bottom__nav
         ul.main-nav
           li.main-nav__item
-            a(href='#') Tin tức
+            a(href='/news') Tin tức
           li.main-nav__item
             -const pathProduct = "/products"
-            a(href='/products')
+            a(href=pathProduct)
               | Sản phẩm
               i.fa-solid.fa-caret-down(style='\
               margin: 2px;\
               ')
-            +sub-menu(layoutProductCategory, pathProduct)
+            +sub-menu(layoutProductCategory, pathProduct) 
+            //- biến layoutProductCategory là biến toàn cục ở file middlewares
 
           li.main-nav__item
-            a(href='#') Hệ thống của hàng
+            a(href='#') Hệ thống cửa hàng
           li.main-nav__item
             a.util-link(href='#')
-              img(src='images/track.png' alt='track')
+              img(src='/images/track.png' alt='track')
               | Theo dõi sản phẩm
           
       //-User account
