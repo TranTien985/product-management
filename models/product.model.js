@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
   category: String,
   price: Number, //*
   discountPercentage: Number, //*
+  featured: Number,
   rating: Number,
   stock: Number, //*
   availabilityStatus: String, //* trạng thái 

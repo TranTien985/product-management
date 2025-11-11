@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+
+block main 
+  if(news.title)
+    h1(class="mb-4") #{news.title}
+
+  .row 
+    .col-12 
+      if(news.thumbnail)
+        div(class="mb-4") 
+          img(
+            image-detail-news
+            src=news.thumbnail 
+          )
+    
+    .col-12 
+      if(news.availabilityStatus)
+        div(class="mb-4")
+          span Trạng thái: 
+          if (news.availabilityStatus === "In Stock")
+            span(class="badge badge-success") Hoạt động
+          else 
+            span(class="badge badge-danger") Dừng hoạt động
+
+      if(news.position)
+        div(class="mb-4") Vị trí: <b>#{news.position}</b>
+
+      if(news.description)
+        div(class="mb-4") !{news.description}
+        //- nếu dùng #{} thì sẽ hiện lên mã html nên ta phải thay bằng dấu !{}
+
+  a(
+    href=`${prefixAdmin}/news/edit/${news.id}`
+    class="btn btn-warning"
+  ) Chỉnh sửa 
+
+  script(src="/admin/js/product.js") 

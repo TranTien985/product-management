@@ -11,6 +11,8 @@ const newsSchema = new mongoose.Schema({
   },
   description: String, //*
   category: String,
+  featured: Number,
+  prioritize: Number,
   availabilityStatus: String, //* trạng thái 
   thumbnail: String, //*
   position: Number,

@@ -1,0 +1,7 @@
+include news-item.pug
+
+mixin news-grid(news)
+  .row 
+    each item in news
+      +news-item(item)
+      

@@ -12,4 +12,4 @@ mixin product-item(item)
           a(href=`/products/detail/${item.slug}`) #{item.title}
         .inner-price-new #{item.priceNew.toLocaleString('vi-VN')} ₫
         if(item.discountPercentage != 0)
-          .inner-discount -#{item.discountPercentage} ₫ 
+          .inner-discount #{item.discountPercentage} ₫ 

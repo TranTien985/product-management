@@ -3,13 +3,15 @@ include ../../mixins/show-alert.pug
 include ../../mixins/select-tree.pug
 
 block main 
+  +alert-success(5000)
   +alert-error(5000)
-  if(role.permissions.includes("news_create"))
-    h1(class="mb-4") Thêm mới tin tức 
+  if(role.permissions.includes("news_edit"))
+
+    h1(class="mb-4") Chỉnh sửa tin tức
 
     form(
-      action=`${prefixAdmin}/news/create`
-      id="form-create-news"
+      action=`${prefixAdmin}/news/edit/${news.id}?_method=PATCH`
+      id="form-edit-news"
       method="POST"
       enctype="multipart/form-data" 
     )
@@ -21,6 +23,7 @@ block main
           class="form-control"
           id="title"
           name="title"
+          value=news.title
         )
       div(class="form-group")
         label(for="news_category_id") Danh mục 
@@ -31,7 +34,8 @@ block main
         )
           option(value="") -- chọn danh mục 
             if(category)
-              +select-tree(category)
+              +select-tree(category, 1, news.news_category_id)
+      //- featured
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -39,6 +43,7 @@ block main
           id="featured1"
           name="featured"
           value="1"
+          checked=(news.featured == "1" ? true : false)
         ) 
         label(for="statusActive" class="form-check-label") Nổi bật
       div(class="form-group form-check form-check-inline")
@@ -48,9 +53,10 @@ block main
           id="featured0"
           name="featured"
           value="0"
-          checked
+          checked=(news.featured == "0" ? true : false)
         ) 
         label(for="statusInActive" class="form-check-label") Không
+      //- prioritize
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -58,6 +64,7 @@ block main
           id="prioritize1"
           name="prioritize"
           value="1"
+          checked=(news.prioritize == "1" ? true : false)
         ) 
         label(for="statusActive" class="form-check-label") Tin chính
       div(class="form-group form-check form-check-inline")
@@ -67,7 +74,7 @@ block main
           id="prioritize0"
           name="prioritize"
           value="0"
-          checked
+          checked=(news.prioritize == "0" ? true : false)
         ) 
         label(for="statusInActive" class="form-check-label") Không
       div(class="form-group")
@@ -77,7 +84,8 @@ block main
           id="desc"
           name="description"
           rows="5"
-        )
+        ) #{news.description}
+      //- image
       div(
         class="form-group"
         upload-image 
@@ -93,7 +101,7 @@ block main
         )
         div(class="upload-image")
           img(
-            src=""
+            src=news.thumbnail
             upload-image-preview
           )
           i(
@@ -109,6 +117,7 @@ block main
           name="position"
           placeholder="tự động tăng"
           min="1"
+          value=news.position
         )
       div(class="form-group form-check form-check-inline")
         input(
@@ -117,7 +126,7 @@ block main
           id="statusActive"
           name="availabilityStatus"
           value="In Stock"
-          checked
+          checked=(news.availabilityStatus == "In Stock" ? true : false)
         ) 
         label(for="statusActive" class="form-check-label") Hoạt động 
       div(class="form-group form-check form-check-inline")
@@ -127,6 +136,7 @@ block main
           id="statusInActive"
           name="availabilityStatus"
           value="Low Stock"
+          checked=(news.availabilityStatus == "Low Stock" ? true : false)
         ) 
         label(for="statusInActive" class="form-check-label") Dừng hoạt động 
       
@@ -134,6 +144,6 @@ block main
         button(
           type="submit"
           class="btn btn-primary"
-        ) Tạo mới 
+        ) Cập nhật
 
     script(src="/admin/js/product.js") 

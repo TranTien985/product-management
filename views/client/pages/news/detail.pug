@@ -1,0 +1,21 @@
+extends ../../layouts/default.pug 
+
+block main 
+  .news-detail
+    .container.my-5
+      .row 
+        .col-6
+          .inner-thumb
+            img(src=news.thumbnail, alt=news.title)
+        .col-6
+          h1(class="inner-title") #{news.title}
+
+          if(news.category)
+            div(class="inner-category")
+              span Danh mục: 
+              a(href=`/news/${news.category.slug}`) #{news.category.title}
+
+    .container.my-5 
+      .row 
+        .col-12 
+          .inner-desc !{news.description}
