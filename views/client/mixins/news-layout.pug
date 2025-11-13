@@ -11,7 +11,8 @@ mixin news-grid-main(news)
         +news-item-main(prioritizedItem)
       else
         if otherItems.length > 0
-          +news-item-main(otherItems[0]) // Hiển thị tin đầu tiên
+          +news-item-main(otherItems[0]) 
+          //- Hiển thị tin đầu tiên
 
     //- CỘT PHẢI: Chứa 4 tin NHỎ
     .col-lg-6
@@ -25,4 +26,16 @@ mixin news-grid(news)
     each item in news
       .col-4.mb-3
         +news-item(item)
-      
+
+mixin news-grid-home(news)
+  .row
+    .col-lg-6.mb-4
+      if news[0]
+        +news-item-home(news[0]) 
+    
+    .col-lg-6 
+      .row
+        each item in news 
+          .col-12.mb-3
+            +news-item-home(item)
+    

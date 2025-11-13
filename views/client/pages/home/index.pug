@@ -1,13 +1,16 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
+include ../../mixins/news-item.pug
+include ../../mixins/news-layout.pug
+include ../../mixins/moment.pug
 
 block main 
   .section-products-featured.my-5
     .container
       .row 
         .col-12 
-          +box-head("Sản phẩm nổi bật")
+          +box-head("SẢN PHẨM NỔI BẬT")
 
       +product-grid(productsFeatured)
 
@@ -15,6 +18,46 @@ block main
     .container
       .row 
         .col-12 
-          +box-head("Sản phẩm mới ")
+          +box-head("SẢN PHẨM MỚI ")
 
       +product-grid(productsNew)
+
+  .section-products-featured.my-5
+    .container
+      .row 
+        .col-12 
+          +box-head("SẢN PHẨM BÁN CHẠY")
+
+      +product-grid(newBestSellingProducts)
+
+  .section-products-featured.my-5
+    .container
+      .row 
+        .col-12 
+          +box-head("CẦU LÔNG")
+
+      +product-grid(newRacketProducts)
+
+  .section-products-featured.my-5
+    .container
+      .row 
+        .col-12 
+          +box-head("GIÀY CẦU LÔNG")
+
+      +product-grid(newShoeProducts)
+
+  .section-products-featured.my-5
+    .container
+      .row 
+        .col-12 
+          +box-head("PHỤ KIỆN CẦU LÔNG")
+
+      +product-grid(newAccessoryProducts)
+
+  .section-products-featured.my-5
+    .container
+      .row 
+        .col-12 
+          +box-head("TIN TỨC THẾ GIỚI CẦU LÔNG")
+
+      +news-grid-home(newsFeatured)

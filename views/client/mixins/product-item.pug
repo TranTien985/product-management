@@ -1,5 +1,5 @@
 mixin product-item(item)
-  .col-4.mb-3 
+  .col-3.mb-3 
     .product-item 
       a(href=`/products/detail/${item.slug}`)
         .inner-image 
@@ -13,5 +13,6 @@ mixin product-item(item)
             a(href=`/products/detail/${item.slug}`) #{item.title}
           .inner-price-new #{item.priceNew.toLocaleString('vi-VN')} ₫
           .inner-price #{item.price.toLocaleString('vi-VN')} ₫
+          .inner-quantity-sold Đã bán #{item.quantity_sold}
           if(item.discountPercentage != 0)
             .inner-discount #{item.discountPercentage} ₫ 

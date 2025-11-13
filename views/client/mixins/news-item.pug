@@ -53,3 +53,22 @@ mixin news-item(item)
             +formatDate(item.createAt)
         - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
         p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
+
+mixin news-item-home(item)
+  .news-item-home
+    a(href=`/news/detail/${item.slug}`)
+      .inner-image
+        img(
+          src=item.thumbnail, 
+          alt=item.title, 
+          class="img-fluid rounded",
+        )
+      .inner-content
+        h3.inner-title
+          a(href=`/news/detail/${item.slug}`) #{item.title}
+        .inner-news-date
+          i.fa-regular.fa-clock
+          span 
+            +formatDate(item.createAt)
+        - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
+        p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
