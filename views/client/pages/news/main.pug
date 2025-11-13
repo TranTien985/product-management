@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug  
+include ../../mixins/box-head.pug
+include ../../mixins/news-item.pug
+include ../../mixins/news-layout.pug
+include ../../mixins/moment.pug
+
+block main 
+  .container.my-3 
+    .row 
+      .col-12
+        h2.news-title
+          | Nổi bật
+    +news-grid-main(newsFeatured)
+
+
+    .row 
+      .col-12
+        h2.news-title(style="margin-top: 100px")
+          | Tin tức mới 
+    +news-grid-main(newsNew)
+
+    .row 
+      .col-12
+        h2.news-title(style="margin-top: 100px")
+          | Đánh giá sản phẩm
+    +news-grid-main(newsEvaluate)
+    .see-more 
+      a(href="/news/danh-gia-san-pham")
+        span.see-more-content xem thêm 
+        span.see-more-icon <i class="fa-solid fa-chevron-down"></i>
+
+    .row 
+      .col-12
+        h2.news-title(style="margin-top: 100px")
+          | Khuyến mãi
+    +news-grid-main(newsPromotion)
+    .see-more 
+      a(href="/news/khuyen-mai")
+        span.see-more-content xem thêm 
+        span.see-more-icon <i class="fa-solid fa-chevron-down"></i>
+
+
+  

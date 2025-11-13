@@ -1,7 +1,28 @@
 include news-item.pug
 
+mixin news-grid-main(news)
+  - const prioritizedItem = news.find(item => item.prioritize == 1)
+  - const otherItems = news.filter(item => item.prioritize != 1).slice(0, 4) // Lấy 4 tin thường
+
+  .row
+    //- CỘT TRÁI: Chứa tin LỚN
+    .col-lg-6.mb-4
+      if prioritizedItem
+        +news-item-main(prioritizedItem)
+      else
+        if otherItems.length > 0
+          +news-item-main(otherItems[0]) // Hiển thị tin đầu tiên
+
+    //- CỘT PHẢI: Chứa 4 tin NHỎ
+    .col-lg-6
+      .row
+        each item in otherItems
+          .col-lg-6.col-md-6.mb-4
+            +news-item-main(item) 
+
 mixin news-grid(news)
   .row 
     each item in news
-      +news-item(item)
+      .col-4.mb-3
+        +news-item(item)
       

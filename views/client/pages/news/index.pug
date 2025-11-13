@@ -3,29 +3,17 @@ include ../../mixins/box-head.pug
 include ../../mixins/news-item.pug
 include ../../mixins/news-layout.pug
 include ../../mixins/moment.pug
+include ../../mixins/pagination.pug
 
-//- bắt buộc phải cách 4 dấu cách dưới block main không là lỗi
 block main 
   .container.my-3 
     .row 
       .col-12 
-        a(href="") Nổi bật
-    +news-grid(newsFeatured)
+        +box-head(pageTitle)
 
-    .row 
-      .col-12 
-        a(href="") Tin tức mới 
-    +news-grid(newsNew)
+    +news-grid(news)
 
-    .row 
-      .col-12 
-        a(href="") Đánh giá sản phẩm
-    +news-grid(newsFeatured)
-
-    .row 
-      .col-12 
-        a(href="") Khuyến mãi
-    +news-grid(newsFeatured)
+  +pagination(newsPagination)    
 
 
   

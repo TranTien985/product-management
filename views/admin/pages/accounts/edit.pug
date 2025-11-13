@@ -87,7 +87,7 @@ block main
         class="form-check-input"
         id="statusActive"
         name="status"
-        value="In Stock"
+        value="active"
         checked=(data.status == "active" ? true : false)
       ) 
       label(for="statusActive" class="form-check-label") Hoạt động 
@@ -97,7 +97,7 @@ block main
         class="form-check-input"
         id="statusInActive"
         name="status"
-        value="Low Stock"
+        value="inactive"
         checked=(data.status == "inactive" ? true : false)
       ) 
       label(for="statusInActive" class="form-check-label") Dừng hoạt động 
@@ -106,4 +106,4 @@ block main
       button(
         type="submit"
         class="btn btn-primary"
-      ) Tạo mới
+      ) Cập nhật

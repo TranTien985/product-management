@@ -40,13 +40,17 @@ header.header
       nav.header-bottom__nav
         ul.main-nav
           li.main-nav__item
-            a(href='/news') Tin tức
+            -const pathNews = "/news"
+            a(href="/news/main")
+              | Tin Tức
+              i.fa-solid.fa-caret-down(style='margin: 2px;\
+              ')
+            +sub-menu(layoutNewsCategory, pathNews)
           li.main-nav__item
             -const pathProduct = "/products"
             a(href=pathProduct)
               | Sản phẩm
-              i.fa-solid.fa-caret-down(style='\
-              margin: 2px;\
+              i.fa-solid.fa-caret-down(style='margin: 2px;\
               ')
             +sub-menu(layoutProductCategory, pathProduct) 
             //- biến layoutProductCategory là biến toàn cục ở file middlewares

@@ -1,28 +1,55 @@
+mixin news-item-main(item)
+  if item.prioritize == 1
+    a(href=`/news/detail/${item.slug}`)
+      .news-prioritize-item
+        .inner-image
+          img(
+            src=item.thumbnail, 
+            alt=item.title, 
+            class="img-fluid rounded"
+          )
+        .inner-content
+          h3.inner-title
+            a(href=`/news/detail/${item.slug}`) #{item.title}
+          .inner-news-date
+            i.fa-regular.fa-clock
+            span 
+              +formatDate(item.createAt)
+          p.inner-news-short-main !{item.description.substring(0, 300) + '[...]'}
+
+  else
+    a(href=`/news/detail/${item.slug}`)
+      .news-item-main
+        .inner-image
+          img(
+            src=item.thumbnail, 
+            alt=item.title, 
+            class="img-fluid rounded",
+          )
+        .inner-content
+          h3.inner-title
+            a(href=`/news/detail/${item.slug}`) #{item.title}
+          .inner-news-date
+            i.fa-regular.fa-clock
+            span 
+              +formatDate(item.createAt)
+
+
 mixin news-item(item)
-  .col-6  
-    if(item.prioritize = 1)
-      .news-prioritize-item 
-        .inner-image 
-          img(
-            src=item.thumbnail,
-            alt=item.title)
-        .inner-content 
-          h3.inner-title 
-            a(href=`/news/detail/${item.slug}`) #{item.title}
-          .inner-news-date <i class="fa-regular fa-clock"></i> 
+  .news-item
+    a(href=`/news/detail/${item.slug}`)
+      .inner-image
+        img(
+          src=item.thumbnail, 
+          alt=item.title, 
+          class="img-fluid rounded",
+        )
+      .inner-content
+        h3.inner-title
+          a(href=`/news/detail/${item.slug}`) #{item.title}
+        .inner-news-date
+          i.fa-regular.fa-clock
           span 
             +formatDate(item.createAt)
-          p.inner-news-short !{item.description.substring(0, 250) + '[...]'}
-  .col-3.mb-3 
-    if(item.prioritize = 0)
-      .news-item 
-        .inner-image 
-          img(
-            src=item.thumbnail,
-            alt=item.title)
-        .inner-content  
-          h3.inner-title 
-            a(href=`/news/detail/${item.slug}`) #{item.title}
-          .inner-news-date <i class="fa-regular fa-clock"></i> 
-          span 
-            +formatDate(item.createAt)
+        - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
+        p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
