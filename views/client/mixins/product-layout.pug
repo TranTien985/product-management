@@ -1,7 +1,14 @@
 include product-item.pug
 
 mixin product-grid(products)
-  .row 
-    each item in products
-      +product-item(item)
-      
+    - const group1 = products.slice(0, 4)
+    - const group2 = products.slice(4, 8)
+    
+    .product-group.item
+      each item in group1
+        +product-item(item)
+    
+    .product-group.item
+      each item in group2
+        +product-item(item)
+

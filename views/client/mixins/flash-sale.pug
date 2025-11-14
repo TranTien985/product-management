@@ -1,0 +1,24 @@
+include product-item.pug
+
+mixin flash-sale-slides(products)
+    - const group1 = products.slice(0, 3)
+    - const group2 = products.slice(3, 6)
+    //- Nhóm 2 clone (để tạo hiệu ứng slider vô hạn)
+    .product-group
+      each item in group2
+        +product-item(item)
+    
+    //- Nhóm 1 thực
+    .product-group
+      each item in group1
+        +product-item(item)
+    
+    //- Nhóm 2 thực  
+    .product-group
+      each item in group2
+        +product-item(item)
+    
+    //- Nhóm 1 clone (để tạo hiệu ứng slider vô hạn)
+    .product-group
+      each item in group1
+        +product-item(item)

@@ -1,18 +1,28 @@
 mixin product-item(item)
-  .col-3.mb-3 
-    .product-item 
-      a(href=`/products/detail/${item.slug}`)
-        .inner-image 
-          img(
-            src=item.thumbnail,
-            alt=item.title)
-          if item.featured == "1"
-            .inner-featured Nổi bật 
-        .inner-content 
-          h3.inner-title 
-            a(href=`/products/detail/${item.slug}`) #{item.title}
-          .inner-price-new #{item.priceNew.toLocaleString('vi-VN')} ₫
-          .inner-price #{item.price.toLocaleString('vi-VN')} ₫
-          .inner-quantity-sold Đã bán #{item.quantity_sold}
-          if(item.discountPercentage != 0)
-            .inner-discount #{item.discountPercentage} ₫ 
+  .product-card.item
+    .box-product-image
+      a.product-link(href=`/products/detail/${item.slug}`)
+        img.product-image(
+          src=item.thumbnail,
+          alt=item.title,
+          loading="lazy"
+        )
+    
+    .box-text-product
+      a.product-link(href=`/products/detail/${item.slug}`)
+        p.product-name
+          span= item.title
+      
+      .price-section
+        span.sale-price= `${item.priceNew.toLocaleString('vi-VN')} ₫`
+        if item.price > item.priceNew
+          span.original-price= `${item.price.toLocaleString('vi-VN')} ₫`
+      
+      ul.rating-stars
+        - for (let i = 0; i < 5; i++)
+          li
+            img(src="/images/flash-sale/star.png" alt="5 sao")
+      
+    if item.discountPercentage > 0
+        .discount-tag
+          span= `-${item.discountPercentage}%`

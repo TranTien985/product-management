@@ -1,0 +1,158 @@
+//- Hotline overlay
+#hotlineModal.contact-modal
+  a.modal-overlay(href='#')
+  .contact-list
+    //- # đóng overlay
+    a.modal-close(href='#')
+      i.fa-solid.fa-xmark
+    //- item 1
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 1: Cầu Giấy, Hà Nội
+          br
+          span Hotline: 0838010188
+      a.call-btn(href='tel:0838010188')
+        img(src='/images/contacts/icon-hotline.webp' alt='hotline')
+        span Gọi ngay
+    //- item 2
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 2: Mỹ Đình, Hà Nội
+          br
+          span Hotline: 0814010188
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-hotline.webp' alt='hotline')
+        span Gọi ngay
+    //- item 3
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 3: Hà Đông, Hà Nội
+          br
+          span Hotline: 0815010188
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-hotline.webp' alt='hotline')
+        span Gọi ngay
+//- Map overlay
+#mapModal.contact-modal
+  a.modal-overlay(href='#')
+  .contact-list
+    //- # đóng overlay
+    a.modal-close(href='#')
+      i.fa-solid.fa-xmark
+    //- item 1
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 1: Cầu Giấy, Hà Nội
+          br
+      a.call-btn(href='tel:0838010188')
+        img(src='/images/contacts/icon-map.webp' alt='hotline')
+        span Tìm đường
+    //- item 2
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 2: Mỹ Đình, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-map.webp' alt='hotline')
+        span Tìm đường
+    //- item 3
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 3: Hà Đông, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-map.webp' alt='hotline')
+        span Tìm đường
+//- Zalo overlay
+#zaloModal.contact-modal
+  a.modal-overlay(href='#')
+  .contact-list
+    //- # đóng overlay
+    a.modal-close(href='#')
+      i.fa-solid.fa-xmark
+    //- item 1
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 1: Cầu Giấy, Hà Nội
+          br
+      a.call-btn(href='tel:0838010188')
+        img(src='/images/contacts/icon-zalo.webp' alt='hotline')
+        span Chat Zalo
+    //- item 2
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 2: Mỹ Đình, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-zalo.webp' alt='hotline')
+        span Chat Zalo
+    //- item 3
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 3: Hà Đông, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-zalo.webp' alt='hotline')
+        span Chat Zalo
+//- Messenger overlay
+#messengerModal.contact-modal
+  a.modal-overlay(href='#')
+  .contact-list
+    //- # đóng overlay
+    a.modal-close(href='#')
+      i.fa-solid.fa-xmark
+    //- item 1
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 1: Cầu Giấy, Hà Nội
+          br
+      a.call-btn(href='tel:0838010188')
+        img(src='/images/contacts/icon-messager.webp' alt='hotline')
+        span Messenger
+    //- item 2
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 2: Mỹ Đình, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-messager.webp' alt='hotline')
+        span Messenger
+    //- item 3
+    .item-overlay
+      .branch-info
+        h3
+          | Cơ sở 3: Hà Đông, Hà Nội
+          br
+      a.call-btn(href='tel:0814010188')
+        img(src='/images/contacts/icon-messager.webp' alt='hotline')
+        span Messenger
+
+
+.contacts-section
+  a.contact-item(href='#mapModal')
+    img(src='/images/contacts/icon-map.webp' alt='')
+    span
+      | Tìm
+      | đường
+  a.contact-item(href='#zaloModal')
+    img(src='/images/contacts/icon-zalo.webp' alt='')
+    span
+      | Chat
+      | zalo
+  a.contact-item(href='#messengerModal')
+    img(src='/images/contacts/icon-messager.webp' alt='')
+    span Messenger
+  a.contact-item(href='#hotlineModal')
+    img(src='/images/contacts/icon-hotline.webp' alt='')
+    span Hotline

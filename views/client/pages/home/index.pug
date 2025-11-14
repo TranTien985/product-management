@@ -1,63 +1,480 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
-include ../../mixins/news-item.pug
+include ../../mixins/product-item.pug
 include ../../mixins/news-layout.pug
 include ../../mixins/moment.pug
+include ../../mixins/flash-sale.pug
 
-block main 
-  .section-products-featured.my-5
+block main
+  //- Banner Section
+  section.hero-banner
     .container
-      .row 
-        .col-12 
-          +box-head("SẢN PHẨM NỔI BẬT")
+      .banner-top
+        .banner-top__left
+          .slider-container
+            .slides
+              a.slider(href="#")
+                img(src="/images/banner5.png" alt="")
+              a.slider(href="#")
+                img(src="/images/banner1.png" alt="")
+              a.slider(href="#")
+                img(src="/images/banner2.png" alt="")
+              a.slider(href="#")
+                img(src="/images/banner3.png" alt="")
+              a.slider(href="#")
+                img(src="/images/banner4.png" alt="")
+              a.slider(href="#")
+                img(src="/images/banner5.png" alt="")
+              a.slider
+                img(src="/images/banner1.png" alt="")
+            
+            .navigation-slides
+              span.nav-btn.active(data-index="0")
+              span.nav-btn(data-index="1")
+              span.nav-btn(data-index="2")
+              span.nav-btn(data-index="3")
+              span.nav-btn(data-index="4")
+            
+            .slider-controls
+              .slider-prev
+                i.fa-solid.fa-chevron-left
+              .slider-next
+                i.fa-solid.fa-chevron-right
 
-      +product-grid(productsFeatured)
+        .banner-top__right
+          .slider-container.container-right
+            .slides.right
+              a(href="#")
+                img(src="/images/banner-slider2.png" alt="banner2")
+              a(href="#")
+                img(src="/images/banner-slider1.png" alt="banner1")
+              a(href="#")
+                img(src="/images/banner-slider2.png" alt="banner2")
+              a(href="#")
+                img(src="/images/banner-slider1.png" alt="banner1")
+            
+            .navigation-slides
+              span.nav-btn.active(data-index="1")
+              span.nav-btn(data-index="2")
+            
+            .slider-controls.control-right
+              .slider-prev
+                i.fa-solid.fa-chevron-left
+              .slider-next
+                i.fa-solid.fa-chevron-right
 
-  .section-products-featured.my-5
     .container
-      .row 
-        .col-12 
-          +box-head("SẢN PHẨM MỚI ")
+      .banner-bottom
+        .banner-bottom__item
+          a(href="#")
+            img(src="/images/banner-bottom__item1.png" alt="")
+        .banner-bottom__item
+          a(href="#")
+            img(src="/images/banner-bottom__item2.png" alt="")
 
-      +product-grid(productsNew)
-
-  .section-products-featured.my-5
+  //- Flash Sale Section
+  section.flash-sale-section
     .container
-      .row 
-        .col-12 
-          +box-head("SẢN PHẨM BÁN CHẠY")
+      .flash-sale
+        .featured-product
+          .featured-container
+            p
+              span.section-title
+                strong CHỈ CÓ TRONG HÔM NAY
+            a.product-link.featured(href="#")
+              img.product-image.featured(src="/images/flash-sale/vot1.png" alt="Bộ 2 vợt cầu lông AOLIKES A-6631")
+              p.product-description Bộ 2 vợt cầu lông hợp kim nhôm cao cấp
+              p.product-name AOLIKES A-6631
+            .price-section
+              span.sale-price 3.800.000
+              span.original-price 6.999.999
+            ul.rating-stars.featured
+              each star in [1,2,3,4,5]
+                li
+                  img(src="/images/flash-sale/star.png" alt="5 sao")
+            .discount-tag.featured
+              span -55%
 
-      +product-grid(newBestSellingProducts)
+        .flash-sale-wrapper
+          .flash-sale-product
+            .flash-sale-title
+              span SẢN PHẨM
+              img.flash-icon(src="/images/flash-sale/flash.gif" alt="Flash icon")
+              span  NỔI BẬT
 
-  .section-products-featured.my-5
+            .container-products
+              .product-slides
+                +flash-sale-slides(productsFeatured)
+
+              .slider-controls.slider-product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+
+          a.advertisement(href="#")
+            img.ad-image(src="/images/flash-sale/qc.png" alt="Quảng cáo")
+
+  //- Best Seller Section
+  section.product-section.best-seller
     .container
-      .row 
-        .col-12 
-          +box-head("CẦU LÔNG")
+      .product-wrapper
+        .title
+          span SẢN PHẨM BÁN CHẠY
+        .best-seller
+          .best-seller-banner
+            .slider-container.best-seller
+              .slides.best-seller
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/Sanphambc/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/Sanphambc/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/Sanphambc/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/Sanphambc/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+              
+              .slider-controls.product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="1")
+                span.nav-btn(data-index="2")
 
-      +product-grid(newRacketProducts)
+          .product-list
+            +product-grid(newBestSellingProducts)
 
-  .section-products-featured.my-5
+  //- New Products Section
+  section.product-section.new-products
     .container
-      .row 
-        .col-12 
-          +box-head("GIÀY CẦU LÔNG")
+      .product-wrapper
+        .title
+          span SẢN PHẨM MỚI
+        .best-seller
+          .best-seller-banner
+            .slider-container.best-seller
+              .slides.best-seller
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/sanphammoi/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/sanphammoi/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/sanphammoi/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/sanphammoi/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+              
+              .slider-controls.product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="1")
+                span.nav-btn(data-index="2")
 
-      +product-grid(newShoeProducts)
+          .product-list
+            +product-grid(productsNew)
 
-  .section-products-featured.my-5
+  //- Rackets Section
+  section.product-section.rackets
     .container
-      .row 
-        .col-12 
-          +box-head("PHỤ KIỆN CẦU LÔNG")
+      .product-wrapper
+        .title
+          span VỢT CẦU LÔNG
+        .best-seller
+          .best-seller-banner
+            .slider-container.best-seller
+              .slides.best-seller
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/votcaulong/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/votcaulong/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/votcaulong/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/votcaulong/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+              
+              .slider-controls.product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="1")
+                span.nav-btn(data-index="2")
 
-      +product-grid(newAccessoryProducts)
+          .product-list
+            +product-grid(newRacketProducts)
 
-  .section-products-featured.my-5
+  //- Shoes Section
+  section.product-section.shoes
     .container
-      .row 
-        .col-12 
-          +box-head("TIN TỨC THẾ GIỚI CẦU LÔNG")
+      .product-wrapper
+        .title
+          span GIÀY CẦU LÔNG
+        .best-seller
+          .best-seller-banner
+            .slider-container.best-seller
+              .slides.best-seller
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/giaycaulong/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/giaycaulong/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/giaycaulong/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/giaycaulong/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+              
+              .slider-controls.product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="1")
+                span.nav-btn(data-index="2")
 
-      +news-grid-home(newsFeatured)
+          .product-list
+            +product-grid(newShoeProducts)
+
+  //- Accessories Section
+  section.product-section.accessories
+    .container
+      .product-wrapper
+        .title
+          span PHỤ KIỆN CẦU LÔNG
+        .best-seller
+          .best-seller-banner
+            .slider-container.best-seller
+              .slides.best-seller
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/phukien/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/phukien/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/phukien/sp1-1.png" alt="banner1.1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+                .banner-slide
+                  img.best-seller-banner__img(src="/images/phukien/sp1.png" alt="banner1")
+                  a.banner-cta(href="#")
+                    span Xem ngay
+              
+              .slider-controls.product
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="1")
+                span.nav-btn(data-index="2")
+
+          .product-list
+            +product-grid(newAccessoryProducts)
+
+  //- Banner Middle Section
+  section.banner-middle-section
+    .container
+      .banner-middle-wrapper
+        .title
+          span ĐỪNG BỎ LỠ
+        .banner-middle
+          .col-left.banner-middle__left
+            .slider-container
+              .slides
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1-4.png" alt="")
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1.png" alt="")
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1-1.png" alt="")
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1-2.png" alt="")
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1-3.png" alt="")
+                a.slider(href="#")
+                  img(src="/images/banner-middle/banner-middle-1-4.png" alt="")
+                a.slider
+                  img(src="/images/banner-middle/banner-middle-1.png" alt="")
+              
+              .navigation-slides
+                span.nav-btn.active(data-index="0")
+                span.nav-btn(data-index="1")
+                span.nav-btn(data-index="2")
+                span.nav-btn(data-index="3")
+                span.nav-btn(data-index="4")
+              
+              .slider-controls
+                .slider-prev
+                  i.fa-solid.fa-chevron-left
+                .slider-next
+                  i.fa-solid.fa-chevron-right
+
+          .col-right.banner-middle__right
+            .banner-middle-right__top
+              a.banner-right-top__left(href="#")
+                img(src="/images/banner-middle/banner-middle-2.png" alt="")
+              a.banner-right-top__right(href="#")
+                img(src="/images/banner-middle/banner-middle-3.png" alt="")
+            .banner-middle-right__bottom
+              a(href="#")
+                img(src="/images/banner-middle/banner-middle-4.png" alt="")
+
+  //- News Section
+  section.news-section
+    .container
+      .news-wrapper
+        .title
+          span Tin tức
+        .news
+          .col-left
+            a.news-link(href="#")
+              img.news-image(src="/images/tintuc/tintuc1.png" alt="")
+              span French Open 2025 Mở Màn Kịch Tính - Nhiều Bất Ngờ Và Cảm Xúc Trái Chiều | Tin Tức Cầu Lông
+            .news-left-content
+              .news-time
+                i.fa-solid.fa-clock
+                span 23/10/2025
+              span.news-desc Tin tức cầu lông mới nhất (23/10) từ French Open 2025: Chou Tien Chen thắng kịch tính, An Se Young nhẹ nhàng đi tiếp, trong khi Liang Wei Keng / Wang Chang bất ngờ bị loại. Christo Popov và Thúc Phương Nguyễn cùng tạo điểm nhấn cho nước chủ nhà [...]
+
+          .col-right
+            .news-group
+              .news-item
+                a.news-link(href="#")
+                  img.news-image(src="/images/tintuc/tintuc2.png" alt="")
+                  span Các Hạt Giống Hàng Đầu Khởi Đầu Suôn Sẻ Tại French Open 2025 | Tin Tức Cầu Lông
+                .news-time
+                  i.fa-solid.fa-clock
+                  span.news-time 22/10/2025
+              .news-item
+                a.news-link(href="#")
+                  img.news-image(src="/images/tintuc/tintuc3.png" alt="")
+                  span Lê Đức Phát Mở Màn Ấn Tượng Tại Li-Ning Vietnam International 2025
+                .news-time
+                  i.fa-solid.fa-clock
+                  span.news-time 22/10/2025
+            .news-group
+              .news-item
+                a.news-link(href="#")
+                  img.news-image(src="/images/tintuc/tintuc4.png" alt="")
+                  span Li-Ning Vietnam International Series 2025 - Quy Tụ Dàn Sao Cầu Lông - Hứa Hẹn Bùng Nổ Tại Ninh Bình
+                .news-time
+                  i.fa-solid.fa-clock
+                  span.news-time 22/10/2025
+              .news-item
+                a.news-link(href="#")
+                  img.news-image(src="/images/tintuc/tintuc5.png" alt="")
+                  span Giày Cầu Lông Mizuno Wave Claw 3 Và 3 Lý Do Bạn Nên Chọn Mua Đôi Giày Cầu Lông Này
+                .news-time
+                  i.fa-solid.fa-clock
+                  span.news-time 18/10/2025
+
+        .show-more-btn
+          a(href="#")
+            .show-more
+              span Xem Thêm
+              br
+              i.fa-solid.fa-angles-down
+
+  //- Stores Section
+  section.stores-section
+    .container
+      .stores-wrapper
+        .title.stores
+          b(aria-hidden="true")
+          span HỆ THỐNG CỬA HÀNG
+          b(aria-hidden="true")
+        .title.stores
+          span THẾ GIỚI CẦU LÔNG
+        .stores-group
+          .col3.store-item
+            img(src="/images/hethongcuahang/store1.png" alt="")
+            .store-info
+              strong Hệ thống Thế giới cầu lông chi nhánh Hà Đông
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 106B1 Tô Hiệu, Nghĩa Tân, Cầu Giấy, Hà Nội
+                li
+                  i.fa-solid.fa-mobile-screen
+                  | 0838010188
+                li
+                  i.fa-solid.fa-envelope
+                  | contact@thegioicaulong.com
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 AM - 19:00 PM
+          .col3.store-item
+            img(src="/images/hethongcuahang/store2.png" alt="")
+            .store-info
+              strong Hệ Thống Thế Giới Cầu Lông chi nhánh Cầu Giấy
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 106B1 Tô Hiệu, Nghĩa Tân, Cầu Giấy, Hà Nội
+                li
+                  i.fa-solid.fa-mobile-screen
+                  | 0838010188
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 - 19:00
+          .col3.store-item
+            img(src="/images/hethongcuahang/store3.png" alt="")
+            .store-info
+              strong Hệ thống Thế giới cầu lông chi nhánh Mỹ Đình
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 236 Mỹ Đình, Nam Từ Liêm, Hà Nội
+                li
+                  i.fa-solid.fa-mobile-screen
+                  | 0814010188
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 - 19:00
+  
+  
