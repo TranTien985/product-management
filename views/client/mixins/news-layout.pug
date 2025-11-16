@@ -28,14 +28,20 @@ mixin news-grid(news)
         +news-item(item)
 
 mixin news-grid-home(news)
-  .row
-    .col-lg-6.mb-4
+  .news
+    .col-left
       if news[0]
-        +news-item-home(news[0]) 
-    
-    .col-lg-6 
-      .row
-        each item in news.slice(1)
-          .col-12.mb-3
-            +news-item-home(item)
-    
+        +news-item-home-large(news[0])
+    .col-right
+      .news-group
+        each item in news.slice(1, 3)
+          +news-item-home-small(item)
+      .news-group
+        each item in news.slice(3, 5)
+          +news-item-home-small(item)
+  .show-more-btn
+    a(href="/news")
+      .show-more
+        span Xem Thêm
+        br
+        i.fa-solid.fa-angles-down

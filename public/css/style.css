@@ -1273,7 +1273,7 @@ ul.rating-stars{
   object-fit:cover;
   border-radius:10px;
 }
-.news-time{
+.news-content{
   display: flex;
   align-items:center;
   gap:5px;

@@ -370,55 +370,7 @@ block main
       .news-wrapper
         .title
           span Tin tức
-        .news
-          .col-left
-            a.news-link(href="#")
-              img.news-image(src="/images/tintuc/tintuc1.png" alt="")
-              span French Open 2025 Mở Màn Kịch Tính - Nhiều Bất Ngờ Và Cảm Xúc Trái Chiều | Tin Tức Cầu Lông
-            .news-left-content
-              .news-time
-                i.fa-solid.fa-clock
-                span 23/10/2025
-              span.news-desc Tin tức cầu lông mới nhất (23/10) từ French Open 2025: Chou Tien Chen thắng kịch tính, An Se Young nhẹ nhàng đi tiếp, trong khi Liang Wei Keng / Wang Chang bất ngờ bị loại. Christo Popov và Thúc Phương Nguyễn cùng tạo điểm nhấn cho nước chủ nhà [...]
-
-          .col-right
-            .news-group
-              .news-item
-                a.news-link(href="#")
-                  img.news-image(src="/images/tintuc/tintuc2.png" alt="")
-                  span Các Hạt Giống Hàng Đầu Khởi Đầu Suôn Sẻ Tại French Open 2025 | Tin Tức Cầu Lông
-                .news-time
-                  i.fa-solid.fa-clock
-                  span.news-time 22/10/2025
-              .news-item
-                a.news-link(href="#")
-                  img.news-image(src="/images/tintuc/tintuc3.png" alt="")
-                  span Lê Đức Phát Mở Màn Ấn Tượng Tại Li-Ning Vietnam International 2025
-                .news-time
-                  i.fa-solid.fa-clock
-                  span.news-time 22/10/2025
-            .news-group
-              .news-item
-                a.news-link(href="#")
-                  img.news-image(src="/images/tintuc/tintuc4.png" alt="")
-                  span Li-Ning Vietnam International Series 2025 - Quy Tụ Dàn Sao Cầu Lông - Hứa Hẹn Bùng Nổ Tại Ninh Bình
-                .news-time
-                  i.fa-solid.fa-clock
-                  span.news-time 22/10/2025
-              .news-item
-                a.news-link(href="#")
-                  img.news-image(src="/images/tintuc/tintuc5.png" alt="")
-                  span Giày Cầu Lông Mizuno Wave Claw 3 Và 3 Lý Do Bạn Nên Chọn Mua Đôi Giày Cầu Lông Này
-                .news-time
-                  i.fa-solid.fa-clock
-                  span.news-time 18/10/2025
-
-        .show-more-btn
-          a(href="#")
-            .show-more
-              span Xem Thêm
-              br
-              i.fa-solid.fa-angles-down
+        +news-grid-home(newsFeatured)
 
   //- Stores Section
   section.stores-section

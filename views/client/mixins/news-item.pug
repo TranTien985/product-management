@@ -72,3 +72,30 @@ mixin news-item-home(item)
             +formatDate(item.createAt)
         - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
         p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
+
+
+mixin news-item-home-large(item)
+  .news-item-large
+    a.news-link(href=`/news/detail/${item.slug}`)
+      img.news-image(src=item.thumbnail alt=item.title)
+      span.news-title #{item.title}
+    .news-content
+      i.fa-solid.fa-clock
+      span 
+          +formatDate(item.createAt)
+    - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
+      span.news-desc !{plainDescription.substring(0, 200) + '[...]'}
+
+
+mixin news-item-home-small(item)
+  .news-item
+    a.news-link(href=`/news/detail/${item.slug}`)
+      img.news-image(src=item.thumbnail alt=item.title)
+      span.news-title #{item.title}
+    .news-content
+      i.fa-solid.fa-clock
+      span 
+          +formatDate(item.createAt)
+    - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
+      span.news-desc !{plainDescription.substring(0, 200) + '[...]'}
+
