@@ -1,0 +1,56 @@
+/* Thanh trên và dưới của tiêu đề */
+.cart-header {
+  border-bottom: 2px solid #dee2e6;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 600; /* Làm đậm tiêu đề */
+  color: #333;
+}
+
+/* Thanh dưới cho MỖI SẢN PHẨM */
+.cart-item-list .cart-item{
+  border-bottom: 1px solid #dee2e6;
+}
+
+.cart-item-list .cart-item img{
+  padding: 0 10px ;
+}
+
+
+/* 2. NÚT XÓA ICON 'X' (bên trái) */
+.cart-item-delete-icon {
+  font-size: 1.25rem; /* Kích thước icon 'x' */
+  color: #adb5bd; /* Màu xám nhạt */
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.cart-item-delete-icon:hover {
+  color: #000000; 
+}
+
+
+/* 3. GIẢM FONT CHỮ, ĐỔI MÀU ĐEN (Tên sản phẩm) */
+.cart-item-title {
+  font-size: 12px; /* Giảm font chữ */
+  font-weight: 500;
+  color: #212529; /* Màu đen */
+  text-decoration: none;
+}
+.cart-item-title:hover {
+  color: #9e9e9e; /* Vẫn đổi màu xanh khi hover (tùy chọn) */
+}
+
+/* Giá sản phẩm (Màu đen, hơi đậm) */
+.cart-item-price {
+  font-weight: 500;
+  color: #212529; /* Màu đen */
+  font-size: 1.1rem;
+}
+
+/* Tạm tính (Màu đen, đậm) */
+.cart-item-subtotal {
+  font-size: 1.1rem;
+  color: #212529; /* Màu đen */
+  font-weight: 700;
+}

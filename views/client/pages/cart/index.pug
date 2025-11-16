@@ -1,56 +1,84 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
-
 block main 
   .container.my-3 
-    .row 
-      .col-12 
-        +box-head("Giỏ hàng")
-
-    .row 
-      .col-12 
+    .row
+      .col-lg-8
         if (cartDetail.products.length > 0)
-          table(class="table table-bordered")
-            thead 
-              tr 
-                th STT
-                th Ảnh 
-                th Tên 
-                th Giá 
-                th Số lượng 
-                th Tổng tiền 
-                th Hành động 
-            tbody 
-              each item, index in cartDetail.products
-                tr 
-                  td #{index + 1}
-                  td 
-                    img(src=item.productInfo.thumbnail, alt=item.productInfo.title width="80px")
-                  td 
-                    a(href=`/products/detail/${item.productInfo.slug}`) #{item.productInfo.title}
-                  td #{item.productInfo.priceNew}$
-                  td 
-                    input(
-                      type="number"
-                      name="quantity"
-                      value=item.quantity
-                      min="1"
-                      product-id=item.product_id 
-                      style="width: 60px"
-                    )
-                  td #{item.totalPrice}$
-                  td 
-                    a(
-                      href=`/cart/delete/${item.product_id }`
-                      class=" btn btn-danger"
-                    ) Xóa 
-          
-          h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
+          .row.cart-header.d-none.d-lg-flex.mb-3
+            .col-lg-5.fw-bold SẢN PHẨM
+            .col-lg-2.fw-bold GIÁ
+            .col-lg-2.fw-bold SỐ LƯỢNG
+            .col-lg-3.fw-bold TẠM TÍNH
 
-          div(class="text-right mt-3")
-            a(href="/checkout" class="btn btn-success") THANH TOÁN
+          .cart-item-list
+            each item, index in cartDetail.products
+              .row.cart-item.align-items-center.mb-3
+                //- Col 1: SẢN PHẨM
+                .col-lg-5.col-12
+                  .d-flex.align-items-center
+                    .cart-item-delete-icon <i class="fa-solid fa-circle-xmark"></i>
+                    a(href=`/products/detail/${item.productInfo.slug}`)
+                      img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="100px", class="rounded")
+                      .ms-3
+                        a(href=`/products/detail/${item.productInfo.slug}`, class="cart-item-title") #{item.productInfo.title}
+                        br
+                        a(href=`/cart/delete/${item.product_id }`, class="cart-item-delete")
+                          
+                //- Col 2: GIÁ (sẽ có màu đen)
+                .col-lg-2.col-4
+                  span.d-lg-none.fw-bold Giá: 
+                  span.cart-item-price #{item.productInfo.priceNew.toLocaleString('vi-VN')} ₫
+                  
+                //- Col 3: SỐ LƯỢNG
+                .col-lg-2.col-4
+                  span.d-lg-none.fw-bold SL: 
+                  input(
+                    type="number"
+                    name="quantity"
+                    value=item.quantity
+                    min="1"
+                    product-id=item.product_id 
+                    style="width: 70px"
+                    class="form-control form-control-sm"
+                  )
+                  
+                //- Col 4: TẠM TÍNH (sẽ có màu đen, đậm)
+                .col-lg-3.col-4.text-end
+                  span.d-lg-none.fw-bold Tổng: 
+                  strong.cart-item-subtotal #{item.totalPrice.toLocaleString('vi-VN')} ₫
+
+          //- Nút bấm dưới danh sách
+          .d-flex.justify-content-between.mt-4
+            a(href="/products", class="btn btn-outline-dark") 
+              i.fa-solid.fa-arrow-left.me-1
+              | TIẾP TỤC XEM SẢN PHẨM
+
         else 
           p Không có sản phẩm nào trong giỏ hàng
+
+      //- --- CỘT PHẢI (TỔNG KẾT ĐƠN HÀNG) ---
+      .col-lg-4
+        .cart-summary.border.p-3(style="background-color: #f9f9f9;")
+          h5.mb-3 TỔNG CỘNG GIỎ HÀNG
           
-  script(src="/js/cart.js")       
+          div.d-flex.justify-content-between.mb-2
+            span Tạm tính
+            strong #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
+            
+          div.mb-3
+            span Vận chuyển
+            p.small.text-muted 
+              | Phí giao hàng sẽ được tính ở bước thanh toán.
+              
+          hr
+          
+          div.d-flex.justify-content-between.mb-3
+            strong Tổng cộng
+            strong.h5(style="color: #d70018;") #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
+            
+          a(href="/checkout", class="btn btn-warning w-100 fw-bold fs-5") TIẾN HÀNH THANH TOÁN
+
+
+  script(src="/js/cart.js")

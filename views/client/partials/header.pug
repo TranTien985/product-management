@@ -34,7 +34,7 @@ header.header
           i.fa-solid.fa-user
         a.user-action__item.cart-item(href='/cart')
           .cart-handle
-          div 0
+          div #{miniCart ? miniCart.totalQuantity : 0}
     .header-bottom
       //- Main Navigation
       nav.header-bottom__nav

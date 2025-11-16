@@ -35,7 +35,7 @@ mixin news-grid-home(news)
     
     .col-lg-6 
       .row
-        each item in news 
+        each item in news.slice(1)
           .col-12.mb-3
             +news-item-home(item)
     

@@ -1,0 +1,116 @@
+/* === CSS CHO TRANG CHECKOUT === */
+.checkout-summary {
+  background-color: #f9f9f9;
+  border: 1px solid #dee2e6;
+  padding: 1.5rem;
+  border-radius: 5px;
+}
+
+.checkout-summary h4 {
+  font-weight: 700;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+/* 1. Style chung cho các trường form */
+.checkout-form .form-control, .checkout-form .form-select {
+  border: 1px solid #ced4da; 
+  border-radius: 4px;        
+  padding: 0.75rem 1rem;     
+  font-size: 0.95rem;        
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* 2. Style khi bấm vào (focus) */
+.checkout-form .form-control:focus, .checkout-form .form-select:focus {
+  border-color: #000; 
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1); 
+  outline: none; 
+}
+
+/* 3. Style cho chữ mờ (placeholder) */
+.checkout-form .form-control::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* 4. Style cho Select để có chữ mờ (giả placeholder) */
+.checkout-form .form-select {
+  color: #333; /* Màu chữ khi đã chọn */
+}
+.checkout-form .form-select:invalid, .checkout-form .form-select option[value=""] {
+  color: #999; 
+}
+
+/* Danh sách sản phẩm trong cột phải */
+.checkout-product-list {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.checkout-product-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 15px;
+  border: none !important;
+}
+.checkout-product-item .checkout-product-name {
+  color: #333;
+  width: 70%;
+}
+.checkout-product-item .checkout-product-subtotal {
+  font-weight: 600;
+  color: #000;
+}
+
+/* Các dòng Tạm tính, Vận chuyển */
+.summary-section .summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.summary-section .summary-line span {
+  color: #555;
+}
+.summary-section .summary-line strong {
+  font-weight: 600;
+  color: #000;
+}
+
+.summary-line .small{
+  text-align: right;
+  font-size: 12px;
+  width: 75%;
+}
+
+/* Dòng Tổng cộng cuối cùng */
+.summary-section .summary-total {
+  font-size: 1.2rem;
+  border-top: 2px solid #eee;
+  padding-top: 1rem;
+}
+.summary-section .summary-total strong {
+  font-weight: 700;
+}
+.summary-section .summary-total .total-price {
+  color: #d70018; /* Màu đỏ cho nổi bật */
+}
+
+/* Nút Đặt Hàng */
+.btn-place-order {
+  background-color: #fdd835; /* Màu vàng giống ảnh */
+  border: none;
+  padding: 0.75rem;
+}
+.btn-place-order:hover {
+  background-color: #fbc02d;
+}
+
+/* Căn lề cho form control */
+.form-label {
+  font-weight: 500;
+  color: #333;
+}
