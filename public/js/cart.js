@@ -13,8 +13,4 @@ if(inputQuantity.length > 0){
     })
   });
 }
-
-
-
-
 // End 
