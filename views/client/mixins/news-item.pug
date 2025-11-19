@@ -54,26 +54,7 @@ mixin news-item(item)
         - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
         p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
 
-mixin news-item-home(item)
-  .news-item-home
-    a(href=`/news/detail/${item.slug}`)
-      .inner-image
-        img(
-          src=item.thumbnail, 
-          alt=item.title, 
-          class="img-fluid rounded",
-        )
-      .inner-content
-        h3.inner-title
-          a(href=`/news/detail/${item.slug}`) #{item.title}
-        .inner-news-date
-          i.fa-regular.fa-clock
-          span 
-            +formatDate(item.createAt)
-        - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
-        p.inner-news-short !{plainDescription.substring(0, 200) + '[...]'}
-
-
+//- Tin tức lớn trang chủ
 mixin news-item-home-large(item)
   .news-item-large
     a.news-link(href=`/news/detail/${item.slug}`)
@@ -82,20 +63,20 @@ mixin news-item-home-large(item)
     .news-content
       i.fa-solid.fa-clock
       span 
-          +formatDate(item.createAt)
+        +formatDate(item.createAt)
     - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
       span.news-desc !{plainDescription.substring(0, 200) + '[...]'}
 
-
+//- Các tin tức nhỏ trang chủ
 mixin news-item-home-small(item)
-  .news-item
+  .news-home-item
     a.news-link(href=`/news/detail/${item.slug}`)
       img.news-image(src=item.thumbnail alt=item.title)
       span.news-title #{item.title}
     .news-content
       i.fa-solid.fa-clock
       span 
-          +formatDate(item.createAt)
+        +formatDate(item.createAt)
     - const plainDescription = item.description.replace(/<[^>]*>?/gm, '')
       span.news-desc !{plainDescription.substring(0, 200) + '[...]'}
 

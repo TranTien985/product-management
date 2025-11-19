@@ -1,5 +1,4 @@
-
-        // Hàm khởi tạo slider dùng chung cho TẤT CẢ banners
+// Hàm khởi tạo slider dùng chung cho TẤT CẢ banners
         function initializeUniversalSlider(containerSelector, delay = 4000) {
             const sliderContainer = document.querySelector(containerSelector);
             if (!sliderContainer) {
@@ -8,15 +7,17 @@
             }
 
             const slidesContainer = sliderContainer.querySelector('.slides');
-            const slides = slidesContainer.querySelectorAll('.banner-slide');
+            const slides = slidesContainer.querySelectorAll('.slider'); // Đã sửa selector
             const prevBtn = sliderContainer.querySelector('.slider-prev');
             const nextBtn = sliderContainer.querySelector('.slider-next');
             const dots = sliderContainer.querySelectorAll('.nav-btn');
 
-            // Tính số slide thực dựa trên số banner-slide hoặc dots
+            // Tính số slide thực
             const totalRealSlides = dots.length > 0 ? dots.length : slides.length;
             let currentIndex = 1;
             let intervalId = null;
+            let lastClickTime = 0;
+            const CLICK_DELAY = 400; // Chỉ cho click mỗi 400ms
 
             // Biến cho tính năng kéo
             let isDragging = false;
@@ -45,14 +46,14 @@
                 if (instant) {
                     slidesContainer.style.transition = 'none';
                 } else {
-                    slidesContainer.style.transition = 'transform 0.5s ease';
+                    slidesContainer.style.transition = 'transform 0.4s ease'; // Tốc độ vừa phải
                 }
 
                 const totalSlides = totalRealSlides + 2;
                 const translateX = -index * (100 / totalSlides);
                 slidesContainer.style.transform = `translateX(${translateX}%)`;
 
-                // Cập nhật dots nếu có
+                // Cập nhật dots
                 if (dots.length > 0) {
                     dots.forEach(dot => dot.classList.remove('active'));
                     const realIndex = getRealIndex(index);
@@ -72,7 +73,7 @@
                         } else if (currentIndex === totalRealSlides + 1) {
                             goToSlide(1, true);
                         }
-                    }, 500);
+                    }, 400);
                 }
             }
 
@@ -83,16 +84,24 @@
             }
 
             function nextSlide() {
+                const now = Date.now();
+                if (now - lastClickTime < CLICK_DELAY) return;
+                lastClickTime = now;
+
                 let nextIndex = currentIndex + 1;
                 goToSlide(nextIndex);
             }
 
             function prevSlide() {
+                const now = Date.now();
+                if (now - lastClickTime < CLICK_DELAY) return;
+                lastClickTime = now;
+
                 let prevIndex = currentIndex - 1;
                 goToSlide(prevIndex);
             }
 
-            // TÍNH NĂNG KÉO - ĐÃ SỬA
+            // TÍNH NĂNG KÉO
             function getPositionX(event) {
                 return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
             }
@@ -152,9 +161,13 @@
                 setTimeout(startAutoSlide, 3000);
             }
 
-            // Sự kiện cho dots (nếu có)
+            // Sự kiện cho dots
             dots.forEach(dot => {
                 dot.addEventListener('click', function () {
+                    const now = Date.now();
+                    if (now - lastClickTime < CLICK_DELAY) return;
+                    lastClickTime = now;
+
                     let index = parseInt(this.getAttribute('data-index'));
                     goToSlide(index);
                     stopAutoSlide();
@@ -162,7 +175,7 @@
                 });
             });
 
-            // Sự kiện điều khiển (nếu có)
+            // Sự kiện điều khiển
             if (prevBtn) {
                 prevBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
@@ -201,11 +214,11 @@
             updateSlideWidth();
             goToSlide(currentIndex, true);
             setTimeout(() => {
-                slidesContainer.style.transition = 'transform 0.5s ease';
+                slidesContainer.style.transition = 'transform 0.4s ease';
             }, 50);
             startAutoSlide();
 
-            console.log(`✅ Đã khởi tạo slider: ${containerSelector}`);
+            console.log(`Đã khởi tạo slider: ${containerSelector}`);
         }
 
         // Khởi tạo TẤT CẢ slider khi DOM loaded
@@ -217,20 +230,12 @@
             // Banner middle
             initializeUniversalSlider('.banner-middle__left .slider-container', 4000);
 
-            // Banner sản phẩm
-            initializeUniversalSlider('.best-seller .slider-container', 4000);
-            initializeUniversalSlider('.rackets .slider-container', 4000);
-            initializeUniversalSlider('.accessories .slider-container', 4000);
-            initializeUniversalSlider('.shoes .slider-container', 4000);
-            initializeUniversalSlider('.new-products .slider-container', 4000);
-
             // Tự động tìm tất cả slider còn lại
             document.querySelectorAll('.slider-container').forEach(container => {
-                const id = container.id || 'unknown';
-                if (!container.hasAttribute('data-initialized')) {
+                const id = container.id;
+                if (id && !container.hasAttribute('data-initialized')) {
                     initializeUniversalSlider(`#${id}`, 4000);
                     container.setAttribute('data-initialized', 'true');
                 }
             });
         });
-    
