@@ -18,13 +18,15 @@ block main
                 //- Col 1: SẢN PHẨM
                 .col-lg-5.col-12
                   .d-flex.align-items-center
-                    .cart-item-delete-icon <i class="fa-solid fa-circle-xmark"></i>
+                    a(
+                      href=`/cart/delete/${item.product_id }`
+                      class="cart-item-delete-icon"
+                    )
+                      <i class="fa-solid fa-circle-xmark"></i> 
                     a(href=`/products/detail/${item.productInfo.slug}`)
                       img(src=item.productInfo.thumbnail, alt=item.productInfo.title, width="100px", class="rounded")
                       .ms-3
                         a(href=`/products/detail/${item.productInfo.slug}`, class="cart-item-title") #{item.productInfo.title}
-                        br
-                        a(href=`/cart/delete/${item.product_id }`, class="cart-item-delete")
                           
                 //- Col 2: GIÁ (sẽ có màu đen)
                 .col-lg-2.col-4
@@ -33,7 +35,6 @@ block main
                   
                 //- Col 3: SỐ LƯỢNG
                 .col-lg-2.col-4
-                  span.d-lg-none.fw-bold SL: 
                   input(
                     type="number"
                     name="quantity"
@@ -79,6 +80,5 @@ block main
             strong.h5(style="color: #d70018;") #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
             
           a(href="/checkout", class="btn btn-warning w-100 fw-bold fs-5") TIẾN HÀNH THANH TOÁN
-
-
+  
   script(src="/js/cart.js")

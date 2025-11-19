@@ -1,59 +1,74 @@
 extends ../../layouts/default.pug
-include ../../mixins/box-head.pug
 
+block main
+  .container.my-5
+    .row.justify-content-center
+      .col-md-8
+        //- 1. PHẦN THÔNG BÁO THÀNH CÔNG
+        .text-center.mb-4
+          div.success-icon.mb-3
+            i.fa-solid.fa-circle-check
+          h2.success-title Đặt hàng thành công!
+          p.text-muted Chúc mừng bạn đã đặt hàng thành công. Đơn hàng của bạn đang được xử lý.
+          
+          //- Hiển thị mã đơn hàng nổi bật
+          div.order-code-box.mt-3
+            span Mã đơn hàng: 
+            strong.text-success ##{order.orderCode || order._id.toString().slice(-6)}
 
-block main 
-  .container.my-3 
-    .row 
-      .col-12 
-        +box-head("Đặt hàng thành công")
-
-    .row 
-      .col-12 
-        div(class="alert alert-success")
-          | Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng trong khoảng thời gian sớm nhất. 
-
-    if(order)
-      .row 
-        .col-12 
-          h4(class="mb-2") Thông tin cá nhân 
-          table(class="table table-bordered")
-            tbody 
-              tr 
-                td Họ tên 
-                td 
-                  b #{order.userInfo.fullName} 
-              tr 
-                td Số điện thoại 
-                td 
-                  b #{order.userInfo.phone}
-              tr 
-                td Địa chỉ 
-                td 
-                  b #{order.userInfo.address}
-
-      .row 
-        .col-12 
-          if (order.products.length > 0)
-            h4(class="mb-2") Thông tin đơn hàng 
-            table(class="table table-bordered")
-              thead 
-                tr 
-                  th STT
-                  th Ảnh 
-                  th Tên 
-                  th Giá 
-                  th Số lượng 
-                  th Tổng tiền 
-              tbody 
-                each item, index in order.products
-                  tr 
-                    td #{index + 1}
-                    td 
-                      img(src=item.productInfo.thumbnail, alt=item.productInfo.title width="80px")
-                    td #{item.productInfo.title}
-                    td #{item.productInfo.priceNew}$
-                    td #{item.quantity}
-                    td #{item.totalPrice}$
+        //- 2. KHUNG CHI TIẾT ĐƠN HÀNG (Giống ảnh mẫu)
+        .card.summary-card
+          .card-body
+            h5.card-title.mb-4.text-center Thông tin đơn hàng
             
-            h3(class="text-right") Tổng đơn hàng: #{order.totalPrice}$            
+            .summary-item.d-flex.justify-content-between.mb-2
+              span.text-muted Ngày đặt hàng:
+              strong #{new Date(order.createdAt).toLocaleDateString('vi-VN')}
+              
+            .summary-item.d-flex.justify-content-between.mb-2
+              span.text-muted Phương thức thanh toán:
+              strong Thanh toán khi nhận hàng (COD)
+            
+            .summary-item.d-flex.justify-content-between.mb-2
+              span.text-muted Số điện thoại:
+              strong #{order.shippingAddress.phone}
+
+            .summary-item.d-flex.justify-content-between.mb-2
+              span.text-muted Phí vận chuyển:
+              strong #{order.shippingFee.toLocaleString('vi-VN')}đ
+              
+            .summary-item.d-flex.justify-content-between.mb-3
+              span.text-muted Tổng thành tiền:
+              strong.total-amount #{order.totalAmount.toLocaleString('vi-VN')}đ
+
+            hr
+
+            //- Danh sách sản phẩm (Dạng rút gọn)
+            h6.mb-3 Chi tiết sản phẩm:
+            .product-summary-list
+              each item in order.products
+                .d-flex.align-items-center.mb-3
+                  //- Kiểm tra xem productInfo có tồn tại không (đề phòng sản phẩm bị xóa)
+                  if item.productInfo
+                    img(
+                      src=item.productInfo.thumbnail, 
+                      alt=item.productInfo.title, 
+                      class="rounded me-3", 
+                      width="60"
+                    )
+                    div
+                      p.mb-0.fw-bold.small #{item.productInfo.title}
+                      div.small.text-muted 
+                        | SL: #{item.quantity} x #{item.priceNew.toLocaleString('vi-VN')}đ
+                  else
+                    div
+                      p.mb-0.fw-bold [Sản phẩm không tồn tại]
+                      div.small.text-muted 
+                        | SL: #{item.quantity} x #{item.priceNew.toLocaleString('vi-VN')}đ
+
+        //- 3. CÁC NÚT BẤM
+        .text-center.mt-4
+          a(href="/products", class="btn btn-success btn-lg px-5 me-2")
+            | Tiếp tục mua hàng
+          a(href="/", class="btn btn-outline-secondary btn-lg px-5")
+            | Về trang chủ

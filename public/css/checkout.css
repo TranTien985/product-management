@@ -1,4 +1,4 @@
-/* === CSS CHO TRANG CHECKOUT === */
+/************************************************** CSS TRANG CHECKOUT ORDER************************************************* */
 .checkout-summary {
   background-color: #f9f9f9;
   border: 1px solid #dee2e6;
@@ -38,6 +38,7 @@
 /* 4. Style cho Select để có chữ mờ (giả placeholder) */
 .checkout-form .form-select {
   color: #333; /* Màu chữ khi đã chọn */
+  padding: 5px 10px;
 }
 .checkout-form .form-select:invalid, .checkout-form .form-select option[value=""] {
   color: #999; 
@@ -113,4 +114,51 @@
 .form-label {
   font-weight: 500;
   color: #333;
+}
+
+/************************************************** CSS TRANG ORDER SUCCESS************************************************* */
+
+/* Icon check màu xanh to */
+.success-icon {
+  font-size: 5rem;
+  color: #28a745; /* Màu xanh lá */
+}
+
+.success-title {
+  font-weight: 700;
+  color: #333;
+}
+
+/* Box mã đơn hàng */
+.order-code-box {
+  background-color: #f8f9fa;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px dashed #28a745;
+  font-size: 1.1rem;
+}
+
+/* Khung thông tin đơn hàng */
+.summary-card {
+  border: none;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.summary-item {
+  font-size: 0.95rem;
+}
+
+.total-amount {
+  color: #d70018; /* Màu đỏ cho tổng tiền */
+  font-size: 1.2rem;
+}
+
+/* Nút bấm */
+.btn-lg {
+  font-size: 1rem;
+  padding: 12px 30px;
+  border-radius: 5px;
 }

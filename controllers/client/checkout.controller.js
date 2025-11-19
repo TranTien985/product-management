@@ -1,7 +1,11 @@
 const Cart = require("../../models/cart.model")
 const Product = require("../../models/product.model")
-const Order= require("../../models/order.model")
+const Order= require("../../models/orders.model")
+
 const productsHelper = require("../../helpers/products")
+
+const generateHelper = require("../../helpers/generate")
+
 
 // [GET] /checkout
 module.exports.index = async (req, res) => {
@@ -39,12 +43,14 @@ module.exports.index = async (req, res) => {
 module.exports.order = async (req, res) => {
   const cartId = req.cookies.cartId;
   const userInfo = req.body
+  const user = res.locals.user;
 
   const cart = await Cart.findOne({
     _id: cartId
   });
 
-  const product = []
+  const products = []
+  let totalOrderPrice = 0;
 
   for (const item of cart.products) {
     const objectProduct = {
@@ -56,22 +62,58 @@ module.exports.order = async (req, res) => {
 
     const productInfo = await Product.findOne({
       _id: item.product_id 
-    }).select("price discountPercentage");
+    }).select("price discountPercentage ");
 
-    objectProduct.price = productInfo.price
-    objectProduct.discountPercentage = productInfo.discountPercentage
+    if(productInfo) {
+      // THIẾU: Cần tính giá mới (đã giảm)
+      const priceNew = productsHelper.priceNewProduct(productInfo);
 
-    product.push(objectProduct);
+      // SỬA: Lưu giá đã giảm, không phải giá gốc
+      const objectProduct = {
+        product_id: item.product_id,
+        price: priceNew,
+        discountPercentage: productInfo.discountPercentage || 0,
+        quantity: item.quantity,
+      };
+
+      // THIẾU: Cần tính tổng tiền đơn hàng
+      totalOrderPrice += (priceNew * item.quantity);
+
+      products.push(objectProduct);
+    }
   }
 
-  const orderInfo = {
-    cart_id: cartId,
-    userInfo: userInfo,
-    products: product,
+  const fullAddress = `${userInfo.address}, ${userInfo.wardName}, ${userInfo.districtName}, ${userInfo.provinceName}`;
+  let shippingFee = 30000; 
+  if (totalOrderPrice >= 500000) {
+    shippingFee = 0; 
+  }
+  
+  const totalAmount = totalOrderPrice + shippingFee;
+
+
+  let userId = "";
+  if (user) {
+    userId = user.id;
   }
 
-  const order = new Order(orderInfo);
-  order.save();
+  const orderData = {
+    user_id: userId,
+    orderCode: generateHelper.generateRandomString(8).toUpperCase(), // (Tạo mã đơn giản, nên dùng thư viện)
+    shippingAddress: {
+      fullName: userInfo.fullName,
+      phone: userInfo.phone,
+      address: fullAddress,
+      note: userInfo.note,
+    },
+    products: products, 
+    totalPrice: totalOrderPrice, 
+    shippingFee: shippingFee, 
+    totalAmount: totalAmount
+  };
+
+  const order = new Order(orderData);
+  await order.save();
 
   // sau khi đã thanh toán thì reset sản phẩm trong giỏ hàng
   await Cart.updateOne({

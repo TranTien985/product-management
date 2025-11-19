@@ -1,7 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/show-alert.pug
 
 block main
+  +alert-success(5000)
+  +alert-error(5000)
+
   .container.my-3
     if (cartDetail.products.length > 0)
       form(
@@ -9,6 +13,9 @@ block main
         method="POST"
         class="checkout-form"
       )
+        input(type="hidden" name="provinceName" id="provinceName")
+        input(type="hidden" name="districtName" id="districtName")
+        input(type="hidden" name="wardName" id="wardName")
         .row
           .col-lg-7
             h4.mb-3 THÔNG TIN THANH TOÁN
@@ -22,7 +29,6 @@ block main
                 id="fullName"
                 name="fullName"
                 placeholder="Nhập họ và tên"
-                required
               )
               
             //- Hàng chứa Số điện thoại và Email
@@ -35,7 +41,6 @@ block main
                   id="phone"
                   name="phone"
                   placeholder="Nhập số điện thoại"
-                  required
                 )
               .col-md-6.mb-3
                 label(for="email" class="form-label") Địa chỉ Email
@@ -51,15 +56,15 @@ block main
             .row
               .col-md-4.mb-3
                 label(for="province" class="form-label") Tỉnh/Thành phố *
-                select(class="form-select", id="province", name="province", required)
+                select(class="form-select", id="province", name="province")
                   option(value="") -- Chọn tỉnh/thành phố --
               .col-md-4.mb-3
                 label(for="district" class="form-label") Quận/Huyện *
-                select(class="form-select", id="district", name="district", required)
+                select(class="form-select", id="district", name="district")
                   option(value="") -- Chọn quận/huyện --
               .col-md-4.mb-3
                 label(for="ward" class="form-label") Xã/Phường *
-                select(class="form-select", id="ward", name="ward", required)
+                select(class="form-select", id="ward", name="ward")
                   option(value="") -- Chọn xã/phường --
             
             //- Địa chỉ nhà
@@ -71,7 +76,6 @@ block main
                 id="address"
                 name="address"
                 placeholder="Số nhà, tên đường, khu vực..."
-                required
               )
             
             //- Ghi chú
