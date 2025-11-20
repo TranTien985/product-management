@@ -1,0 +1,857 @@
+/* đăng nhập */
+body {
+    background: linear-gradient(135deg, #000000 0%, #1a1a00 30%, #2d2d00 50%, #1a1a00 70%, #000000 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before,
+body::after,
+html::before,
+html::after {
+    content: '🏸';
+    position: fixed;
+    font-size: 7rem;
+    z-index: 2;
+    animation: sentryBounce 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 25px rgba(255,255,255,0.9));
+    color: #FFFFFF;
+}
+
+body::before {
+    top: 8%;
+    left: 3%;
+    animation-delay: 0s;
+}
+
+body::after {
+    top: 8%;
+    right: 3%;
+    animation-delay: 1s;
+}
+
+html::before {
+    bottom: 8%;
+    left: 3%;
+    animation-delay: 1.5s;
+}
+
+html::after {
+    bottom: 8%;
+    right: 3%;
+    animation-delay: 0.5s;
+}
+
+@keyframes sentryBounce {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg) scale(1); 
+    }
+    50% { 
+        transform: translateY(-30px) rotate(20deg) scale(1.4);
+    }
+}
+
+.container.my-5::before,
+.container.my-5::after {
+    position: absolute;
+    font-size: 9rem;
+    top: 50%;
+    z-index: 2;
+    animation: floatItem 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
+}
+
+.container.my-5::before {
+    content: '👟'; /* Giày thể thao */
+    left: -120px;
+    transform: translateY(-50%);
+    animation-delay: 0s;
+}
+
+.container.my-5::after {
+    content: '🏆'; /* Huy chương */
+    right: -120px;
+    transform: translateY(-50%);
+    animation-delay: 3s;
+}
+
+@keyframes floatItem {
+    0%, 100% { 
+        transform: translateY(-50%) scale(1) rotate(0deg);
+        opacity: 0.7;
+    }
+    25% { 
+        transform: translateY(-55%) scale(1.1) rotate(5deg);
+        opacity: 0.9;
+    }
+    50% { 
+        transform: translateY(-50%) scale(1.05) rotate(0deg);
+        opacity: 0.8;
+    }
+    75% { 
+        transform: translateY(-45%) scale(1.1) rotate(-5deg);
+        opacity: 0.9;
+    }
+}
+
+.container.my-5 {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+}
+
+.row.justify-content-center {
+    margin: 0;
+    position: relative;
+}
+
+.col-8 {
+    padding: 0;
+    position: relative;
+}
+
+.alert {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    box-shadow: 
+        0 8px 25px rgba(255,215,0,0.4),
+        0 0 30px rgba(255,215,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 240, 0.95));
+    color: #721c24;
+    border-color: #dc3545;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 255, 240, 0.95));
+    color: #155724;
+    border-color: #28a745;
+}
+
+.alert [close-alert] {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #FFD700;
+    border: 2px solid #000;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 0 #000;
+}
+
+.alert [close-alert]:hover {
+    background: #FF6B00;
+    transform: translateY(-50%) scale(1.1);
+}
+
+h1.text-center {
+    color: #000000;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    position: relative;
+    background: #FFFFFF;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    padding: 1rem 2rem;
+    border: 3px solid #000;
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 0 #000,
+        0 0 40px rgba(255,215,0,0.6);
+    display: inline-block;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 3px solid #000;
+    box-shadow: 
+        0 10px 0 #000,
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255,215,0,0.4);
+    margin-bottom: 1.5rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #FFD700;
+    padding: 0.5rem 1rem;
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #000;
+    border-bottom: none;
+    display: inline-block;
+}
+
+.form-control {
+    background: white;
+    border: 2px solid #000;
+    border-radius: 0 10px 10px 10px;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 0 0 rgba(255,215,0,0);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #FFD700;
+    background: #fffdf0;
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 0 25px rgba(255, 215, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.form-control:hover {
+    border-color: #FF6B00;
+    background: #fffaf0;
+}
+
+.btn.btn-primary.btn-block {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 6px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn.btn-primary.btn-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 9px 0 #000,
+        0 0 40px rgba(255,215,0,0.8);
+    background: linear-gradient(135deg, #FF6B00 0%, #FFD700 100%);
+}
+
+.btn.btn-primary.btn-block:active {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 5px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+}
+
+.btn.btn-primary.btn-block::after {
+    content: '🎯';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+.btn.btn-primary.btn-block:hover::after {
+    transform: translateY(-50%) scale(1.2);
+}
+
+a[href="/user/password/forgot"] {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: white;
+    font-size: 0.9rem;
+    box-shadow: 
+        0 4px 0 #000,
+        0 0 15px rgba(255,215,0,0.4);
+}
+
+a[href="/user/password/forgot"]:hover {
+    color: #000;
+    text-decoration: none;
+    border-color: #FFD700;
+    background: #FFD700;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+}
+
+a[href="/user/password/forgot"]::before {
+    content: '🔑';
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+@keyframes formEntrance {
+    0% { 
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+form {
+    animation: formEntrance 0.6s ease-out;
+}
+
+@media (max-width: 768px) {
+    .col-8 {
+        flex: 0 0 90%;
+        max-width: 90%;
+    }
+    
+    h1.text-center {
+        font-size: 2rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    form {
+        padding: 2rem 1.5rem;
+    }
+    
+    .btn.btn-primary.btn-block {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    body::before,
+    body::after,
+    html::before,
+    html::after,
+    .container.my-5::before,
+    .container.my-5::after {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-8 {
+        flex: 0 0 95%;
+        max-width: 95%;
+    }
+    
+    h1.text-center {
+        font-size: 1.6rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    form {
+        padding: 1.5rem 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .form-control {
+        padding: 0.75rem 1rem;
+    }
+    
+    a[href="/user/password/forgot"] {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+.form-control:focus-visible {
+    outline: 3px solid #FFD700;
+    outline-offset: 2px;
+}
+
+.btn.btn-primary.btn-block:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+}
+
+.btn.btn-primary.btn-block:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 0 #000;
+}
+/* end đăng nhập */
+
+/* đăng kí */
+body {
+    background: linear-gradient(135deg, #000000 0%, #1a1a00 30%, #2d2d00 50%, #1a1a00 70%, #000000 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before,
+body::after,
+html::before,
+html::after {
+    content: '🏸';
+    position: fixed;
+    font-size: 7rem;
+    z-index: 2;
+    animation: sentryBounce 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 25px rgba(255,255,255,0.9));
+    color: #FFFFFF;
+}
+
+body::before {
+    top: 8%;
+    left: 3%;
+    animation-delay: 0s;
+}
+
+body::after {
+    top: 8%;
+    right: 3%;
+    animation-delay: 1s;
+}
+
+html::before {
+    bottom: 8%;
+    left: 3%;
+    animation-delay: 1.5s;
+}
+
+html::after {
+    bottom: 8%;
+    right: 3%;
+    animation-delay: 0.5s;
+}
+
+@keyframes sentryBounce {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg) scale(1); 
+    }
+    50% { 
+        transform: translateY(-30px) rotate(20deg) scale(1.4);
+    }
+}
+
+.container.my-5::before,
+.container.my-5::after {
+    position: absolute;
+    font-size: 9rem;
+    top: 50%;
+    z-index: 2;
+    animation: floatItem 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
+}
+
+.container.my-5::before {
+    content: '👟'; /* Giày thể thao */
+    left: -120px;
+    transform: translateY(-50%);
+    animation-delay: 0s;
+}
+
+.container.my-5::after {
+    content: '🏆'; /* Huy chương */
+    right: -120px;
+    transform: translateY(-50%);
+    animation-delay: 3s;
+}
+
+@keyframes floatItem {
+    0%, 100% { 
+        transform: translateY(-50%) scale(1) rotate(0deg);
+        opacity: 0.7;
+    }
+    25% { 
+        transform: translateY(-55%) scale(1.1) rotate(5deg);
+        opacity: 0.9;
+    }
+    50% { 
+        transform: translateY(-50%) scale(1.05) rotate(0deg);
+        opacity: 0.8;
+    }
+    75% { 
+        transform: translateY(-45%) scale(1.1) rotate(-5deg);
+        opacity: 0.9;
+    }
+}
+
+.container.my-5 {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+}
+
+.row.justify-content-center {
+    margin: 0;
+    position: relative;
+}
+
+.col-8 {
+    padding: 0;
+    position: relative;
+}
+
+.alert {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    box-shadow: 
+        0 8px 25px rgba(255,215,0,0.4),
+        0 0 30px rgba(255,215,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 240, 0.95));
+    color: #721c24;
+    border-color: #dc3545;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 255, 240, 0.95));
+    color: #155724;
+    border-color: #28a745;
+}
+
+.alert [close-alert] {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #FFD700;
+    border: 2px solid #000;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 0 #000;
+}
+
+.alert [close-alert]:hover {
+    background: #FF6B00;
+    transform: translateY(-50%) scale(1.1);
+}
+
+h1.text-center {
+    color: #000000;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    position: relative;
+    background: #FFFFFF;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    padding: 1rem 2rem;
+    border: 3px solid #000;
+    border-radius: 15px;
+    box-shadow: 
+        0 8px 0 #000,
+        0 0 40px rgba(255,215,0,0.6);
+    display: inline-block;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 3px solid #000;
+    box-shadow: 
+        0 10px 0 #000,
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255,215,0,0.4);
+    margin-bottom: 1.5rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #FFD700;
+    padding: 0.5rem 1rem;
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #000;
+    border-bottom: none;
+    display: inline-block;
+}
+
+.form-control {
+    background: white;
+    border: 2px solid #000;
+    border-radius: 0 10px 10px 10px;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 0 0 rgba(255,215,0,0);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #FFD700;
+    background: #fffdf0;
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 0 25px rgba(255, 215, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.form-control:hover {
+    border-color: #FF6B00;
+    background: #fffaf0;
+}
+
+.btn.btn-primary.btn-block {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 6px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn.btn-primary.btn-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 9px 0 #000,
+        0 0 40px rgba(255,215,0,0.8);
+    background: linear-gradient(135deg, #FF6B00 0%, #FFD700 100%);
+}
+
+.btn.btn-primary.btn-block:active {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 5px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+}
+
+.btn.btn-primary.btn-block::after {
+    content: '🎯';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+.btn.btn-primary.btn-block:hover::after {
+    transform: translateY(-50%) scale(1.2);
+}
+
+a[href="/user/password/forgot"] {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: white;
+    font-size: 0.9rem;
+    box-shadow: 
+        0 4px 0 #000,
+        0 0 15px rgba(255,215,0,0.4);
+}
+
+a[href="/user/password/forgot"]:hover {
+    color: #000;
+    text-decoration: none;
+    border-color: #FFD700;
+    background: #FFD700;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 0 #000,
+        0 0 25px rgba(255,215,0,0.6);
+}
+
+a[href="/user/password/forgot"]::before {
+    content: '🔑';
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+@keyframes formEntrance {
+    0% { 
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+form {
+    animation: formEntrance 0.6s ease-out;
+}
+
+@media (max-width: 768px) {
+    .col-8 {
+        flex: 0 0 90%;
+        max-width: 90%;
+    }
+    
+    h1.text-center {
+        font-size: 2rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    form {
+        padding: 2rem 1.5rem;
+    }
+    
+    .btn.btn-primary.btn-block {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    body::before,
+    body::after,
+    html::before,
+    html::after,
+    .container.my-5::before,
+    .container.my-5::after {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-8 {
+        flex: 0 0 95%;
+        max-width: 95%;
+    }
+    
+    h1.text-center {
+        font-size: 1.6rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    form {
+        padding: 1.5rem 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .form-control {
+        padding: 0.75rem 1rem;
+    }
+    
+    a[href="/user/password/forgot"] {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+.form-control:focus-visible {
+    outline: 3px solid #FFD700;
+    outline-offset: 2px;
+}
+
+.btn.btn-primary.btn-block:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+}
+
+.btn.btn-primary.btn-block:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 0 #000;
+}
+/* end đăng kí */
