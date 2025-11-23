@@ -38,7 +38,7 @@
 /* 4. Style cho Select để có chữ mờ (giả placeholder) */
 .checkout-form .form-select {
   color: #333; /* Màu chữ khi đã chọn */
-  padding: 5px 10px;
+  padding: 10px 10px;
 }
 .checkout-form .form-select:invalid, .checkout-form .form-select option[value=""] {
   color: #999; 

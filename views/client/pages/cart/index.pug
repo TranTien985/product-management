@@ -4,8 +4,8 @@ include ../../mixins/box-head.pug
 block main 
   .container.my-3 
     .row
-      .col-lg-8
-        if (cartDetail.products.length > 0)
+      if (cartDetail.products.length > 0)
+        .col-lg-8
           .row.cart-header.d-none.d-lg-flex.mb-3
             .col-lg-5.fw-bold SẢN PHẨM
             .col-lg-2.fw-bold GIÁ
@@ -55,30 +55,35 @@ block main
             a(href="/products", class="btn btn-outline-dark") 
               i.fa-solid.fa-arrow-left.me-1
               | TIẾP TỤC XEM SẢN PHẨM
+        
 
-        else 
-          p Không có sản phẩm nào trong giỏ hàng
-
-      //- --- CỘT PHẢI (TỔNG KẾT ĐƠN HÀNG) ---
-      .col-lg-4
-        .cart-summary.border.p-3(style="background-color: #f9f9f9;")
-          h5.mb-3 TỔNG CỘNG GIỎ HÀNG
-          
-          div.d-flex.justify-content-between.mb-2
-            span Tạm tính
-            strong #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
+        //- --- CỘT PHẢI (TỔNG KẾT ĐƠN HÀNG) ---
+        .col-lg-4
+          .cart-summary.border.p-3(style="background-color: #f9f9f9;")
+            h5.mb-3 TỔNG CỘNG GIỎ HÀNG
             
-          div.mb-3
-            span Vận chuyển
-            p.small.text-muted 
-              | Phí giao hàng sẽ được tính ở bước thanh toán.
+            div.d-flex.justify-content-between.mb-2
+              span Tạm tính
+              strong #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
               
-          hr
-          
-          div.d-flex.justify-content-between.mb-3
-            strong Tổng cộng
-            strong.h5(style="color: #d70018;") #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
+            div.mb-3
+              span Vận chuyển
+              p.small.text-muted 
+                | Phí giao hàng sẽ được tính ở bước thanh toán.
+                
+            hr
             
-          a(href="/checkout", class="btn btn-warning w-100 fw-bold fs-5") TIẾN HÀNH THANH TOÁN
+            div.d-flex.justify-content-between.mb-3
+              strong Tổng cộng
+              strong.h5(style="color: #d70018;") #{cartDetail.totalPrice.toLocaleString('vi-VN')} ₫
+              
+            a(href="/checkout", class="btn btn-warning w-100 fw-bold fs-5") TIẾN HÀNH THANH TOÁN
+
+      else 
+        .empty-cart-wrapper
+          .icon-box
+            i.fa-solid.fa-cart-plus
+          p.message Không có sản phẩm nào trong giỏ hàng
+          a(href="/", class="btn-black") QUAY LẠI TRANG CHỦ
   
   script(src="/js/cart.js")

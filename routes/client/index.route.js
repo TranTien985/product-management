@@ -11,6 +11,7 @@ const cartRouter = require("./cart.route");
 const checkoutRouter = require("./checkout.route");
 const userRouter = require("./user.route");
 const newsRouter = require("./news.route");
+const storeRouter = require("./store.route");
 
 module.exports = (app) => {
   // khi bất kì vào trang nào thì nó đều đi qua cái thằng này
@@ -33,4 +34,6 @@ module.exports = (app) => {
   app.use("/user",  userRouter);
 
   app.use("/news",  newsRouter);
+
+  app.use("/store",  storeRouter);
 };
