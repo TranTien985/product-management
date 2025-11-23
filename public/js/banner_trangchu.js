@@ -19,28 +19,28 @@
             let lastClickTime = 0;
             const CLICK_DELAY = 400; // Chỉ cho click mỗi 400ms
 
-    // Biến cho tính năng kéo
-    let isDragging = false;
-    let startPos = 0;
-    let currentTranslate = 0;
-    let animationID;
-    let currentSlideWidth;
+            // Biến cho tính năng kéo
+            let isDragging = false;
+            let startPos = 0;
+            let currentTranslate = 0;
+            let animationID;
+            let currentSlideWidth;
 
-    function startAutoSlide() {
-        stopAutoSlide();
-        intervalId = setInterval(nextSlide, delay);
-    }
+            function startAutoSlide() {
+                stopAutoSlide();
+                intervalId = setInterval(nextSlide, delay);
+            }
 
-    function stopAutoSlide() {
-        if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
-        }
-    }
+            function stopAutoSlide() {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+            }
 
-    function updateSlideWidth() {
-        currentSlideWidth = sliderContainer.offsetWidth;
-    }
+            function updateSlideWidth() {
+                currentSlideWidth = sliderContainer.offsetWidth;
+            }
 
             function goToSlide(index, instant = false) {
                 if (instant) {
@@ -221,19 +221,14 @@
             console.log(`Đã khởi tạo slider: ${containerSelector}`);
         }
 
-        const totalSlides = totalRealSlides + 2;
-        const translateX = -index * (100 / totalSlides);
-        slidesContainer.style.transform = `translateX(${translateX}%)`;
+        // Khởi tạo TẤT CẢ slider khi DOM loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Banner chính
+            initializeUniversalSlider('.banner-top__left .slider-container', 4000);
+            initializeUniversalSlider('.banner-top__right .slider-container', 5000);
 
-        // Cập nhật dots nếu có
-        if (dots.length > 0) {
-            dots.forEach(dot => dot.classList.remove('active'));
-            const realIndex = getRealIndex(index);
-            const targetDot = Array.from(dots).find(dot =>
-                parseInt(dot.getAttribute('data-index')) === realIndex
-            );
-            if (targetDot) targetDot.classList.add('active');
-        }
+            // Banner middle
+            initializeUniversalSlider('.banner-middle__left .slider-container', 4000);
 
             // Tự động tìm tất cả slider còn lại
             document.querySelectorAll('.slider-container').forEach(container => {
@@ -243,4 +238,4 @@
                     container.setAttribute('data-initialized', 'true');
                 }
             });
-        ;
+        });
