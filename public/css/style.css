@@ -551,11 +551,9 @@ input[type="email"]{
 }
 
 /* End footer */
-<<<<<<< HEAD
-=======
 /* Main */
 
-/* Banner top */
+
 /* Banner top */
 .banner-top{
   display: flex;
@@ -1439,8 +1437,6 @@ ul.rating-stars{
   display: block;
   
 }
->>>>>>> eba58df71d3af13c2dd08ef52e6cf588425bd40b
-
 
 /* Show alert */
 [show-alert] {

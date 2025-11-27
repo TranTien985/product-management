@@ -1,0 +1,67 @@
+/* --- User Profile Styles --- */
+
+/* Khung card chính */
+.card-profile {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden; 
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); 
+}
+
+/* Phần Header màu tím */
+.card-profile .card-header {
+  background-color: #7c4dff;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.card-profile .card-header h5 {
+  font-weight: 600;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+/* Khung viền dọc bên trái nội dung */
+.info-wrapper {
+  border-left: 5px solid #7c4dff;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+/* Icon và tiêu đề nhỏ */
+.icon-header {
+  font-size: 24px;
+  color: #5e35b1;
+  margin-right: 10px;
+}
+
+.title-header {
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+/* Nhãn (Label) của các ô input */
+.label-custom {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Input ở trạng thái có dữ liệu */
+.input-custom {
+  background-color: #fff !important; 
+  cursor: text;
+}
+
+/* Input ở trạng thái trống/chưa có dữ liệu */
+.input-empty {
+  background-color: #f8f9fa !important; 
+  font-style: italic;
+  color: #adb5bd;
+}

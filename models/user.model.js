@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     default: generate.generateRandomString(20)
   }, // khi lưu dữ liệu tk người dùng thì be sẽ lưu cái token này chứ ko lưu email hay pass
   phone: String,
-  avatar: String,
   status: {
     type: String,
     default: "active",

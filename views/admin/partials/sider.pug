@@ -12,6 +12,11 @@
         li 
           a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
 
+      div(class="products") THANH TOÁN
+      if(role.permissions.includes("products-category_view"))
+        li 
+          a(href=`${prefixAdmin}/orders`) <i class="fa-solid fa-box"></i> Đơn hàng
+
       div(class="products") TIN TỨC
       if(role.permissions.includes("news-category_view"))
         li 

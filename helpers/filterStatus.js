@@ -17,6 +17,11 @@ module.exports = (query) =>{
       name : "Dừng Hoạt động",
       status : "Low Stock",
       class : ""
+    },
+    {
+      name: "Nổi bật",
+      status: "featured", 
+      class: ""
     }
   ]
   
@@ -25,9 +30,9 @@ module.exports = (query) =>{
     // hàm findIndex để tìm index của 1 bản ghi thỏa mãn một điều kiện nào đó
     // ta sẽ lọc từng item một và lấy ra cái item.status để so sánh với các status mà người dùng truyền lên
     const index = filterStatus.findIndex(item => item.status == query.availabilityStatus)
-
-    // sau đó ta truy cập vào vị trí index của mảng và ".class" để có thể thêm vào
-    filterStatus[index].class = "active"
+    if(index !== -1) {
+        filterStatus[index].class = "active";
+    }
   }
   else{
     const index = filterStatus.findIndex(item => item.status == "")

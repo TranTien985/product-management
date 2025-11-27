@@ -118,7 +118,7 @@ div .products{
   display: block;
   padding: 10px 10px;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
 }
 
@@ -126,6 +126,20 @@ div .products{
   color: black;
   background-color: #dae0f4;
   border-radius: 10px;
+}
+
+/* Trạng thái Active cho thẻ li */
+.sider .inner-menu ul li.active {
+    background-color: #f0f2f5; /* Màu nền xám nhẹ/trắng đục khi chọn */
+    border-left: 4px solid #007bff; /* Viền xanh bên trái đánh dấu */
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+/* Đổi màu chữ bên trong khi Active */
+.sider .inner-menu ul li.active a {
+    color: #007bff !important; /* Đổi màu chữ thành xanh */
+    font-weight: 600; /* In đậm */
 }
 
 /* End Sider */
