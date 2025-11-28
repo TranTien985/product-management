@@ -66,14 +66,14 @@ html::after {
 }
 
 .container.my-5::before {
-    content: '👟'; /* Giày thể thao */
+    content: '👟';
     left: -120px;
     transform: translateY(-50%);
     animation-delay: 0s;
 }
 
 .container.my-5::after {
-    content: '🏆'; /* Huy chương */
+    content: '🏆';
     right: -120px;
     transform: translateY(-50%);
     animation-delay: 3s;
@@ -122,9 +122,6 @@ h1.text-center {
     margin-bottom: 2rem;
     position: relative;
     background: #FFFFFF;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
-    background-clip: initial;
     padding: 1rem 2rem;
     border: 3px solid #000;
     border-radius: 15px;
@@ -372,10 +369,6 @@ form {
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 4px 0 #000;
-}
-
-.alert {
-    display: none;
 }
 /* end đăng nhập */
 
@@ -447,14 +440,14 @@ html::after {
 }
 
 .container.my-5::before {
-    content: '👟'; /* Giày thể thao */
+    content: '👟';
     left: -120px;
     transform: translateY(-50%);
     animation-delay: 0s;
 }
 
 .container.my-5::after {
-    content: '🏆'; /* Huy chương */
+    content: '🏆';
     right: -120px;
     transform: translateY(-50%);
     animation-delay: 3s;
@@ -503,9 +496,6 @@ h1.text-center {
     margin-bottom: 2rem;
     position: relative;
     background: #FFFFFF;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
-    background-clip: initial;
     padding: 1rem 2rem;
     border: 3px solid #000;
     border-radius: 15px;
@@ -753,9 +743,5 @@ form {
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 4px 0 #000;
-}
-
-.alert {
-    display: none;
 }
 /* end đăng kí */
