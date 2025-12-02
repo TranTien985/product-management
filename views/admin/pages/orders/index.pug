@@ -4,23 +4,72 @@ include ../../mixins/sort.pug
 include ../../mixins/show-alert.pug
 include ../../mixins/pagination.pug
 include ../../mixins/filter-status.pug
+include ../../mixins/search-text.pug
 
 block main
-  h1(class="mb-4") Quản lý đơn hàng
+  //- --- KHỐI THỐNG KÊ ---
+  .row.mb-4
+    .col-12
+      .card-statistic-container
+        //- 1. Chờ xác nhận
+        .card-stat-item.item-pending
+          .card-icon
+            i.fa-solid.fa-box-open
+          .card-content
+            span.card-title Chờ xác nhận
+            span.card-value #{statistic.pending}
 
+        //- 2. Đã xác nhận
+        .card-stat-item.item-confirmed
+          .card-icon
+            i.fa-solid.fa-check-to-slot
+          .card-content
+            span.card-title Đã xác nhận
+            span.card-value #{statistic.confirmed}
+
+        //- 3. Đang giao
+        .card-stat-item.item-shipping
+          .card-icon
+            i.fa-solid.fa-truck-fast
+          .card-content
+            span.card-title Đang giao
+            span.card-value #{statistic.shipping}
+
+        //- 4. Hoàn thành
+        .card-stat-item.item-delivered
+          .card-icon
+            i.fa-solid.fa-circle-check
+          .card-content
+            span.card-title Hoàn thành
+            span.card-value #{statistic.delivered}
+
+        //- 5. Đã hủy
+        .card-stat-item.item-cancelled
+          .card-icon
+            i.fa-solid.fa-circle-xmark
+          .card-content
+            span.card-title Đã hủy
+            span.card-value #{statistic.cancelled}
   .card.mb-3 
-    .card-header Bộ lọc và Tìm kiếm
+    .card-header Bộ lọc 
     .card-body
       .row 
-        .col-3 
+        .col-3
+          //- sử dụng mixins
           +sort()
 
-        .col-9.text-right
-          //- sử dụng mixins
+        .col-9
           +order-filter-status(filterOrderStatus)
+  
+  .card.mb-3 
+    .card-header Tìm kiếm 
+    .card-body 
+      .row
+        .col-6
+          +search-text-order(keyword)
 
   .card.mb-3
-    .card-header Cập nhật trạng thái
+    .card-header Danh sách đơn hàng
     .card-body
       //- Nếu đơn hàng đã giao thành công hoặc đã hủy thì không cho sửa nữa (Optional)
       if (orders.orderStatus === 'Delivered' || orders.orderStatus === 'Cancelled')
@@ -28,11 +77,8 @@ block main
       else
         +change-status-orders(`${prefixAdmin}/orders/change-multi?_method=PATCH`)
 
-  .card.mb-3
-    .card-header Danh sách đơn hàng
-    .card-body
-      table(class="table table-hover table-sm" order-checkbox-multi)
-        thead
+      table(class="table table-hover table-borderless align-middle" order-checkbox-multi)
+        thead.bg-light
           tr
             th 
               input(type="checkbox" name="checkall")
@@ -71,15 +117,15 @@ block main
                 )
               td
                 if(item.orderStatus == "Pending")
-                  span(class="badge badge-warning") Chờ xác nhận
+                  span(class="badge badge-pending") Chờ xác nhận
                 else if(item.orderStatus == "Confirmed")
-                  span(class="badge badge-info") Đã xác nhận
+                  span(class="badge badge-confirmed") Đã xác nhận
                 else if(item.orderStatus == "Shipping")
-                  span(class="badge badge-primary") Đang giao
+                  span(class="badge badge-shipping") Đang giao
                 else if(item.orderStatus == "Delivered")
-                  span(class="badge badge-success") Đã giao
+                  span(class="badge badge-delivered") Đã giao
                 else
-                  span(class="badge badge-danger") Đã hủy
+                  span(class="badge badge-cancelled") Đã hủy
 
               td #{item.createdAt.toLocaleString()}
               
@@ -88,12 +134,13 @@ block main
                   href=`/admin/orders/detail/${item.id}`
                   class="btn btn-secondary btn-sm"
                 ) Chi tiết
-                
-                button(
-                  class="btn btn-danger btn-sm ml-1"
-                  button-delete
-                  data-id=item.id
-                ) Xóa
+
+                if(role.permissions.includes("products_delete"))
+                  button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete
+                    data-id=item.id
+                  ) Xóa
   
   +pagination(pagination)
 

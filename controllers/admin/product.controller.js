@@ -7,94 +7,113 @@ const filterStatusHelper = require("../../helpers/filterStatus"); // lọc
 const SearchHelper = require("../../helpers/search"); // tìm kiếm
 const paginationHelper = require("../../helpers/pagination"); // phân trang
 const createTreeHelper = require("../../helpers/createTree")
+const getSubCategoryHelper = require("../../helpers/product-category")
+const productsHelper = require("../../helpers/products");
 
-// [GET] /adim/product
+// [GET] /admin/product
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
+  const categoryId = req.query.category_id;
 
+  // --- 1. KHỞI TẠO BỘ LỌC ---
   let find = {
     deleted: false,
-  }; // biến này tượng trưng cho bộ lọc
+  };
 
+  // Lọc theo trạng thái
   if (req.query.availabilityStatus) {
     if (req.query.availabilityStatus === "featured") {
       find.featured = "1";
-    }
-    else if (req.query.availabilityStatus === "In Stock" || req.query.availabilityStatus === "Low Stock") {
+    } else if (["In Stock", "Low Stock"].includes(req.query.availabilityStatus)) {
       find.availabilityStatus = req.query.availabilityStatus;
     }
   }
 
-  // search
+  // Search
   const objectSearch = SearchHelper(req.query);
-
   if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
-  // end search
 
-  // 1h bài 21
-  //Pagination
+  // --- XỬ LÝ DANH MỤC  ---
+  if (categoryId) {
+    // 1. Lấy tất cả danh mục con
+    const listSubCategory = await getSubCategoryHelper.getSubCategory(categoryId);
+
+    // 2. Tạo mảng ID
+    const listSubCategoryId = listSubCategory.map(item => item.id);
+    listSubCategoryId.push(categoryId); // Thêm chính nó
+
+    // 3. Cập nhật biến 'find'
+    find.product_category_id = { $in: listSubCategoryId };
+  }
+
+
+  // --- PAGINATION  ---
   const countProducts = await Product.countDocuments(find);
-  // dùng để đếm tổng số lượng sản phẩm có trong db
-
-  // đây dùng để truyền đối số sang cho hàm paginationHelper
-  // sau khi truyền hàm bên kia sẽ thực hiện logic và trả lại kết quả cho bên này
-  // cuối cùng là update object
   let objectPagination = paginationHelper(
-    {
-      currentPage: 1,
-      limitItems: 6,
-    },
+    { currentPage: 1, limitItems: 6 },
     req.query,
     countProducts
   );
-  // End pagination
 
-  // Sort
+
+  // --- QUERY DATABASE (Lúc này biến 'find' đã có đủ dữ liệu cha con) ---
   let sort = {};
-
   if (req.query.sortKey && req.query.sortValue) {
     sort[req.query.sortKey] = req.query.sortValue;
   } else {
     sort.position = "desc";
   }
-  // End Sort
 
   const products = await Product.find(find)
     .sort(sort)
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
-  // limit(objectPagination.limitItems) giới hạn một trang có bao nhiêu sản phẩm
-  // skip(objectPagination.skip) khi bấm vào trang kế tiếp thì nó sẽ skip qua bao nhiêu sản phẩm
 
-  for(const product of products){
-    // lấy ra thông tin người tạo 
-    const user = await Account.findOne({
-      _id : product.createdBy.account_id
-    });
 
-    if(user){
-      product.accountFullName = user.fullName
-    }
+  // --- XỬ LÝ THÔNG TIN NGƯỜI TẠO (Format data) ---
+  for (const product of products) {
+    const user = await Account.findOne({ _id: product.createdBy.account_id });
+    if (user) product.accountFullName = user.fullName;
 
-    // lấy ra thông tin người câp nhật gần nhất 
-    const updatedBy = product.updatedBy.slice(-1)[0]; // lấy ra bản ghi ở vị trí cuối cùng
-
-    if(updatedBy){
-      const userUpdated = await Account.findOne({
-        _id : updatedBy.account_id
-      });
-
-      updatedBy.accountFullName = userUpdated.fullName
+    const updatedBy = product.updatedBy.slice(-1)[0];
+    if (updatedBy) {
+      const userUpdated = await Account.findOne({ _id: updatedBy.account_id });
+      updatedBy.accountFullName = userUpdated.fullName;
     }
   }
+
+
+  // --- XỬ LÝ CÂY DANH MỤC (Cho dropdown filter) ---
+  const allCategories = await ProductCategory.find({ deleted: false });
+  const newProductCategory = createTreeHelper.tree(allCategories);
+
+  let listCategoryOptions = [];
+  const flattenCategories = (arr, level = 0) => {
+    arr.forEach(item => {
+        const prefix = Array(level + 1).join("-- ");
+        listCategoryOptions.push({
+            id: item.id,
+            title: prefix + item.title
+        });
+        if(item.children && item.children.length > 0) {
+            flattenCategories(item.children, level + 1);
+        }
+    });
+  }
+  flattenCategories(newProductCategory);
+
+
+  // --- 7. TRẢ VỀ VIEW ---
   res.render("admin/pages/products/index", {
     pageTitle: "Trang Danh Sách Sản Phẩm",
     products: products,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
     pagination: objectPagination,
+    listCategories: listCategoryOptions, 
+    categoryId: categoryId,
   });
 };
 
@@ -342,6 +361,18 @@ module.exports.detail = async (req, res) => {
     };
 
     const product = await Product.findOne(find);
+
+    if(product.product_category_id){
+      const category = await ProductCategory.findOne({
+        _id:product.product_category_id,
+        availabilityStatus: "In Stock",
+        deleted: false,
+      });
+
+      product.category.title = category;
+    }
+
+    product.priceNew = productsHelper.priceNewProduct(product);
 
     res.render("admin/pages/products/detail", {
       pageTitle: product.title,

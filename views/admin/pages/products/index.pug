@@ -15,22 +15,22 @@ block main
   h1 Danh Sách Sản Phẩm
 
   .card.mb-3 
-    .card-header Bộ lọc và Tìm kiếm
+    .card-header Bộ lọc 
     .card-body
       .row 
-        .col-6
+        .col-3
           //- sử dụng mixins
-          +fiter-status(filterStatus)
+          +sort()
 
-        .col-6 
-          +search-text(keyword)
+        .col-9
+          +fiter-status(filterStatus)
   
   .card.mb-3 
-    .card-header Sắp xếp 
+    .card-header Tìm kiếm 
     .card-body 
-      .row 
-        .col-3 
-          +sort()
+      .row
+        .col-6
+          +search-text(keyword, listCategories, categoryId)
 
   .card.mb-3 
     .card-header Danh Sách
@@ -46,7 +46,7 @@ block main
               ) + Thêm mới
         
         table(
-          class="table table-hover table-sm"
+          class="table table-hover align-middle "
           checkbox-multi
         )
           thead 
@@ -80,7 +80,7 @@ block main
                     width ="100px"
                     height="auto"
                   )
-                td(style="width: 500px") #{item.title}
+                td(style="width: 400px") #{item.title}
                 td #{item.price.toLocaleString('vi-VN')} ₫
                 td 
                   input(

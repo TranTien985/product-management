@@ -19,38 +19,73 @@ block main
         .row
           .col-lg-7
             h4.mb-3 THÔNG TIN THANH TOÁN
-            
-            //- Họ và tên
-            .mb-3
-              label(for="fullName" class="form-label") Họ và tên *
-              input(
-                type="text"
-                class="form-control"
-                id="fullName"
-                name="fullName"
-                placeholder="Nhập họ và tên"
-              )
-              
-            //- Hàng chứa Số điện thoại và Email
-            .row
-              .col-md-6.mb-3
-                label(for="phone" class="form-label") Số điện thoại *
-                input(
-                  type="text"
-                  class="form-control"
-                  id="phone"
-                  name="phone"
-                  placeholder="Nhập số điện thoại"
-                )
-              .col-md-6.mb-3
-                label(for="email" class="form-label") Địa chỉ Email
-                input(
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  placeholder="Nhập địa chỉ Email"
-                )
+              if(user)
+                //- Họ và tên
+                .mb-3
+                  label(for="fullName" class="form-label") Họ và tên *
+                  input(
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Nhập họ và tên"
+                    value= user.fullName
+                  )
+                  
+                //- Hàng chứa Số điện thoại và Email
+                .row
+                  .col-md-6.mb-3
+                    label(for="phone" class="form-label") Số điện thoại *
+                    input(
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      name="phone"
+                      placeholder="Nhập số điện thoại"
+                      value= user.phone
+                    )
+                  .col-md-6.mb-3
+                    label(for="email" class="form-label") Địa chỉ Email
+                    input(
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Nhập địa chỉ Email"
+                      value= user.email
+                    )
+              else
+                //- Họ và tên
+                .mb-3
+                  label(for="fullName" class="form-label") Họ và tên *
+                  input(
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Nhập họ và tên"
+                  )
+                  
+                //- Hàng chứa Số điện thoại và Email
+                .row
+                  .col-md-6.mb-3
+                    label(for="phone" class="form-label") Số điện thoại *
+                    input(
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      name="phone"
+                      placeholder="Nhập số điện thoại"
+                    )
+                  .col-md-6.mb-3
+                    label(for="email" class="form-label") Địa chỉ Email
+                    input(
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Nhập địa chỉ Email"
+                    )
             
             //- Hàng chứa Tỉnh/Thành, Quận/Huyện, Xã/Phường
             .row

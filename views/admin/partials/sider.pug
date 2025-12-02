@@ -4,34 +4,37 @@
       li 
         a(href=`${prefixAdmin}/dashboard`) <i class="fa-solid fa-chart-pie"></i>  Tổng Quan 
 
-      div(class="products") SẢN PHẨM
-      if(role.permissions.includes("products-category_view"))
-        li 
-          a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
-      if(role.permissions.includes("products_view"))
-        li 
-          a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
+      if(role.permissions.includes("products-category_view") && role.permissions.includes("products_view"))
+        div(class="products") SẢN PHẨM
+        if(role.permissions.includes("products-category_view"))
+          li 
+            a(href=`${prefixAdmin}/products-category`) <i class="fa-solid fa-list"></i> Danh Mục 
+        if(role.permissions.includes("products_view"))
+          li 
+            a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
 
-      div(class="products") THANH TOÁN
-      if(role.permissions.includes("products-category_view"))
-        li 
-          a(href=`${prefixAdmin}/orders`) <i class="fa-solid fa-box"></i> Đơn hàng
+      if(role.permissions.includes("orders_view"))
+        div(class="products") THANH TOÁN
+          li 
+            a(href=`${prefixAdmin}/orders`) <i class="fa-solid fa-box"></i> Đơn hàng
 
-      div(class="products") TIN TỨC
-      if(role.permissions.includes("news-category_view"))
-        li 
-          a(href=`${prefixAdmin}/news-category`) <i class="fa-solid fa-list"></i> Danh Mục 
-      if(role.permissions.includes("news_view"))
-        li 
-          a(href=`${prefixAdmin}/news`) <i class="fa-solid fa-newspaper"></i> Tin Tức 
+      if(role.permissions.includes("news-category_view") && role.permissions.includes("news_view"))
+        div(class="products") TIN TỨC
+        if(role.permissions.includes("news-category_view"))
+          li 
+            a(href=`${prefixAdmin}/news-category`) <i class="fa-solid fa-list"></i> Danh Mục 
+        if(role.permissions.includes("news_view"))
+          li 
+            a(href=`${prefixAdmin}/news`) <i class="fa-solid fa-newspaper"></i> Tin Tức 
 
-      div(class="products") PHÂN QUYỀN
-      if(role.permissions.includes("roles_view"))
-        li 
-          a(href=`${prefixAdmin}/roles`) <i class="fa-solid fa-users"></i> Nhóm quyền
-      if(role.permissions.includes("roles_permission"))
-        li 
-          a(href=`${prefixAdmin}/roles/permission`) <i class="fa-solid fa-user-shield"></i> Phân quyền
+      if(role.permissions.includes("roles_view") && role.permissions.includes("roles_permission"))
+        div(class="products") PHÂN QUYỀN
+        if(role.permissions.includes("roles_view"))
+          li 
+            a(href=`${prefixAdmin}/roles`) <i class="fa-solid fa-users"></i> Nhóm quyền
+        if(role.permissions.includes("roles_permission"))
+          li 
+            a(href=`${prefixAdmin}/roles/permission`) <i class="fa-solid fa-user-shield"></i> Phân quyền
           
       div(class="products") CÀI ĐẶT
       if(role.permissions.includes("account_view"))

@@ -1,16 +1,48 @@
-//- phút 35 bài 21
-mixin search-text(keyword)
+mixin search-text(keyword, listCategories, categoryId)
   form(id="form-search")
-    .input-group 
-      input(
-        type="text"
-        placeholder="Nhập từ khóa"
-        name="keyword"
-        class="form-control"
-        value=keyword
-      )
-      .input-group-append 
-        button(
-          class="btn btn-success"
-          type="submit"
-        ) Tìm
+    .filter-search-modern.d-flex.align-items-center
+      //- 1. Ô tìm kiếm 
+      .search-box.flex-grow-1.mr-2
+        i.fa-solid.fa-magnifying-glass.search-icon
+        input(
+          type="text"
+          placeholder="Tìm kiếm sản phẩm..."
+          name="keyword"
+          class="form-control"
+          value=keyword
+        )
+
+      //- 2. Dropdown danh mục
+      .category-box.mr-2
+        select(name="category_id" class="form-control")
+          option(value="") Tất cả danh mục
+          if(listCategories)
+            each item in listCategories
+              option(
+                value=item.id
+                selected=(categoryId == item.id ? true : false)
+              ) #{item.title}
+
+      //- 3. Nút tìm kiếm (Màu xanh hoặc ẩn tùy bạn, ở đây tôi làm đẹp nút này luôn)
+      button(
+        class="btn btn-primary search-btn"
+        type="submit"
+      ) Tìm
+
+mixin search-text-order(keyword)
+  form(id="form-search-order")
+    .filter-search-modern.d-flex.align-items-center
+      .search-box.flex-grow-1.mr-2
+        i.fa-solid.fa-magnifying-glass.search-icon
+        input(
+          type="text"
+          placeholder="Tìm kiếm đơn hàng..."
+          name="keyword"
+          class="form-control"
+          value=keyword
+        )
+
+      button(
+        class="btn btn-primary search-btn"
+        type="submit"
+      ) Tìm

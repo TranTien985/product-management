@@ -24,23 +24,37 @@ if(ButtonStatus.length > 0 ){
 // End Button Status
 
 // Form Search
-const formSearch = document.querySelector("#form-search")
+const formSearch = document.querySelector("#form-search");
 
-if(formSearch){
-  let url = new URL(window.location.href)
-  formSearch.addEventListener("submit", (e) =>{
-    e.preventDefault(); // để không bị load trang
-    const keyword = e.target.elements.keyword.value
+if(formSearch) {
+  let url = new URL(window.location.href);
 
-    if(keyword){
-      url.searchParams.set("keyword", keyword)
+  formSearch.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    //  Lấy giá trị từ ô nhập từ khóa
+    const keyword = e.target.elements.keyword.value;
+
+    //  Lấy giá trị từ ô chọn danh mục (Thêm đoạn này)
+    const categoryId = e.target.elements.category_id.value;
+
+    // --- Xử lý Keyword ---
+    if(keyword) {
+      url.searchParams.set("keyword", keyword);
+    } else {
+      url.searchParams.delete("keyword");
     }
-    else{
-      url.searchParams.delete("keyword")
+
+    // --- Xử lý Category (Thêm đoạn này) ---
+    if(categoryId) {
+      url.searchParams.set("category_id", categoryId);
+    } else {
+      url.searchParams.delete("category_id");
     }
-    
+
+    // Chuyển hướng trang theo URL mới
     window.location.href = url.href;
-  })
+  });
 }
 // End Form Search
 

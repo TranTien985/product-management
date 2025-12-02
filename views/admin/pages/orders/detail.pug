@@ -1,0 +1,122 @@
+extends ../../layouts/default.pug
+include ../../mixins/moment.pug
+
+block main
+  .order-detail-header.d-flex.justify-content-between.align-items-center.mb-4
+    h1.h3 Chi tiết đơn hàng: ##{order.orderCode || order.id.slice(-6).toUpperCase()}
+    
+    //- Nút quay lại
+    a(href=`${prefixAdmin}/orders` class="btn btn-outline-secondary") 
+      i.fa-solid.fa-arrow-left.mr-2
+      | Quay lại
+
+  //- --- KHỐI THÔNG TIN CHUNG ---
+  .row.mb-4
+    //- Cột trái: Thông tin khách hàng
+    .col-md-7
+      .card.border-0.shadow-sm.h-100
+        .card-header.bg-white.border-bottom-0.pt-4
+          h5.card-title.font-weight-bold <i class="fa-solid fa-user-tag mr-2"></i> Thông tin khách hàng
+        .card-body
+          .row.mb-3
+            .col-4.text-muted Họ và tên:
+            .col-8.font-weight-bold #{order.shippingAddress.fullName}
+          
+          .row.mb-3
+            .col-4.text-muted Số điện thoại:
+            .col-8 #{order.shippingAddress.phone}
+          
+          .row.mb-3
+            .col-4.text-muted Địa chỉ giao hàng:
+            .col-8 #{order.shippingAddress.address}
+          
+          .row
+            .col-4.text-muted Ghi chú:
+            .col-8 #{order.notes || "Không có ghi chú"}
+
+    //- Cột phải: Thông tin đơn hàng
+    .col-md-5
+      .card.border-0.shadow-sm.h-100
+        .card-header.bg-white.border-bottom-0.pt-4
+          h5.card-title.font-weight-bold <i class="fa-solid fa-circle-info mr-2"></i> Thông tin đơn hàng
+        .card-body
+          .row.mb-3
+            .col-5.text-muted Mã đơn hàng:
+            .col-7.font-weight-bold ##{order.orderCode || order.id.slice(-6).toUpperCase()}
+          
+          .row.mb-3
+            .col-5.text-muted Ngày đặt hàng:
+            //- Format ngày tháng (bạn có thể dùng thư viện moment.js nếu cần đẹp hơn)
+            .col-7 
+              span 
+                +formatDateTime(order.createdAt)
+            
+          
+          .row.mb-3
+            .col-5.text-muted Trạng thái:
+            .col-7
+              //- Tái sử dụng class badge status cũ
+              if(order.orderStatus == "Pending")
+                span(class="badge badge-pending") Chờ xác nhận
+              else if(order.orderStatus == "Confirmed")
+                span(class="badge badge-confirmed") Đã xác nhận
+              else if(order.orderStatus == "Shipping")
+                span(class="badge badge-shipping") Đang giao
+              else if(order.orderStatus == "Delivered")
+                span(class="badge badge-delivered") Hoàn thành
+              else
+                span(class="badge badge-cancelled") Đã hủy
+
+  //- --- KHỐI DANH SÁCH SẢN PHẨM ---
+  .card.border-0.shadow-sm
+    .card-header.bg-white.border-bottom-0.pt-4
+      h5.card-title.font-weight-bold <i class="fa-solid fa-box mr-2"></i> Danh sách sản phẩm
+    .card-body
+      table.table.table-hover.table-borderless.align-middle
+        thead.bg-light
+          tr
+            th STT
+            th Ảnh
+            th Tên sản phẩm
+            th Giá tiền
+            th Số lượng
+            th.text-right Tổng tiền
+        tbody
+          if(order.products.length > 0)
+            each item, index in order.products
+              tr
+                td #{index + 1}
+                td
+                  img(
+                    src=item.thumbnail 
+                    alt=item.title 
+                    class="img-fluid rounded border" 
+                    style="width: 60px; height: 60px; object-fit: cover;"
+                  )
+                td
+                  div.font-weight-bold #{item.title}
+                  //- Nếu có phân loại (size/màu) thì hiện ở đây
+                
+                td #{item.price.toLocaleString()}đ
+                
+                td #{item.quantity}
+                
+                td.text-right.font-weight-bold #{(item.price * item.quantity).toLocaleString()}đ
+          
+      //- --- TỔNG KẾT TIỀN ---
+      .row.mt-4.justify-content-end
+        .col-md-4
+          .d-flex.justify-content-between.mb-2
+            span.text-muted Tạm tính:
+            //- Giả sử totalAmount là tổng cuối cùng
+            span #{order.totalAmount.toLocaleString()}đ
+          
+          .d-flex.justify-content-between.mb-2
+            span.text-muted Phí vận chuyển:
+            span 0đ 
+          
+          hr
+          
+          .d-flex.justify-content-between.align-items-center
+            span.font-weight-bold.h5 Tổng cộng:
+            span.text-primary.font-weight-bold.h4 #{order.totalAmount.toLocaleString()}đ

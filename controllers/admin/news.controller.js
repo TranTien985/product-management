@@ -7,10 +7,12 @@ const filterStatusHelper = require("../../helpers/filterStatus"); // lọc
 const SearchHelper = require("../../helpers/search"); // tìm kiếm
 const paginationHelper = require("../../helpers/pagination"); // phân trang
 const createTreeHelper = require("../../helpers/createTree")
+const getSubCategoryHelper = require("../../helpers/product-category")
 
 // [GET] /admin/news
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
+  const categoryId = req.query.category_id;
 
   let find = {
     deleted: false,
@@ -29,7 +31,19 @@ module.exports.index = async (req, res) => {
   }
   // end search
 
-  // 1h bài 21
+  // --- XỬ LÝ DANH MỤC  ---
+    if (categoryId) {
+      // 1. Lấy tất cả danh mục con
+      const listSubCategory = await getSubCategoryHelper.getSubCategory(categoryId);
+  
+      // 2. Tạo mảng ID
+      const listSubCategoryId = listSubCategory.map(item => item.id);
+      listSubCategoryId.push(categoryId); // Thêm chính nó
+  
+      // 3. Cập nhật biến 'find'
+      find.news_category_id = { $in: listSubCategoryId };
+    }
+
   //Pagination
   const countNews = await News.countDocuments(find);
   // dùng để đếm tổng số lượng sản phẩm có trong db
@@ -85,12 +99,35 @@ module.exports.index = async (req, res) => {
       updatedBy.accountFullName = userUpdated.fullName
     }
   }
+
+  // --- XỬ LÝ CÂY DANH MỤC (Cho dropdown filter) ---
+    const allCategories = await NewsCategory.find({ deleted: false });
+    const newNewsCategory = createTreeHelper.tree(allCategories);
+  
+    let listCategoryOptions = [];
+    const flattenCategories = (arr, level = 0) => {
+      arr.forEach(item => {
+          const prefix = Array(level + 1).join("-- ");
+          listCategoryOptions.push({
+              id: item.id,
+              title: prefix + item.title
+          });
+          if(item.children && item.children.length > 0) {
+              flattenCategories(item.children, level + 1);
+          }
+      });
+    }
+    flattenCategories(newNewsCategory);
+
+
   res.render("admin/pages/news/index", {
     pageTitle: "Trang Danh Sách Tin Tức",
     news: news,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
     pagination: objectPagination,
+    listCategories: listCategoryOptions, 
+    categoryId: categoryId,
   });
 };
 

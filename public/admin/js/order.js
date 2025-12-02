@@ -23,6 +23,27 @@ if(orderButtonStatus.length > 0 ){
 }
 // End Button Status
 
+// Form Search Order
+const formSearchOrder = document.querySelector("#form-search-order")
+
+if(formSearchOrder){
+  let url = new URL(window.location.href)
+  formSearchOrder.addEventListener("submit", (e) =>{
+    e.preventDefault(); // để không bị load trang
+    const keyword = e.target.elements.keyword.value
+
+    if(keyword){
+      url.searchParams.set("keyword", keyword)
+    }
+    else{
+      url.searchParams.delete("keyword")
+    }
+    
+    window.location.href = url.href;
+  })
+}
+// End Form Search
+
 // Checkbox multi
 const orderCheckboxMulti = document.querySelector("[order-checkbox-multi]")
 if(orderCheckboxMulti){

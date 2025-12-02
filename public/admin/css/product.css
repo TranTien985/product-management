@@ -1,0 +1,28 @@
+/* Trang Chi tiết sản phẩm */
+
+/* Khung ảnh */
+.product-detail-image {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+}
+
+.product-detail-image img {
+    max-height: 400px; /* Giới hạn chiều cao ảnh */
+    object-fit: contain;
+    width: 100%;
+}
+
+/* Phần mô tả */
+.product-description {
+    overflow-x: auto; /* Nếu có bảng rộng quá thì cuộn ngang */
+    line-height: 1.6;
+}
+
+.product-description img {
+    max-width: 100% !important; /* Đảm bảo ảnh trong bài viết không bị tràn */
+    height: auto !important;
+    border-radius: 5px;
+}

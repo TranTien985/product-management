@@ -1,46 +1,100 @@
 extends ../../layouts/default.pug
 
 block main 
-  if(product.title)
-    h1(class="mb-4") #{product.title}
+  //- 1. Header: Tiêu đề + Các nút hành động
+  .d-flex.justify-content-between.align-items-center.mb-4
+    h1.h3 Chi tiết sản phẩm
 
-  .row 
-    .col-6 
-      if(product.thumbnail)
-        div(class="mb-4") 
-          img(
-            image-detail-product
-            src=product.thumbnail 
-          )
-    
-    .col-6 
-      if(product.price)
-        div(class="mb-4") Giá: <b>#{product.price.toLocaleString('vi-VN')} ₫</b>
+    div
+      a(
+        href=`${prefixAdmin}/products`
+        class="btn btn-outline-secondary mr-2"
+      ) <i class="fa-solid fa-arrow-left"></i> Quay lại
 
-      if(product.discountPercentage)
-        div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
+      a(
+        href=`${prefixAdmin}/products/edit/${product.id}`
+        class="btn btn-warning"
+      ) <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa
 
-      if(product.stock)
-        div(class="mb-4") Còn lại: <b>#{product.stock}</b>
+  //- 2. Khối thông tin chính
+  .card.mb-4.border-0.shadow-sm
+    .card-body
+      .row 
+        //- Cột trái: Ảnh sản phẩm
+        .col-md-4
+          .product-detail-image
+            if(product.thumbnail)
+              img(
+                src=product.thumbnail 
+                alt=product.title
+                class="img-fluid rounded"
+              )
+            else 
+              img(src="/admin/images/no-image.png" class="img-fluid rounded")
+          
+          //- Hiển thị vị trí nổi bật nếu có
+          if(product.featured == "1")
+             div.mt-3.text-center
+                span.badge.badge-success <i class="fa-solid fa-star"></i> Nổi bật
 
-      if(product.availabilityStatus)
-        div(class="mb-4")
-          span Trạng thái: 
-          if (product.availabilityStatus === "In Stock")
-            span(class="badge badge-success") Hoạt động
-          else 
-            span(class="badge badge-danger") Dừng hoạt động
+        //- Cột phải: Thông tin chi tiết
+        .col-md-8
+          h3.mb-3 #{product.title}
 
-      if(product.position)
-        div(class="mb-4") Vị trí: <b>#{product.position}</b>
+          //- Giá tiền (Tính toán giá sau giảm)
+          .mb-4
+            div.text-muted.mb-1 Giá bán:
+              h4.text-primary.font-weight-bold #{product.priceNew.toLocaleString('vi-VN')}₫
 
+          //- Bảng thông tin thuộc tính
+          table.table.table-borderless.table-sm
+            tbody
+              tr 
+                td(width="150px").text-muted Danh mục:
+                td 
+                  if (product.category)
+                    span.font-weight-bold #{product.category}
+                  else
+                    span.text-muted ---
+              
+              tr
+                td.text-muted Số lượng trong kho:
+                td 
+                  if(product.stock > 0)
+                    span.font-weight-bold #{product.stock} sản phẩm
+                  else 
+                    span.text-danger Hết hàng
+
+              tr
+                td.text-muted Vị trí sắp xếp:
+                td #{product.position}
+
+              tr
+                td.text-muted Trạng thái:
+                td 
+                  if (product.availabilityStatus === "In Stock" || product.status === "active")
+                    span(class="badge badge-success") Hoạt động
+                  else if (product.availabilityStatus === "Low Stock")
+                    span(class="badge badge-warning") Sắp hết hàng
+                  else 
+                    span(class="badge badge-danger") Dừng hoạt động
+
+              tr 
+                td.text-muted Ngày tạo:
+                td #{product.createdAt ? product.createdAt.toLocaleString('vi-VN') : '---'}
+              
+              tr 
+                td.text-muted Cập nhật cuối:
+                td #{product.updatedAt ? product.updatedAt.toLocaleString('vi-VN') : '---'}
+
+  //- 3. Khối Mô tả sản phẩm
+  .card.border-0.shadow-sm
+    .card-header.bg-white.pt-3
+      h5.mb-0 Mô tả chi tiết
+    .card-body
       if(product.description)
-        div(class="mb-4") !{product.description}
-        //- nếu dùng #{} thì sẽ hiện lên mã html nên ta phải thay bằng dấu !{}
+        .product-description !{product.description}
+      else 
+        div.text-muted.text-center (Chưa có mô tả cho sản phẩm này)
 
-  a(
-    href=`${prefixAdmin}/products/edit/${product.id}`
-    class="btn btn-warning"
-  ) Chỉnh sửa 
-
-  script(src="/admin/js/product.js") 
+  script(src="/admin/js/product.js")
