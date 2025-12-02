@@ -1,6 +1,10 @@
-/* Main */
-
-/* Banner top */
+/* Main home */
+:root{
+  --header-bg:#08222f;
+  --button-bg:#ffde02;
+  --hover-button-bg:#CCB202;
+  --product-description:#103664;
+}
 /* Banner top */
 .banner-top{
   display: flex;
@@ -489,7 +493,7 @@ ul.rating-stars{
 }
 
 /* slider */
-/* QUAN TRỌNG: Ngăn chặn chọn văn bản và hình ảnh khi kéo - ÁP DỤNG CHO TẤT CẢ SLIDER */
+/*Ngăn chặn chọn văn bản và hình ảnh khi kéo - ÁP DỤNG CHO TẤT CẢ SLIDER */
 .slider-container, .container-products,
 .slider-container *, .container-products * {
     -webkit-user-select: none;
@@ -651,8 +655,6 @@ ul.rating-stars{
   
 }
 
-
-
 /*.banner--middle-right__bottom */
 .banner-middle-right__bottom{
   display:block;
@@ -769,13 +771,42 @@ ul.rating-stars{
   padding:0;
   margin-top:10px;
 }
-.store-info ul li{
+.store-info li{
   display: flex;
   align-items:center;
   gap:8px;
+  margin-top:8px;
 }
+
 .store-info i{
   color:var(--button-bg);
+}
+
+/* button direction */
+.store-detail-btn{
+  padding:3px 10px;
+  background-color: var(--button-bg);
+  border-radius:5px;
+  margin-right:10px;
+  color:#525252;
+}
+.store-detail-btn:hover{
+  background-color: var(--hover-button-bg);
+  color:#2c2a2a;
+}
+.store-direction-btn{
+  display: flex;
+  align-items:center;
+  gap:8px;
+  color:#0078A7 ;
+}
+.store-direction-btn i{
+  color:#0078A7 !important;
+}
+
+.store-direction-btn:hover,
+.store-direction-btn:hover i{
+  color:var(--button-bg) !important;
 }
 
 /* Map */
@@ -806,18 +837,22 @@ ul.rating-stars{
 
 .map-store-content strong{
   font-size:16px;
+  font-weight:bold;
 }
 .map-store-info-list{
   padding:0;
   list-style:none;
+  margin-top:1rem;
+  margin-bottom:0;
 }
+
 .map-store-info-list li{  
   font-size:14px;
   margin:0px 0px 8px;
   display: flex;
   gap:8px;
-  
 }
+
 .map-store-info-list i{
   color:var(--button-bg);
 }
@@ -827,10 +862,6 @@ ul.rating-stars{
   padding: 5px 15px;
   background-color:var(--button-bg);
 }
-
-
-
-
 
 /* Service*/
 .services-section{
@@ -857,36 +888,4 @@ ul.rating-stars{
   font-weight:bold;
 }
 
-/* contact */
-.contacts-section{
-  position: fixed;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 5px;
-  border-radius: 3px;
-  background-color: #fff;
-  z-index: 1000;
-  box-shadow: 0 0 3px #ccc;
-  text-align: center;
-}
-.contact-item{
-  width: 50px;
-  height: 65px;
-
-  cursor:pointer;
-  display: flex;
-  flex-direction: column;
-  font-size: 10px;
-  align-items: center;
-  justify-content:center;
-}
-.contact-item img{
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  display: block;
-  
-}
-
-/* End main */
+/* End home */

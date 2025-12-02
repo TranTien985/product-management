@@ -26,4 +26,34 @@ mixin product-item(item)
     if item.discountPercentage > 0
         .discount-tag
           span= `-${item.discountPercentage}%`
-  
+
+mixin list-product-item(item)
+  .product-area
+    .product-grids
+      .product-items
+        .product-images
+          a.product-link(href=`/products/detail/${item.slug}`)
+            img.product-images(
+              src=item.thumbnail,
+              alt=item.title,
+              loading="lazy"
+            )
+        
+        .product-info
+          a.product-link(href=`/products/detail/${item.slug}`)
+            p.product-title
+              span= item.title
+          
+          .product-prices
+            span.current-price= `${item.priceNew.toLocaleString('vi-VN')} ₫`
+            if item.price > item.priceNew
+              span.original-prices= `${item.price.toLocaleString('vi-VN')} ₫`
+          
+          ul.rating-stars
+            - for (let i = 0; i < 5; i++)
+              li
+                img(src="/images/flash-sale/star.png" alt="5 sao")
+          
+        if item.discountPercentage > 0
+            .discount-tag
+              span= `-${item.discountPercentage}%`
