@@ -28,4 +28,6 @@ router.post('/password/reset',validate.resetPasswordPost, controller.resetPasswo
 
 router.get('/info', authMiddlewares.requireAuth, controller.info);
 
+router.patch('/info/edit/:id', authMiddlewares.requireAuth, controller.infoEdit);
+
 module.exports = router;

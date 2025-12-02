@@ -1,11 +1,85 @@
-extends ../../layouts/auth.pug
+extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
-
-block main 
-  .container.my-3 
-    .row 
-      .col-12 
+block main
+  .container.my-3
+    .row
+      .col-12
         +box-head("Thông tin tài khoản")
 
-  div #{user}
+    .row
+      .col-12
+        .card.card-profile
+          .card-header
+            h5 Cập nhật thông tin
+          
+          .card-body.p-4
+            if (user)
+              //- 1. Bọc thẻ FORM, method POST. Action trỏ về route xử lý update
+              form(action=`/user/info/edit/${user.id}?_method=PATCH`
+                   method="POST"
+                  )
+              
+                .info-wrapper
+                  .d-flex.align-items-center.mb-4
+                    i.fa.fa-user-edit.icon-header 
+                    h6.title-header Chỉnh sửa thông tin
+
+                  .row
+                    //- HỌ VÀ TÊN (Cho phép sửa)
+                    .col-md-6.mb-4
+                      label.label-custom Họ và tên:
+                      //- Bỏ readonly, thêm name="fullName"
+                      input.form-control.input-custom(
+                        type="text" 
+                        name="fullName" 
+                        value=user.fullName
+                        required
+                      )
+
+                    //- EMAIL (Không cho sửa - Để định danh tài khoản)
+                    .col-md-6.mb-4
+                      label.label-custom Email :
+                      input.form-control.input-empty(
+                        type="text" 
+                        value=user.email 
+                        readonly
+                      )
+
+                    //- SỐ ĐIỆN THOẠI (Cho phép sửa)
+                    .col-md-6.mb-4
+                      label.label-custom Số điện thoại:
+                      input.form-control.input-custom(
+                        type="text" 
+                        name="phone"
+                        value=(user.phone ? user.phone : "")
+                        placeholder="Nhập số điện thoại..."
+                      )
+
+                    //- TRẠNG THÁI (Không cho sửa)
+                    .col-md-6.mb-4
+                      label.label-custom Trạng thái:
+                      input.form-control.input-empty(
+                        type="text" 
+                        value=(user.status === 'active' ? 'Hoạt động' : 'Dừng hoạt động') 
+                        readonly
+                      )
+
+                    //- NGÀY TẠO (Không cho sửa)
+                    .col-md-6.mb-4
+                      label.label-custom Ngày tạo:
+                      //- Dùng hàm xử lý ngày tháng bạn đã thêm ở bước trước
+                      input.form-control.input-empty(
+                        type="text" 
+                        value=(user.createdAt ? new Date(user.createdAt).toLocaleString('vi-VN') : "") 
+                        readonly
+                      )
+                  
+                  //- Nút Cập Nhật
+                  .row.mt-3
+                    .col-12.text-right
+                      button.btn.btn-primary.btn-lg(type="submit" style="background-color: #7c4dff; border: none; padding-left: 30px; padding-right: 30px;") 
+                        | Cập nhật thông tin
+
+            else
+              p.text-center.text-danger Không tìm thấy thông tin.

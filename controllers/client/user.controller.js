@@ -205,7 +205,7 @@ module.exports.resetPasswordPost = async (req, res) => {
     password: md5(password),
   });
 
-  req.flash("success", "Thay đổi mật khẩu thành công");
+  req.flash("success", "Xác nhận thành công!");
   res.redirect("/")
 
 }
@@ -215,4 +215,20 @@ module.exports.info = async (req, res) => {
   res.render("client/pages/user/info", {
     pageTitle: 'Thông tin tài khoản',
   });
+}
+
+// [PATCH] /user/info/:id
+module.exports.infoEdit = async (req, res) => {
+  const id = res.locals.user.id;// Lấy id từ token hoặc session đăng nhập
+
+  const updatedData = {
+    fullName: req.body.fullName,
+    phone: req.body.phone
+  };
+
+  await User.updateOne({ _id: id }, updatedData);
+  
+  // Thông báo và load lại trang
+  req.flash('success', 'Cập nhật thành công!');
+  res.redirect('/user/info');
 }

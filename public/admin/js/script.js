@@ -1,5 +1,4 @@
 // Button Status (Bộ lọc)
-
 const ButtonStatus = document.querySelectorAll("[button-status]") 
 // các thuộc tính tự định nghĩa thì phải thêm ngoặc vuông vào 
 
@@ -240,3 +239,30 @@ if(sort){
 }
 
 // End Sort
+
+// Active Menu Sider
+const siderLinks = document.querySelectorAll(".sider .inner-menu ul li a");
+
+if(siderLinks.length > 0) {
+    const pathname = window.location.pathname; // Lấy đường dẫn hiện tại
+
+    siderLinks.forEach(link => {
+        const href = link.getAttribute("href");
+
+        if(href) {
+            // Logic: Nếu đường dẫn hiện tại trùng khớp HOẶC là trang con
+            // Ví dụ: pathname = /admin/products/create
+            // href = /admin/products
+            // => Active
+            
+            // Điều kiện active:
+            // 1. pathname bằng chính xác href (Trang danh sách)
+            // 2. pathname bắt đầu bằng href + "/" (Trang chi tiết/sửa/xóa)
+            // Lưu ý: Thêm dấu "/" để tránh nhầm lẫn giữa "products" và "products-category"
+            
+            if(pathname === href || pathname.startsWith(href + "/")) {
+                link.parentElement.classList.add("active");
+            }
+        }
+    });
+}

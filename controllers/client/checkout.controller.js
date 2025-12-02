@@ -65,10 +65,10 @@ module.exports.order = async (req, res) => {
     }).select("price discountPercentage ");
 
     if(productInfo) {
-      // THIẾU: Cần tính giá mới (đã giảm)
+      // tính giá mới (đã giảm)
       const priceNew = productsHelper.priceNewProduct(productInfo);
 
-      // SỬA: Lưu giá đã giảm, không phải giá gốc
+      // Lưu giá đã giảm, không phải giá gốc
       const objectProduct = {
         product_id: item.product_id,
         price: priceNew,
@@ -76,7 +76,7 @@ module.exports.order = async (req, res) => {
         quantity: item.quantity,
       };
 
-      // THIẾU: Cần tính tổng tiền đơn hàng
+      // tính tổng tiền đơn hàng
       totalOrderPrice += (priceNew * item.quantity);
 
       products.push(objectProduct);
@@ -90,6 +90,7 @@ module.exports.order = async (req, res) => {
   }
   
   const totalAmount = totalOrderPrice + shippingFee;
+  const countOrders = await Order.countDocuments()
 
 
   let userId = "";
@@ -109,7 +110,8 @@ module.exports.order = async (req, res) => {
     products: products, 
     totalPrice: totalOrderPrice, 
     shippingFee: shippingFee, 
-    totalAmount: totalAmount
+    totalAmount: totalAmount,
+    position: countOrders + 1,
   };
 
   const order = new Order(orderData);

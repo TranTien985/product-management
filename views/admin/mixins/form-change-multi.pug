@@ -15,6 +15,7 @@ mixin form-change-multi(path)
           option(value="Low Stock") Dừng hoạt động
           option(value="delete-all") Xóa tất cả
           option(value="change-position") Thay đổi vị trí
+          option(value="delete-featured") Xóa nổi bật
       .form-group 
         input(
           type="text"
@@ -23,3 +24,30 @@ mixin form-change-multi(path)
           class="form-control d-none"
         )
       button(type="submit" class="btn btn-primary") Áp dụng
+
+
+mixin change-status-orders(path)
+  form(
+    action=path
+    method="POST"
+    order-form-change-multi
+  )
+    .row
+      .col-4
+        .form-group
+          select(name="status" class="form-control")
+            option(disabled selected) -- Chọn hành động --
+            option(value="Pending") Chờ xử lý
+            option(value="Confirmed") Đã xác nhận
+            option(value="Shipping") Đang giao hàng
+            option(value="Delivered") Đã giao thành công
+            option(value="Cancelled") Hủy đơn hàng
+        .form-group 
+          input(
+            type="text"
+            name="ids"
+            value=""
+            class="form-control d-none"
+          )
+      .col-2
+        button(type="submit" class="btn btn-primary") Cập nhật

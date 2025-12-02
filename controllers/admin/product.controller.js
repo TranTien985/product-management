@@ -16,9 +16,13 @@ module.exports.index = async (req, res) => {
     deleted: false,
   }; // biến này tượng trưng cho bộ lọc
 
-  // nếu có yêu cầu lọc thì mới sử dụng hàm này không thì thôi
   if (req.query.availabilityStatus) {
-    find.availabilityStatus = req.query.availabilityStatus;
+    if (req.query.availabilityStatus === "featured") {
+      find.featured = "1";
+    }
+    else if (req.query.availabilityStatus === "In Stock" || req.query.availabilityStatus === "Low Stock") {
+      find.availabilityStatus = req.query.availabilityStatus;
+    }
   }
 
   // search
@@ -187,6 +191,17 @@ module.exports.changeMulti = async (req, res) => {
       req.flash(
         "success",
         `Cập nhật vị trí thành công ${ids.length} sản phẩm!`
+      );
+      break;
+    case "delete-featured":
+      await Product.updateMany({ _id: { $in: ids } },{
+        featured: 0, 
+        $push: {updatedBy: updatedBy} 
+        }
+      );
+      req.flash(
+        "success",
+        `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`
       );
       break;
 

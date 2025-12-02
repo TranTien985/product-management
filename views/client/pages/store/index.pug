@@ -1,0 +1,95 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug   
+
+block main 
+  section.stores-section
+    .container
+      .stores-wrapper
+        //- Title
+        .title.stores
+          b(aria-hidden='true')
+          span HỆ THỐNG CỬA HÀNG
+          b(aria-hidden='true')
+        .title.stores
+          span THẾ GIỚI CẦU LÔNG  
+
+        .stores-group
+          //- Store 1
+          .col3.store-item
+            img(src='/images/hethongcuahang/store1.png', alt='')
+            .store-info
+              strong Hệ thống Thế giới cầu lông chi nhánh Hà Đông
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 176 Chiến Thắng, Văn Quán, Hà Đông, Hà Nội
+                li
+                  i.fa-solid.fa-phone
+                  | 0815010188
+                li
+                  i.fa-solid.fa-envelope
+                  | contact@thegioicaulong.com
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 AM - 19:00 PM
+                li
+                  a.store-detail-btn(href='https://www.google.com/maps/place/H%E1%BB%87+th%E1%BB%91ng+Th%E1%BA%BF+Gi%E1%BB%9Bi+C%E1%BA%A7u+L%C3%B4ng+-+Chi+nh%C3%A1nh+H%C3%A0+%C4%90%C3%B4ng/@20.9792649,105.7960549,783m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3135ad9b7761a509:0xa6b489f85442069c!8m2!3d20.9792649!4d105.7960549!16s/g/11y8sdrdw7?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw==' target='_blank') Chi Ti&#x1EBF;t
+                  a.store-direction-btn(href='https://www.google.com/maps/dir//20.979266,105.796062' target='_blank')
+                    i.fa-solid.fa-location-arrow
+                    |Chỉ đường
+
+          //- Store 2
+          .col3.store-item
+            img(src='/images/hethongcuahang/store2.png', alt='')
+            .store-info
+              strong Hệ Thống Thế Giới Cầu Lông chi nhánh Cầu Giấy
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 106B1 Tô Hiệu, Nghĩa Tân, Cầu Giấy, Hà Nội
+                li
+                  i.fa-solid.fa-phone
+                  | 0838010188
+                li
+                  i.fa-solid.fa-envelope
+                  | contact@thegioicaulong.com
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 AM - 19:00 PM
+                li
+                  a.store-detail-btn(href='https://www.google.com/maps/place/H%E1%BB%87+Th%E1%BB%91ng+Th%E1%BA%BF+Gi%E1%BB%9Bi+C%E1%BA%A7u+L%C3%B4ng+-+Chi+Nh%C3%A1nh+C%E1%BA%A7u+Gi%E1%BA%A5y/@21.0451077,105.7939876,17z/data=!3m1!4b1!4m6!3m5!1s0x3135ab4b448caffd:0x177b47935703a24e!8m2!3d21.0451027!4d105.7965625!16s%2Fg%2F11td5rnbpq?coh=219816&entry=tts&g_ep=EgoyMDI0MDgxNC4xKgBIAVAD' target='_blank') Chi Ti&#x1EBF;t
+                  a.store-direction-btn(href='https://www.google.com/maps/dir//21.045097,105.796733' target='_blank')
+                    i.fa-solid.fa-location-arrow
+                    |Chỉ đường 
+
+          //- Store 3
+          .col3.store-item
+            img(src='/images/hethongcuahang/store3.png', alt='')
+            .store-info
+              strong Hệ thống Thế giới cầu lông chi nhánh Mỹ Đình
+              ul
+                li
+                  i.fas.fa-map-marked-alt
+                  | 236 Mỹ Đình, Nam Từ Liêm, Hà Nội
+                li
+                  i.fa-solid.fa-phone
+                  | 0814010188
+                li
+                  i.fa-solid.fa-envelope
+                  | contact@thegioicaulong.com
+                li
+                  i.fa-solid.fa-door-open
+                  | 09:00 AM - 19:00 PM
+                li
+                  a.store-detail-btn(href='https://www.google.com/maps/place/Th%E1%BA%BF+Gi%E1%BB%9Bi+C%E1%BA%A7u+L%C3%B4ng+M%E1%BB%B9+%C4%90%C3%ACnh/@21.0271225,105.7684631,17z/data=!3m1!4b1!4m6!3m5!1s0x313455853f767f67:0xbca571a9c2bbb98b!8m2!3d21.0271176!4d105.773334!16s%2Fg%2F11sts57gsy?coh=219816&entry=tts&g_ep=EgoyMDI0MDgxNC4xKgBIAVAD' target='_blank') Chi Ti&#x1EBF;t
+                  a.store-direction-btn(href='https://www.google.com/maps/dir//21.027114,105.773318' target='_blank')
+                    i.fa-solid.fa-location-arrow
+                    |Chỉ đường
+
+      .store-map
+        #map.map-container
+          .map-loading
+            p Đang tải bản đồ...
+
+        
+  script(src="/js/map.js")

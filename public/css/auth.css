@@ -66,14 +66,14 @@ html::after {
 }
 
 .container.my-5::before {
-    content: '👟'; /* Giày thể thao */
+    content: '👟';
     left: -120px;
     transform: translateY(-50%);
     animation-delay: 0s;
 }
 
 .container.my-5::after {
-    content: '🏆'; /* Huy chương */
+    content: '🏆';
     right: -120px;
     transform: translateY(-50%);
     animation-delay: 3s;
@@ -115,58 +115,6 @@ html::after {
     position: relative;
 }
 
-.alert {
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid #FFD700;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    position: relative;
-    box-shadow: 
-        0 8px 25px rgba(255,215,0,0.4),
-        0 0 30px rgba(255,215,0,0.3);
-    backdrop-filter: blur(10px);
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 240, 0.95));
-    color: #721c24;
-    border-color: #dc3545;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 255, 240, 0.95));
-    color: #155724;
-    border-color: #28a745;
-}
-
-.alert [close-alert] {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #FFD700;
-    border: 2px solid #000;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #000;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 0 #000;
-}
-
-.alert [close-alert]:hover {
-    background: #FF6B00;
-    transform: translateY(-50%) scale(1.1);
-}
-
 h1.text-center {
     color: #000000;
     font-size: 2.5rem;
@@ -174,9 +122,6 @@ h1.text-center {
     margin-bottom: 2rem;
     position: relative;
     background: #FFFFFF;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
-    background-clip: initial;
     padding: 1rem 2rem;
     border: 3px solid #000;
     border-radius: 15px;
@@ -495,14 +440,14 @@ html::after {
 }
 
 .container.my-5::before {
-    content: '👟'; /* Giày thể thao */
+    content: '👟';
     left: -120px;
     transform: translateY(-50%);
     animation-delay: 0s;
 }
 
 .container.my-5::after {
-    content: '🏆'; /* Huy chương */
+    content: '🏆';
     right: -120px;
     transform: translateY(-50%);
     animation-delay: 3s;
@@ -544,58 +489,6 @@ html::after {
     position: relative;
 }
 
-.alert {
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid #FFD700;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    position: relative;
-    box-shadow: 
-        0 8px 25px rgba(255,215,0,0.4),
-        0 0 30px rgba(255,215,0,0.3);
-    backdrop-filter: blur(10px);
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 240, 0.95));
-    color: #721c24;
-    border-color: #dc3545;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 255, 240, 0.95));
-    color: #155724;
-    border-color: #28a745;
-}
-
-.alert [close-alert] {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #FFD700;
-    border: 2px solid #000;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #000;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 0 #000;
-}
-
-.alert [close-alert]:hover {
-    background: #FF6B00;
-    transform: translateY(-50%) scale(1.1);
-}
-
 h1.text-center {
     color: #000000;
     font-size: 2.5rem;
@@ -603,9 +496,6 @@ h1.text-center {
     margin-bottom: 2rem;
     position: relative;
     background: #FFFFFF;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
-    background-clip: initial;
     padding: 1rem 2rem;
     border: 3px solid #000;
     border-radius: 15px;

@@ -1,0 +1,107 @@
+extends ../../layouts/default.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/sort.pug
+include ../../mixins/show-alert.pug
+include ../../mixins/pagination.pug
+include ../../mixins/filter-status.pug
+
+block main
+  h1(class="mb-4") Quản lý đơn hàng
+
+  .card.mb-3 
+    .card-header Bộ lọc và Tìm kiếm
+    .card-body
+      .row 
+        .col-3 
+          +sort()
+
+        .col-9.text-right
+          //- sử dụng mixins
+          +order-filter-status(filterOrderStatus)
+
+  .card.mb-3
+    .card-header Cập nhật trạng thái
+    .card-body
+      //- Nếu đơn hàng đã giao thành công hoặc đã hủy thì không cho sửa nữa (Optional)
+      if (orders.orderStatus === 'Delivered' || orders.orderStatus === 'Cancelled')
+        div(class="alert alert-secondary") Đơn hàng này đã hoàn tất hoặc bị hủy. Không thể thay đổi trạng thái.
+      else
+        +change-status-orders(`${prefixAdmin}/orders/change-multi?_method=PATCH`)
+
+  .card.mb-3
+    .card-header Danh sách đơn hàng
+    .card-body
+      table(class="table table-hover table-sm" order-checkbox-multi)
+        thead
+          tr
+            th 
+              input(type="checkbox" name="checkall")
+            th STT
+            th Mã đơn
+            th Khách hàng
+            th Tổng tiền
+            th Vị trí 
+            th Trạng thái
+            th Ngày tạo
+            th Hành động
+
+        tbody
+          each item, index in orders
+            tr
+              td 
+                input(
+                  type="checkbox"
+                  name="id"
+                  value=item.id 
+                )
+              td #{pagination.limitItems*(pagination.currentPage - 1) + (index + 1)}
+              td #{item.orderCode}
+              td
+                div <b>#{item.shippingAddress.fullName}</b>
+                div #{item.shippingAddress.phone}
+              td 
+                b #{item.totalAmount.toLocaleString()} đ
+              td 
+                input(
+                  type="number"
+                  value=item.position 
+                  name="position"
+                  min="1"
+                  style="width: 60px"
+                )
+              td
+                if(item.orderStatus == "Pending")
+                  span(class="badge badge-warning") Chờ xác nhận
+                else if(item.orderStatus == "Confirmed")
+                  span(class="badge badge-info") Đã xác nhận
+                else if(item.orderStatus == "Shipping")
+                  span(class="badge badge-primary") Đang giao
+                else if(item.orderStatus == "Delivered")
+                  span(class="badge badge-success") Đã giao
+                else
+                  span(class="badge badge-danger") Đã hủy
+
+              td #{item.createdAt.toLocaleString()}
+              
+              td
+                a(
+                  href=`/admin/orders/detail/${item.id}`
+                  class="btn btn-secondary btn-sm"
+                ) Chi tiết
+                
+                button(
+                  class="btn btn-danger btn-sm ml-1"
+                  button-delete
+                  data-id=item.id
+                ) Xóa
+  
+  +pagination(pagination)
+
+  form(
+    action="" 
+    method="POST"
+    id="form-delete-item"
+    data-path=`${prefixAdmin}/orders/delete`
+  ) 
+
+  script(src="/admin/js/order.js") 

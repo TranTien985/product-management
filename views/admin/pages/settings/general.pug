@@ -62,7 +62,7 @@ block main
         value= settingGeneral ? settingGeneral.email : ""
       )
     div(class="form-group")
-      label(for="address") Địa chỉ 
+      label(for="email") Địa chỉ
       input(
         type="text"
         class="form-control"
@@ -79,9 +79,10 @@ block main
         name="copyright"
         value= settingGeneral ? settingGeneral.copyright : ""
       )
-    
     div(class="form-group")
       button(
         type="submit"
         class="btn btn-primary"
       ) Cập nhật
+  
+  script(src="/admin/js/map.js") 

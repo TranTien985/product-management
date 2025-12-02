@@ -17,31 +17,32 @@ const orderSchema = new mongoose.Schema({
       discountPercentage: Number, 
     }
   ],
-  shippingAddress: { // Thiết kế này của bạn RẤT TỐT
-      fullName: String,
-      phone: String,
-      address: String,
-      note: String
-    },
-    totalPrice: {
-      type: Number,
-      required: true
-    },
-    shippingFee: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    totalAmount: {
-      type: Number,
-      required: true
-    },
-    orderStatus: {
-      type: String,
-      enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
-      default: "Pending",
-      required: true
-    },
+  shippingAddress: { 
+    fullName: String,
+    phone: String,
+    address: String,
+    note: String
+  },
+  totalPrice: {
+    type: Number,
+    required: true
+  },
+  shippingFee: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  totalAmount: {
+    type: Number,
+    required: true
+  },
+  orderStatus: {
+    type: String,
+    enum: ["Pending", "Confirmed", "Shipping", "Delivered", "Cancelled"],
+    default: "Pending",
+    required: true
+  },
+  position: Number,
   deleted: {
     type: Boolean,
     default: false

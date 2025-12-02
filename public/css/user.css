@@ -1,0 +1,134 @@
+/* ===== USER INFO PAGE STYLES ===== */
+
+/* Container chính */
+.account-info {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin-top: 20px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+}
+
+/* Header thông tin tài khoản */
+.account-info__header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.account-info__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Phần nội dung user */
+.account-info__content {
+    padding: 30px;
+}
+
+.user-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 25px;
+    border-left: 4px solid #667eea;
+}
+
+.user-info__title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.user-info__title::before {
+    content: "👤";
+    font-size: 1.4rem;
+}
+
+.user-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.user-detail__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user-detail__label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-detail__value {
+    font-size: 1rem;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.user-detail__value:empty::before {
+    content: "Chưa có thông tin";
+    color: #adb5bd;
+    font-style: italic;
+    font-weight: normal;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .account-info__content {
+        padding: 20px;
+    }
+    
+    .user-details {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .account-info__header {
+        padding: 15px 20px;
+    }
+    
+    .user-info {
+        padding: 20px;
+    }
+}
+
+/* Animation */
+.account-info {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
