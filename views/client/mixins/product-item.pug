@@ -19,9 +19,17 @@ mixin product-item(item)
           span.original-price= `${item.price.toLocaleString('vi-VN')} ₫`
       
       ul.rating-stars
-        - for (let i = 0; i < 5; i++)
+        //- Làm tròn rating (ví dụ 4.6 -> 5). Nếu không có rating thì mặc định là 0
+        - var rating = Math.round(item.rating || 0)
+        
+        - for (let i = 1; i <= 5; i++)
           li
-            img(src="/images/flash-sale/star.png" alt="5 sao")
+            if (i <= rating)
+              //- Sao vàng (đã đánh giá)
+              img(src="/images/flash-sale/star.png" alt="star")
+            else
+              //- Sao xám (chưa đánh giá) - Thêm class 'star-gray' để chỉnh CSS
+              img(src="/images/flash-sale/star.png" alt="star" class="star-gray")
       
     if item.discountPercentage > 0
         .discount-tag
@@ -50,9 +58,17 @@ mixin list-product-item(item)
               span.original-prices= `${item.price.toLocaleString('vi-VN')} ₫`
           
           ul.rating-stars
-            - for (let i = 0; i < 5; i++)
+            //- Làm tròn rating (ví dụ 4.6 -> 5). Nếu không có rating thì mặc định là 0
+            - var rating = Math.round(item.rating || 0)
+            
+            - for (let i = 1; i <= 5; i++)
               li
-                img(src="/images/flash-sale/star.png" alt="5 sao")
+                if (i <= rating)
+                  //- Sao vàng (đã đánh giá)
+                  img(src="/images/flash-sale/star.png" alt="star")
+                else
+                  //- Sao xám (chưa đánh giá) - Thêm class 'star-gray' để chỉnh CSS
+                  img(src="/images/flash-sale/star.png" alt="star" class="star-gray")
           
         if item.discountPercentage > 0
             .discount-tag

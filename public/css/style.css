@@ -688,7 +688,8 @@ input[type="email"]{
   background-color: #ffffff;
   color: #000000;
   border: 1.5px solid #000000;
-  transition: all 0.2s ease;
+  transform: scale(1); 
+  transition: all 0.25s ease;
 }
 
 .page-item.disabled .page-link {
@@ -699,12 +700,46 @@ input[type="email"]{
 }
 
 .page-item:not(.active):not(.disabled) .page-link:hover {
-  background-color: #f0f0f0; 
+  background-color: #000000; 
+  color: #ffffff;
+  border-color: #000000; 
+  transform: scale(1.08); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .page-item.active .page-link {
   background-color: #000000;
   color: #ffffff;
   border-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.page-item.active .page-link:hover {
+    transform: scale(1.05); /* Cho phép phóng to nhẹ khi hover vào nút active */
 }
 /* end pagination*/
+
+/* star */
+/* Làm xám và mờ đi các ngôi sao chưa đạt được */
+.rating-stars .star-gray {
+  filter: grayscale(100%); 
+  opacity: 0.3;            
+}
+
+/* Căn chỉnh lại list sao cho đẹp (nếu chưa có) */
+ul.rating-stars {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0;
+}
+
+ul.rating-stars li {
+  margin-right: 2px;
+}
+
+ul.rating-stars img {
+  width: 14px; /* Điều chỉnh kích thước sao cho phù hợp */
+  height: 14px;
+}
+/*end star */

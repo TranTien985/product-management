@@ -1,21 +1,5 @@
 include product-item.pug
 
-//- Mixin cho sidebar categories
-mixin category-sidebar(title, items)
-  .category-sidebar
-    .sidebar-header
-      h3= title
-      button.toggle-btn -
-    .category-list
-      each item in items
-        .category-item
-          input(
-            type="checkbox" 
-            id=item.id
-            name=item.name || item.id
-          )
-          label(for=item.id)= item.label
-
 //- Mixin cho product grid
 mixin product-grid-products(products)
   .product-area
@@ -42,16 +26,3 @@ mixin product-grid-card(products)
     .product-grids
       each item in products
         +list-product-item(item)
-
-
-//- Mixin cho toàn bộ trang products
-mixin product-page(products, categoriesData)
-  .product-page
-    //- Sidebar
-    .sidebar
-      +category-sidebar("Danh mục sản phẩm", categoriesData.categories)
-      +category-sidebar("Giá bán", categoriesData.prices) 
-      +category-sidebar("Thương hiệu", categoriesData.brands)
-
-    //- Product grid
-    +product-grid-card(products)

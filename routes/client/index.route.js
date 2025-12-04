@@ -16,6 +16,7 @@ const storeRouter = require("./store.route");
 module.exports = (app) => {
   // khi bất kì vào trang nào thì nó đều đi qua cái thằng này
   app.use(categoryMiddlewares.category)
+  app.use(categoryMiddlewares.productCategoryFilter)
   app.use(cartMiddlewares.cartId)
   app.use(userMiddlewares.infoUser)
   app.use(settingMiddlewares.settingGeneral)
