@@ -1,0 +1,51 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/order.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head("Theo dõi đơn hàng")
+
+        //- 1. FORM TÌM KIẾM
+        .tracking-search-box.mb-5.p-4.bg-light.rounded
+          form(action="/tracking-product" method="GET")
+            .row.justify-content-center
+              .col-md-8
+                .input-group
+                  input.form-control.form-control-lg(
+                    type="text" 
+                    name="keyword" 
+                    placeholder="Nhập mã đơn hàng của bạn..."
+                    value=objectSearch.keyword
+                  )
+                  button.btn.btn-warning.btn-lg(type="submit") 
+                    i.fa-solid.fa-magnifying-glass
+
+    //- 2. KẾT QUẢ TÌM KIẾM RIÊNG LẺ
+    if (objectSearch.keyword)
+      .row.mb-5
+        .col-12
+          h3.mb-3 Kết quả tra cứu cho: 
+            span.text-primary "#{objectSearch.keyword}"
+          
+          if (order)
+            +order-item(order, 1)
+          else 
+            .alert.alert-danger Không tìm thấy đơn hàng nào với mã này!
+
+    //- 3. DANH SÁCH ĐƠN HÀNG CỦA TÔI
+    if (user && myOrders.length > 0 && !objectSearch.keyword)
+      .row
+        .col-12 
+          h3.mb-4.text-uppercase Đơn hàng của tôi
+          //- Gọi Mixin trong vòng lặp
+          each orderItem, index in myOrders
+            +order-item(orderItem, index)
+
+    //- 4. TRƯỜNG HỢP CHƯA CÓ ĐƠN
+    if(user && myOrders.length === 0 && !objectSearch.keyword)
+        .alert.alert-info.text-center.p-5
+          i.fa-solid.fa-box-open.fa-3x.mb-3
+          p Bạn chưa có đơn hàng nào. Hãy mua sắm ngay nhé!

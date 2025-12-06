@@ -12,6 +12,7 @@ const checkoutRouter = require("./checkout.route");
 const userRouter = require("./user.route");
 const newsRouter = require("./news.route");
 const storeRouter = require("./store.route");
+const trackingProductRouter = require("./tracking-product.route");
 
 module.exports = (app) => {
   // khi bất kì vào trang nào thì nó đều đi qua cái thằng này
@@ -37,4 +38,6 @@ module.exports = (app) => {
   app.use("/news",  newsRouter);
 
   app.use("/store",  storeRouter);
+
+  app.use("/tracking-product",  trackingProductRouter);
 };

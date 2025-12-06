@@ -743,3 +743,43 @@ ul.rating-stars img {
   height: 14px;
 }
 /*end star */
+
+/* Style chung cho Badge trạng thái */
+.badge {
+    padding: 5px 12px;
+    border-radius: 50px; 
+    font-weight: 600;
+    font-size: 12px;
+    display: inline-block;
+    border: 1px solid transparent; 
+}
+
+.badge-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+.badge-confirmed {
+    background-color: #cff4fc;
+    color: #055160;
+    border-color: #b6effb;
+}
+
+.badge-shipping {
+    background-color: #e0cffc;
+    color: #481a8c; 
+    border-color: #d6bcfa;
+}
+
+.badge-delivered {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-color: #badbcc;
+}
+
+.badge-cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
+}

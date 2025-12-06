@@ -1,0 +1,71 @@
+mixin order-item(item, index)
+  .card.mb-4.shadow-sm(class=(index % 2 === 0 ? 'border-info' : 'border-secondary'))
+    //- Header: Mã đơn & Trạng thái
+    .card-header.d-flex.justify-content-between.align-items-center.bg-light
+      div
+        strong ##{index + 1} 
+        | - Mã đơn: 
+        strong.text-primary #{item.orderCode || item.code} 
+        span.text-muted.small (| Ngày đặt: #{item.createdAt.toLocaleDateString()})
+      
+      div
+        if(item.orderStatus == "Pending")
+          span(class="badge badge-pending") Chờ xác nhận
+        else if(item.orderStatus == "Confirmed")
+          span(class="badge badge-confirmed") Đã xác nhận
+        else if(item.orderStatus == "Shipping")
+          span(class="badge badge-shipping") Đang giao
+        else if(item.orderStatus == "Delivered")
+          span(class="badge badge-delivered") Đã giao
+        else
+          span(class="badge badge-cancelled") Đã hủy
+
+    //- Body: Thông tin & Sản phẩm
+    .card-body
+      .row.mb-3
+        //- Cột trái: Thông tin người nhận
+        .col-md-7
+          h6.text-muted Thông tin giao hàng:
+          if(item.shippingAddress)
+            p.mb-1
+              i.fa-solid.fa-user.me-2
+              | #{item.shippingAddress.fullName}
+            p.mb-1
+              i.fa-solid.fa-phone.me-2
+              | #{item.shippingAddress.phone}
+            p.mb-0
+              i.fa-solid.fa-location-dot.me-2
+              | #{item.shippingAddress.address}
+          else 
+            p.text-muted (Không có thông tin chi tiết người nhận)
+
+        //- Cột phải: Phí ship & Tổng tiền
+        .col-md-5.text-md-end
+          if(item.shippingFee && item.shippingFee > 0)
+            p.mb-1
+              span.text-muted.me-2 Phí vận chuyển:
+              span.fw-bold #{item.shippingFee.toLocaleString()}đ
+          
+          h6.text-muted Tổng giá trị đơn hàng:
+          h4.text-danger.fw-bold #{item.totalPrice.toLocaleString()}đ
+
+      //- Danh sách sản phẩm
+      if(item.products && item.products.length > 0)
+        hr
+        h6.text-muted Danh sách sản phẩm:
+        .list-group
+          each product in item.products
+            .list-group-item.d-flex.justify-content-between.align-items-center
+              div.d-flex.align-items-center
+                if(product.thumbnail)
+                  img.rounded(src=product.thumbnail style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px")
+                else 
+                  img.rounded(src="https://dummyimage.com/60x60/dee2e6/6c757d.jpg" style="width: 60px; height: 60px; margin-right: 15px")
+                
+                div
+                  h6.mb-0 #{product.title}
+                  small.text-muted Số lượng: #{product.quantity} x #{product.priceNew ? product.priceNew.toLocaleString() : 0}đ
+              
+              span.fw-bold #{product.totalPrice ? product.totalPrice.toLocaleString() : 0}đ
+      else
+        .alert.alert-warning.mt-3.mb-0 Chưa có thông tin chi tiết sản phẩm cho đơn hàng này.
