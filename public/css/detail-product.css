@@ -15,7 +15,7 @@
   max-width: 100%; /* Đảm bảo không tràn khung */
   margin: 0 auto;
   display: block;
-  max-height: 700px;
+  height: 700px;
   image-rendering: -webkit-optimize-contrast; /* Giúp ảnh có độ tương phản tốt hơn trên Chrome */
   object-fit: scale-down;
 }

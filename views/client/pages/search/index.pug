@@ -1,14 +1,23 @@
-extends ../../layouts/default.pug  
+extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
+include ../../mixins/pagination.pug
+include ../../mixins/filter-box.pug
 
-//- bắt buộc phải cách 4 dấu cách dưới block main không là lỗi
-block main 
-  .container.my-3 
-    .row 
-      .col-12 
-        +box-head(pageTitle)
-    if(products.length > 0)
-      +product-grid(products)
-    else 
-      h3(class="text-center") Không tìm thấy sản phẩm nào
+block main
+  .container
+    .page-header
+      .breadcrumb-title
+          a(href="/") Trang chủ
+          span.separator >
+          span.current-page= pageTitle
+    .row
+      .col-md-3.sidebar
+        +product-filters(categoriesFilter, categoriesBrandFilter, queryParams)
+
+      .col-md-9.products-list
+        +product-grid-card(products)
+
+  +pagination(pagination)
+
+  script(src="/js/product.js") 
