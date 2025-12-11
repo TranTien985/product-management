@@ -1,53 +1,354 @@
-extends ../../layouts/default.pug 
+extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+include ../../mixins/filter-rating.pug
 
-block main 
-  .product-detail
-    .container.my-5
-      .row 
-        .col-6
-          .inner-thumb
-            img(src=product.thumbnail, alt=product.title)
-        .col-6
-          h1(class="inner-title") #{product.title}
+block main
+  .product-detail.py-5
+    .container
+      .row
+        //- CỘT TRÁI: ẢNH SẢN PHẨM
+        .col-md-7
+          //- Container chính chứa ảnh và nút điều hướng
+          .main-image-container.mb-3.position-relative.border.rounded.overflow-hidden
+            //- Nhãn giảm giá (Giữ nguyên)
+            if(product.discountPercentage > 0)
+              .tag-discount -#{product.discountPercentage}%
+            
+            //- Ảnh chính
+            img#main-image.img-fluid.w-100(src=product.thumbnail alt=product.title style="object-fit: cover;")
 
-          if(product.category)
-            div(class="inner-category")
-              span Danh mục: 
-              a(href=`/products/${product.category.slug}`) #{product.category.title}
-        
-          if(product.priceNew)
-            div(class="inner-price-new") #{product.priceNew.toLocaleString('vi-VN')} ₫
+            //- [MỚI] Nút điều hướng Trái/Phải
+            //- Chỉ hiển thị khi có nhiều hơn 1 ảnh (thumbnail + images)
+            if(product.images && product.images.length > 0)
+              button#btn-prev.btn-nav.prev
+                i.fa-solid.fa-chevron-left
+              button#btn-next.btn-nav.next
+                i.fa-solid.fa-chevron-right
+            
+          //- Các ảnh tiếp theo từ mảng product.images
+          if(product.images && product.images.length > 0)
+            each image, index in product.images
+              img.thumb-item.border.rounded(src=image data-index=index+1 style="width: 80px; height: 80px; object-fit: cover; cursor: pointer")
 
-          if(product.price)
-            div(class="inner-price-old") #{product.price.toLocaleString('vi-VN')} ₫
+        //- CỘT PHẢI: THÔNG TIN CHI TIẾT
+        .col-md-5
+          h3.inner-title.fw-bold.mb-3 #{product.title}
+          
+          .inner-meta.mb-4
+            span.me-3 
+              i.fa-solid.fa-star.text-warning.small
+              span.text-muted.ms-2.small (#{reviews ? reviews.length : 0} đánh giá)
+            span.text-muted.small | Đã bán #{product.quantity_sold || 0}
 
-          if(product.discountPercentage)
-            div(class="inner-percent") Giảm tới: <span>#{product.discountPercentage}%</span>
+          //- BOX GIÁ 
+          .price-box
+            p.mb-2 Giá khuyến mãi:
+            
+            .d-flex.align-items-center.flex-wrap
+              h2.text-danger.fw-bold.me-3.mb-0 #{product.priceNew.toLocaleString()}đ
+              
+              if(product.discountPercentage > 0)
+                span.text-price.fs-5.me-2 #{product.price.toLocaleString()}đ
+                //- Đã xóa span.badge ở đây đi cho đỡ rối mắt
+            
+            if(product.discountPercentage > 0)
+              p.price-save.mt-2.mb-0.fw-bold Tiết kiệm: #{(product.price - product.priceNew).toLocaleString()}đ
 
-          if(product.stock)
-            div(class="inner-stock") Còn lại: <span>#{product.stock}</span> sản phẩm
+          //- --- [BẮT ĐẦU] PHẦN ƯU ĐÃI THÊM (MỚI) ---
+          .policy-box.border.rounded.p-3.mb-4.bg-light
+            //- Tiêu đề nhãn vàng giống mẫu
+            .policy-label.fw-bold.mb-3
+              i.fa-solid.fa-gift.me-2
+              | Ưu đãi thêm:
+            
+            //- Danh sách ưu đãi
+            ul.list-unstyled.mb-0
+              li.mb-2.d-flex.align-items-start
+                i.fa-solid.fa-circle-check.text-success.me-2.mt-1
+                span Tặng 01 túi đựng đồ 
+              li.mb-2.d-flex.align-items-start
+                i.fa-solid.fa-circle-check.text-success.me-2.mt-1
+                span Bảo hành chính hãng 3 tháng 
+              li.d-flex.align-items-start
+                i.fa-solid.fa-truck-fast.text-primary.me-2.mt-1
+                span Freeship toàn quốc cho đơn hàng trên 500.000đ 
+          //- --- [KẾT THÚC] ---
 
-          //- vì hàm lean() nên ta phải trỏ là "product._id" thay vì "product.id"
-          form(
-            action=`/cart/add/${product._id}` 
-            method="POST"
-          )
-            input(
-              class="form-control mb-2"
-              type="number"
-              name="quantity"
-              value="1"
-              min="1"
-              max = product.stock
-            )
-            button(
-              type="submit"
-              class="btn btn-success btn-block"
-            ) Thêm vào giỏ hàng 
+          //- FORM MUA HÀNG
+          form(action=`/cart/add/${product._id}` method="POST")
+            //- Input số lượng ẩn (mặc định là 1)
+            input(type="hidden" name="quantity" value="1")
+            .row.g-2.mb-3
+              //- Nút MUA NGAY (Sửa col-md-6 thành col-6)
+              .col-6
+                button.btn.btn-buy-now.w-100.py-2.text-uppercase.fw-bold(
+                  type="submit" 
+                  name="type" 
+                  value="buy-now"
+                ) Mua Ngay
+                
+                //- Nút THÊM VÀO GIỎ (Sửa col-md-6 thành col-6)
+              .col-6
+                button.btn.btn-add-cart.w-100.py-2.text-uppercase.fw-bold(
+                  type="submit" 
+                  name="type" 
+                  value="add-cart"
+                ) Thêm vào giỏ
+            
+            //- Nút Social (Giữ nguyên)
+            .row.g-2 
+              .col-6
+                 a.btn.btn-outline-primary.w-100.py-2(href="https://www.facebook.com/84thegioicaulong")
+                   i.fa-brands.fa-facebook.me-2
+                   | Chat Facebook
+              .col-6
+                 a.btn.btn-outline-info.w-100.py-2(href="https://zalo.me/0824010188")
+                   i.fa-solid.fa-comment.me-2
+                   | Chat Zalo
 
-    .container.my-5 
-      .row 
-        .col-12 
-          +box-head("Mô tả sản phẩm")
-          .inner-desc !{product.description}
+      //- MÔ TẢ 
+      .row.mt-5
+        .col-12
+          h5.mb-3.fw-bold Mô tả sản phẩm
+          
+          //- Wrapper chứa toàn bộ phần mô tả
+          .desc-wrapper.bg-white.p-4.border.rounded.position-relative
+             
+             //- Nội dung mô tả (bị giới hạn chiều cao lúc đầu)
+             #desc-content.inner-desc-content
+                | !{product.description}
+             
+             //- Lớp phủ mờ dần (Gradient)
+             #desc-overlay.desc-overlay
+             
+             //- Nút bấm Xem thêm / Thu gọn
+             .text-center.mt-3
+                button#btn-toggle-desc.btn.btn-outline-warning.rounded-pill.px-4.fw-bold
+                    span#btn-desc-text Xem thêm
+                    i#btn-desc-icon.fa-solid.fa-chevron-down.ms-2
+      
+      //- ... (Phần Mô tả sản phẩm ở trên) ...
+      //- PHẦN ĐÁNH GIÁ SẢN PHẨM
+      //- 1. KHUNG TỔNG QUAN
+      .review-section#reviews-section.mt-5.mb-5
+          h2.mb-4 Đánh giá #{product.title}
+
+          //- KHỐI TỔNG QUAN RATING 
+          .card.border-0.shadow-sm.mb-4
+            .card-body
+              .row.align-items-center
+                //- Cột trái: Điểm trung bình
+                .col-md-3.text-center.border-right
+                  //- Fallback: Nếu không có averageRating thì hiện 0
+                  h1.display-3.text-warning.font-weight-bold.mb-0 #{averageRating || 0}
+                  span
+                    .text-warning
+                      i.fas.fa-star.fa-lg
+                  p.text-muted #{totalRatings || 0} đánh giá
+                
+                //- Cột giữa: Các thanh Progress Bar
+                .col-md-6.px-4
+                  //- Vòng lặp 5, 4, 3, 2, 1
+                  - for (let i = 5; i >= 1; i--)
+                    //- Tính % an toàn: Nếu object tồn tại thì lấy, ko thì bằng 0
+                    - const percent = (ratingPercents && ratingPercents[i]) ? ratingPercents[i] : 0
+                    
+                    .d-flex.align-items-center.mb-2
+                      span.mr-2.small.text-muted #{i} <i class="fas fa-star text-warning"></i>
+                      .progress.flex-grow-1(style="height: 8px; border-radius: 4px;")
+                        .progress-bar.bg-warning(
+                          role="progressbar" 
+                          style=`width: ${percent}%` 
+                          aria-valuenow=percent
+                          aria-valuemin="0" 
+                          aria-valuemax="100"
+                        )
+                      span.ml-2.small.text-muted(style="width: 40px; text-align: right") #{percent}%
+
+                //- Cột phải: Nút
+                .col-md-3.text-center
+                  button.btn.btn-primary.btn-lg.btn-block(data-toggle="modal" data-target="#reviewModal") ĐÁNH GIÁ NGAY
+
+          //- KHỐI FORM ĐÁNH GIÁ (Mặc định ẩn) 
+          #reviewModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true")
+              .modal-dialog.modal-dialog-centered
+                  .modal-content
+                      .modal-header
+                        //- Đổi tiêu đề Modal theo tên sản phẩm
+                        h5#reviewModalLabel.modal-title Đánh giá #{product.title}
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") &times;
+
+                      .modal-body
+                        if (user)
+                            form(
+                              action=`/products/review/${product._id}`
+                              method="POST"
+                              enctype="multipart/form-data" 
+                            )
+                                
+                                //- TIÊU ĐỀ & NỘI DUNG
+                                .form-group.mb-3
+                                    textarea.form-control(name="content" rows="3" placeholder="Mời bạn chia sẻ thêm cảm nhận..." required)
+
+                                //- CHỌN ẢNH
+                                .d-flex.align-items-center.mb-4
+                                  //- Khối xử lý upload
+                                  div(upload-image)
+                                    
+                                    //- Nút chọn ảnh
+                                    label.image-upload-label(for="images")
+                                      .text-center.text-muted
+                                        i.fa-solid.fa-camera.fa-xl.mb-2
+                                        small.d-block Thêm ảnh
+
+                                    input.d-none(
+                                      type="file" 
+                                      id= "images"
+                                      name="images" 
+                                      accept="image/*" 
+                                      upload-image-input
+                                    )
+                                    .image-preview-container.d-none(upload-image-preview-container)
+                                      img.image-preview(
+                                        src="" 
+                                        upload-image-preview
+                                      )
+                                      span.close-badge(icon-delete-image)
+                                        i.fa-solid.fa-xmark
+
+                                  //- D. Đếm ký tự
+                                  span.ml-auto.text-muted.small 0 ký tự (Tối thiểu 10)
+
+                                //- CHỌN SAO (Giữ nguyên)
+                                .mb-4.text-center.py-3(style="border-top: 1px solid #eee; border-bottom: 1px solid #eee;")
+                                    label.font-weight-bold.mb-3 Bạn cảm thấy thế nào về sản phẩm?
+                                    
+                                    .rating-wrapper
+                                        .star-rating-container
+                                            input(type="radio" id="star5" name="star" value="5" required)
+                                            label(for="star5" title="Tuyệt vời") 
+                                                i.fas.fa-star
+                                            input(type="radio" id="star4" name="star" value="4")
+                                            label(for="star4" title="Tốt") 
+                                                i.fas.fa-star
+                                            input(type="radio" id="star3" name="star" value="3")
+                                            label(for="star3" title="Trung bình") 
+                                                i.fas.fa-star
+                                            input(type="radio" id="star2" name="star" value="2")
+                                            label(for="star2" title="Không tốt") 
+                                                i.fas.fa-star
+                                            input(type="radio" id="star1" name="star" value="1")
+                                            label(for="star1" title="Rất tệ") 
+                                                i.fas.fa-star
+                                        .rating-labels
+                                            span Rất tệ
+                                            span Tệ
+                                            span T.Bình
+                                            span Tốt
+                                            span T.Vời
+
+                                //- THÔNG TIN LIÊN HỆ 
+                                .form-row
+                                    .col-md-4.mb-2
+                                        input.form-control.form-control-sm(
+                                            type="text" 
+                                            name="fullName" 
+                                            placeholder="Họ tên (Bắt buộc)" 
+                                            value=user.fullName 
+                                            required
+                                        )
+                                    .col-md-4.mb-2
+                                        input.form-control.form-control-sm(
+                                            type="text" 
+                                            name="phone" 
+                                            placeholder="Số điện thoại" 
+                                            value=user.phone
+                                            required
+                                        )
+                                    .col-md-4.mb-2
+                                        input.form-control.form-control-sm(
+                                            type="email" 
+                                            name="email" 
+                                            placeholder="Email (Tùy chọn)" 
+                                            value=user.email
+                                        )
+                                .d-grid.mt-4
+                                    button.btn.btn-primary.btn-block(type="submit") GỬI ĐÁNH GIÁ
+
+                        else 
+                            .alert.alert-info.text-center
+                                | Vui lòng 
+                                a(href="/user/login") đăng nhập 
+                                | để đánh giá sản phẩm.
+
+          //- Bộ lọc 
+          .row.align-items-center.mb-4
+            .col-12
+              +filter-rating(filterRating)
+
+          //- DANH SÁCH ĐÁNH GIÁ (REVIEWS)           
+          if (reviews && reviews.length > 0)
+            .review-list
+              each review in reviews
+                .review-item.border-bottom.py-4
+                  .d-flex
+                    //- 1. AVATAR (Giữ nguyên)
+                    .avatar.mr-3
+                      .rounded-circle.bg-light.d-flex.align-items-center.justify-content-center(style="width: 50px; height: 50px; font-size: 20px; color: #555; font-weight: bold;")
+                        | #{review.createdBy && review.createdBy.user_name ? review.createdBy.user_name.charAt(0).toUpperCase() : 'K'}
+                    
+                    //- PHẦN BODY BÊN PHẢI
+                    .review-content.flex-grow-1
+                      //- Tên người dùng (Hàng đầu tiên)
+                      h6.font-weight-bold.mb-1 #{review.createdBy ? review.createdBy.user_name : 'Khách hàng ẩn danh'}
+
+                      .d-flex.align-items-start.mb-2
+                        //- Khối Sao: Đặt cố định chiều rộng (min-width) để thẳng hàng
+                        .rating-stars.mr-3(style="min-width: 85px;")
+                          .text-warning.small
+                            - for (let j = 1; j <= 5; j++)
+                              if (j <= review.rating)
+                                i.fas.fa-star
+                              else
+                                i.far.fa-star 
+
+                        //- Khối Nội dung: Chiếm phần còn lại
+                        .comment-text.flex-grow-1
+                          p.mb-0(style="line-height: 1.4;") #{review.content}
+                      
+                      //- C. Hình ảnh đính kèm (Nếu có - Nằm dưới comment)
+                      if (review.images && review.images.length > 0)
+                        .review-images.mt-2
+                          each img in review.images
+                            img.rounded.mr-2.mb-2.review-image-zoom(
+                              src=img 
+                              alt="Review Image" 
+                              style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #eee; cursor: zoom-in;"
+                            )
+                      
+                      //- D. Ngày tháng (Nằm dưới cùng)
+                      small.text-muted.d-block
+                        | #{review.createdAt ? review.createdAt.toLocaleDateString('vi-VN') : ''}
+
+          else
+            //- KHÔNG CÓ ĐÁNH GIÁ
+            .text-center.py-5.text-muted
+              i.far.fa-comment-dots.fa-3x.mb-3
+              p Chưa có đánh giá nào. Hãy là người đầu tiên nhận xét sản phẩm này!
+
+          //- sản phẩm tương tự
+          .container.my-5
+            h3.text-uppercase.font-weight-bold.mb-4.pb-2 SẢN PHẨM TƯƠNG TỰ
+
+          .col-md-12.products-list
+            +product-grid-card(relatedProducts)
+  
+  //- --- MODAL XEM ẢNH PHÓNG TO (LIGHTBOX) ---
+  #imageViewerModal.image-viewer-modal.d-none
+    span.close-viewer &times;
+    img#fullImage.modal-content-img
+  
+
+  script(src="/js/product.js") 

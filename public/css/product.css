@@ -152,11 +152,9 @@ body {
   flex: 1;
 }
 
-.product-grids {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  align-items: stretch;
+.single-product-item, .product-item {
+  width: 100% !important; /* Để nó co giãn theo cột .col-4 bên ngoài */
+  max-width: 100%;
 }
 
 .product-items {
@@ -177,7 +175,8 @@ body {
 }
 
 .product-images {
-  height: auto;
+  height: 300px; 
+  width: 100%;
   background-color: #f8f9fa;
   display: flex;
   align-items: center;
@@ -199,7 +198,8 @@ body {
 .product-images img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
+  display: block;
 }
 
 .product-info {

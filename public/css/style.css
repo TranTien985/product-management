@@ -456,12 +456,13 @@ ul.sub-menu ul.sub-menu li a:hover{
   font-weight:bold;
 }
 
-input[type="email"]{
+.newsletter-input {
   width: 370px;
   height:39px;
   padding:0px 15px;
   border-radius:7px 0px 0px 7px;
   border:1px solid #DDDDDD;
+  outline: none;
   
 }
 .newsletter-input__btn{

@@ -1,0 +1,7 @@
+//- tách ra một file riêng để có thế tái sử dụng
+mixin filter-rating(filterStatus)
+  each item in filterStatus
+    a(
+      class=`btn btn-sm ml-1 btn-outline-secondary ${item.class}`
+      href=`${item.rating ? `?rating=${item.rating}` : '?'}#reviews-section`
+    ) #{item.name}

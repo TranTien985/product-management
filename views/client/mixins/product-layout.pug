@@ -23,6 +23,12 @@ mixin product-grid(products)
 
 mixin product-grid-card(products)
   .product-area
-    .product-grids
-      each item in products
-        +list-product-item(item)
+    .row.g-3
+      if(products && products.length > 0)
+        each item in products
+          .col-xl-4.col-lg-4.col-md-6.col-6.mb-3
+            +list-product-item(item)
+      else
+        .col-12
+          .alert.alert-warning.text-center Không tìm thấy sản phẩm nào!
+

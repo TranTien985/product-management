@@ -41,7 +41,7 @@ module.exports.addPost = async (req, res) => {
   const quantity = parseInt(req.body.quantity);
   const cartId = req.cookies.cartId
 
-  
+  const type = req.body.type;
 
   const cart = await Cart.findOne({
     _id: cartId
@@ -74,7 +74,13 @@ module.exports.addPost = async (req, res) => {
   }
   req.flash("success", "Đã thêm sản phẩm vào giỏ hàng")
 
-  res.redirect(req.get("Referer") || "/");
+  if (type === 'buy-now') {
+    // Nếu bấm "Mua Ngay" -> Chuyển thẳng đến trang giỏ hàng
+    res.redirect("/cart"); 
+  } else {
+    // Nếu bấm "Thêm vào giỏ" -> Ở lại trang hiện tại (Referer)
+    res.redirect(req.get("Referer") || "/"); 
+  }
 }
 
 // [GET] /cart/delete/:productId

@@ -1,0 +1,419 @@
+/* ================================================== */
+/* =================CHI TIẾT SẢN PHẨM================ */
+/* ================================================== */
+
+/* --- STYLE CHO SLIDER ẢNH SẢN PHẨM --- */
+
+/* Container chính của ảnh */
+.main-image-container {
+  position: relative; /* Để làm mốc cho các nút absolute */
+  background-color: #fff;
+}
+
+#main-image {
+  width: auto; /* Đổi từ width: 100% thành auto để không bị ép giãn */
+  max-width: 100%; /* Đảm bảo không tràn khung */
+  margin: 0 auto;
+  display: block;
+  max-height: 700px;
+  image-rendering: -webkit-optimize-contrast; /* Giúp ảnh có độ tương phản tốt hơn trên Chrome */
+  object-fit: scale-down;
+}
+
+/* Nút điều hướng chung */
+.btn-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* Căn giữa theo chiều dọc */
+  background-color: rgba(255, 255, 255, 0.8); /* Nền trắng bán trong suốt */
+  border: 1px solid #eee;
+  color: #333;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Hình tròn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10; /* Đảm bảo nút nằm trên ảnh */
+  transition: all 0.3s ease;
+  opacity: 0; /* Mặc định ẩn */
+}
+
+/* Hiện nút khi di chuột vào container ảnh */
+.main-image-container:hover .btn-nav {
+  opacity: 1;
+}
+
+.btn-nav:hover {
+  background-color: #ffc107; /* Hover màu vàng */
+  color: #000;
+  border-color: #ffc107;
+}
+
+/* Vị trí nút Trái/Phải */
+.btn-nav.prev {
+  left: 10px;
+}
+
+.btn-nav.next {
+  right: 10px;
+}
+
+/* Thumbnail đang được chọn (Active) */
+.thumb-item.active {
+  border-color: #ffc107 !important; /* Viền màu vàng */
+  opacity: 1;
+}
+
+/* Các thumbnail khác */
+.thumb-item {
+  transition: all 0.2s ease;
+  opacity: 0.7; /* Làm mờ nhẹ các ảnh chưa chọn */
+}
+
+.thumb-item:hover {
+  opacity: 1;
+  border-color: #ffc107 !important;
+}
+
+/* Box giá */
+.price-box {
+  background: linear-gradient(to left, #ffe342, #000);
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.price-box p {
+  color: #fff;
+}
+
+.text-price {
+  color: #b4b3b3;
+  text-decoration: line-through;
+  padding: 0 10px;
+}
+
+.price-save {
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Nút Thêm vào giỏ hàng: Hiệu ứng hover */
+.btn-light.border-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #000 !important;
+}
+
+/* Font chữ tiêu đề */
+.inner-title {
+  font-size: 1.5rem; /* Điều chỉnh kích thước tên sản phẩm */
+  line-height: 1.4;
+  color: #333;
+}
+
+/* --- 1. NHÃN GIẢM GIÁ GÓC TRÁI --- */
+.inner-thumb {
+  position: relative;
+  border: 1px solid #eee; /* Thêm viền mỏng cho khung ảnh đẹp hơn */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tag-discount {
+  position: absolute;
+  top: 0px;
+  background-color: #ffde02; /* Màu vàng thương hiệu */
+  color: #000; /* Chữ đen */
+  padding: 5px 12px;
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho nổi */
+}
+
+/* --- 2. TÙY CHỈNH NÚT BẤM (ĐẸP HƠN) --- */
+
+/* Nút MUA NGAY và THÊM GIỎ HÀNG */
+.btn-buy-now,
+.btn-add-cart {
+  background-color: #212529;
+  color: #f1de02;
+  border: 1px solid #212529;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-buy-now:hover,
+.btn-add-cart:hover {
+  color: #ffffff;
+}
+
+/* Chỉnh lại font chữ nhỏ trong nút cho tinh tế */
+.btn-buy-now span,
+.btn-add-cart span {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* Box Ưu đãi thêm */
+.policy-box {
+  background-color: #fff !important; /* Nền trắng sạch */
+  border-color: #eee !important;
+  margin-top: 10px;
+}
+
+.policy-label {
+  display: inline-block;
+  background-color: #f8cb45; /* Màu vàng thương hiệu */
+  color: #000;
+  padding: 5px 15px;
+  font-size: 14px;
+  text-transform: uppercase;
+  /* Hiệu ứng cắt góc hoặc bo tròn tùy thích, ở đây mình để vuông cho mạnh mẽ */
+  font-weight: 600;
+}
+
+/* Chỉnh icon check xanh cho đẹp */
+.policy-box ul li i {
+  font-size: 14px; /* Kích thước icon vừa phải */
+}
+
+.policy-box ul li span {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* --- TÍNH NĂNG XEM THÊM MÔ TẢ --- */
+.inner-desc-content img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 85%;
+  height: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.desc-wrapper {
+  overflow: hidden; /* Đảm bảo nội dung không bị tràn ra ngoài */
+  box-shadow: rgb(60 64 67 / 0.1) 0 1px 2px 0,
+    rgb(60 64 67 / 0.15) 0 2px 6px 2px;
+  border-radius: 20px;
+}
+
+/* Nội dung mô tả lúc chưa mở */
+.inner-desc-content {
+  height: 500px; /* Chiều cao mặc định (bạn có thể chỉnh 300px hoặc 500px tùy ý) */
+  overflow: hidden;
+  transition: height 0.5s ease; /* Hiệu ứng trượt mượt mà (nếu dùng JS set height) */
+}
+
+/* Class này sẽ được thêm vào khi bấm nút Xem thêm */
+.inner-desc-content.expanded {
+  height: auto !important; /* Mở rộng toàn bộ chiều cao */
+  overflow: visible;
+}
+
+/* Lớp phủ mờ dần (Fade out effect) */
+.desc-overlay {
+  position: absolute;
+  bottom: 80px; /* Nằm phía trên nút bấm một chút */
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1)
+  );
+  pointer-events: none; /* Để vẫn bôi đen được văn bản phía dưới nếu cần */
+  transition: opacity 0.3s ease;
+}
+
+/* Khi mở rộng thì ẩn lớp phủ đi */
+.desc-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Đảm bảo ảnh trong bài viết không bị vỡ */
+.inner-desc-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- PHẦN ĐÁNH GIÁ SẢN PHẨM --- */
+
+/* 1. Ẩn hoàn toàn input radio mặc định */
+.star-rating-container input[type="radio"] {
+  display: none !important;
+}
+
+/* 2. Căn giữa khu vực đánh giá */
+.rating-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* --- STYLE UPLOAD ẢNH --- */
+
+/* Nút chọn ảnh (Label) */
+.image-upload-label {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 2px dashed #dee2e6; /* Viền nét đứt màu xám nhạt */
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem; /* Khoảng cách với các phần tử khác */
+  transition: all 0.3s ease;
+}
+
+.image-upload-label:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Khung chứa ảnh xem trước */
+.image-preview-container {
+  width: 100px;
+  height: 100px;
+  position: relative; /* Để định vị nút xóa */
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  margin-right: 1rem;
+}
+
+/* Ảnh xem trước */
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cắt ảnh vừa khung không bị méo */
+  border-radius: 6px;
+}
+
+/* Nút xóa ảnh (Dấu X) */
+.close-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background-color: #dc3545; /* Màu đỏ */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-size: 14px;
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.close-badge:hover {
+  background-color: #c82333;
+  transform: scale(1.1); /* Phóng to nhẹ khi di chuột vào */
+}
+
+/* --- END STYLE UPLOAD ẢNH --- */
+
+/* 3. Container chứa các ngôi sao */
+.star-rating-container {
+  direction: rtl;
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px; /* Khoảng cách giữa các ngôi sao */
+}
+
+/* 4. Style cho từng ngôi sao */
+.star-rating-container label {
+  font-size: 2rem; /* Kích thước sao */
+  color: #e4e5e9; /* Màu xám mặc định */
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+/* 5. Hiệu ứng Hover và Checked (Màu vàng) */
+/* Khi check input hoặc hover vào label, đổi màu các label đứng sau nó (do direction: rtl nên là đứng trước về mặt thị giác) */
+.star-rating-container input:checked ~ label,
+.star-rating-container label:hover,
+.star-rating-container label:hover ~ label {
+  color: #ffc107;
+}
+
+/* 6. Container chứa chữ mô tả (Tệ -> Tuyệt vời) */
+.rating-labels {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px;
+  gap: 10px; /* Phải khớp với gap của .star-rating-container */
+  direction: ltr; /* Trả lại chiều văn bản bình thường */
+}
+
+.rating-labels span {
+  font-size: 12px;
+  color: #6c757d;
+  width: 2rem; /* Độ rộng cố định (gần bằng font-size sao) để căn giữa */
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap; /* Không xuống dòng */
+}
+
+.modal-body .form-row > .col,
+.modal-body .form-row > [class*="col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+
+/* LIGHTBOX STYLES */
+.image-viewer-modal {
+  position: fixed;
+  z-index: 10000; /* Đảm bảo nằm trên tất cả mọi thứ */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Nền đen mờ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content-img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  animation: zoomIn 0.3s;
+}
+
+.close-viewer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+@keyframes zoomIn {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
