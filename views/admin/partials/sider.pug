@@ -4,7 +4,7 @@
       li 
         a(href=`${prefixAdmin}/dashboard`) <i class="fa-solid fa-chart-pie"></i>  Tổng Quan 
 
-      if(role.permissions.includes("products-category_view") && role.permissions.includes("products_view"))
+      if(role.permissions.includes("products-category_view") && role.permissions.includes("products_view") && role.permissions.includes("reviews_view"))
         div(class="products") SẢN PHẨM
         if(role.permissions.includes("products-category_view"))
           li 
@@ -12,11 +12,14 @@
         if(role.permissions.includes("products_view"))
           li 
             a(href=`${prefixAdmin}/products`) <i class="fa-solid fa-table"></i> Sản Phẩm 
+        if(role.permissions.includes("reviews_view"))
+          li 
+            a(href=`${prefixAdmin}/reviews`) <i class="fa-solid fa-comment"></i> Đánh giá
 
       if(role.permissions.includes("orders_view"))
         div(class="products") THANH TOÁN
-          li 
-            a(href=`${prefixAdmin}/orders`) <i class="fa-solid fa-box"></i> Đơn hàng
+        li 
+          a(href=`${prefixAdmin}/orders`) <i class="fa-solid fa-box"></i> Đơn hàng
 
       if(role.permissions.includes("news-category_view") && role.permissions.includes("news_view"))
         div(class="products") TIN TỨC
@@ -35,10 +38,16 @@
         if(role.permissions.includes("roles_permission"))
           li 
             a(href=`${prefixAdmin}/roles/permission`) <i class="fa-solid fa-user-shield"></i> Phân quyền
+
+      if(role.permissions.includes("user_view"))
+        div(class="products") NGƯỜI DÙNG
+        if(role.permissions.includes("user_view"))
+          li 
+            a(href=`${prefixAdmin}/user`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
           
       div(class="products") CÀI ĐẶT
       if(role.permissions.includes("account_view"))
         li 
-          a(href=`${prefixAdmin}/accounts`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
+          a(href=`${prefixAdmin}/accounts`) <i class="fa-solid fa-user-cog"></i> Admin
       li 
         a(href=`${prefixAdmin}/settings/general`) <i class="fa-solid fa-cog"></i> Cài đặt chung 

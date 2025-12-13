@@ -1,4 +1,4 @@
-module.exports = (query) => {
+module.exports.filterRating = (query) => {
   // Array chứa các trạng thái trong Model Rating
   let filterRating = [
     {
@@ -51,4 +51,45 @@ module.exports = (query) => {
   }
 
   return filterRating;
+}
+
+
+module.exports.filterStatus = (query) => {
+  // Array chứa các trạng thái trong Model Rating
+  let filterStatus = [
+    {
+      name: "Tất cả",
+      status: "",
+      class: ""
+    },
+    {
+      name: "Đã duyệt",
+      status: "active",
+      class: ""
+    },
+    {
+      name: "Chưa duyệt",
+      status: "inactive",
+      class: ""
+    },
+    {
+      name: "Có ảnh",
+      status: "images",
+      class: ""
+    },
+  ];
+
+  // Logic gán class active cho nút bấm dựa trên query.orderStatus
+  if (query.status) {
+    const index = filterStatus.findIndex(item => item.status == query.status);
+    if (index !== -1) {
+      filterStatus[index].class = "active";
+    }
+  } else {
+    // Mặc định active nút "Tất cả"
+    const index = filterStatus.findIndex(item => item.status == "");
+    filterStatus[index].class = "active";
+  }
+
+  return filterStatus;
 }

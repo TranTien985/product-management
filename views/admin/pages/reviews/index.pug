@@ -1,0 +1,126 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search-text.pug
+include ../../mixins/pagination.pug
+
+block main
+  h1 Quản lý đánh giá
+
+  +alert-success(5000)
+
+  .card.mb-3 
+    .card-header Tìm kiếm 
+    .card-body 
+      .row
+        .col-6
+          +search-text-order(keyword)
+
+  .card.mb-3
+    .card-header Danh sách đánh giá
+    .card-body
+      .row 
+        .col-8 
+          +change-status-reviews(`${prefixAdmin}/reviews/change-multi?_method=PATCH`)
+        .col-4.text-right  
+          +reviews-filter-status(filterStatus)
+      table(
+        class="table table-hover align-middle "
+        reviews-checkbox-multi
+      )
+        thead
+          tr
+            th 
+              input(type="checkbox" name="checkall")
+            th STT
+            th Người dùng
+            th Sản phẩm
+            th Đánh giá
+            th Nội dung
+            th Ảnh
+            th Trạng thái
+            th Hành động
+        tbody
+          each item, index in reviews
+            tr
+              td 
+                input(
+                  type="checkbox"
+                  name="id"
+                  value=item.id 
+                )
+              td #{pagination.limitItems*(pagination.currentPage - 1) + (index + 1)}
+              td
+                if item.infoUser
+                  div #{item.infoUser.fullName}
+                  div(style="font-size: 12px; color: gray") #{item.infoUser.email}
+                else
+                  span Người dùng đã bị xóa
+              td
+                if item.infoProduct
+                  a(href=`/products/detail/${item.infoProduct.slug}` target="_blank") #{item.infoProduct.title}
+                else
+                  span Sản phẩm đã bị xóa
+
+              td #{item.rating} <i class="fa-solid fa-star text-warning"></i>
+              td #{item.content}
+              td
+                .review-gallery.review-image-zoom
+                  if(item.images && item.images.length > 0)
+                    each img in item.images
+                      img(
+                        src=img 
+                        alt="Review Image"
+                      )
+                  else
+                    span.text-muted.small (Không có ảnh)
+              td
+                if(item.status == "active")
+                  a(
+                    href="javascript:;"
+                    data-status="active"
+                    data-id=item.id
+                    button-change-status
+                    class="badge badge-success"
+                  ) Đã duyệt
+                else
+                  a(
+                    href="javascript:;"
+                    data-status="inactive"
+                    data-id=item.id
+                    button-change-status
+                    class="badge badge-secondary" 
+                  ) Chờ duyệt
+
+              td
+                if(role.permissions.includes("reviews_delete"))
+                  button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete
+                    data-id=item.id
+                  ) Xóa
+                  
+  //- --- MODAL XEM ẢNH PHÓNG TO (LIGHTBOX) ---
+  #imageViewerModal.image-viewer-modal.d-none
+    span.close-viewer x
+    img#fullImage.modal-content-img
+  
+  +pagination(pagination)
+
+  //- Form ẩn để gửi request đổi trạng thái
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/reviews/change-status`
+  )
+
+  form(
+    action="" 
+    method="POST"
+    id="form-delete-item"
+    data-path=`${prefixAdmin}/reviews/delete`
+  ) 
+
+  script(src="/admin/js/reviews.js") 

@@ -75,7 +75,7 @@ module.exports.detail = async (req, res) => {
     product.priceNew = productsHelper.priceNewProduct(product);
 
 
-    const filterRating = filterRatingHelper(req.query);
+    const filterRating = filterRatingHelper.filterRating(req.query);
 
     let findRating = {
       product_id: product._id,

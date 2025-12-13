@@ -230,7 +230,7 @@ module.exports.changeMulti = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [DELETE] /adim/product/deleteItem/:id
+// [DELETE] /admin/product/deleteItem/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
@@ -251,7 +251,7 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get("Referer") || "/");
 };
 
-// [GET] /adim/product/create
+// [GET] /admin/product/create
 module.exports.create = async (req, res) => {
   let find = {
     deleted: false,

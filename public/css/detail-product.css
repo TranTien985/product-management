@@ -208,14 +208,14 @@
 
 /* Nội dung mô tả lúc chưa mở */
 .inner-desc-content {
-  height: 500px; /* Chiều cao mặc định (bạn có thể chỉnh 300px hoặc 500px tùy ý) */
+  height: 500px; 
   overflow: hidden;
-  transition: height 0.5s ease; /* Hiệu ứng trượt mượt mà (nếu dùng JS set height) */
+  transition: height 0.5s ease; 
 }
 
 /* Class này sẽ được thêm vào khi bấm nút Xem thêm */
 .inner-desc-content.expanded {
-  height: auto !important; /* Mở rộng toàn bộ chiều cao */
+  height: auto !important; 
   overflow: visible;
 }
 

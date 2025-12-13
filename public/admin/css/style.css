@@ -98,6 +98,33 @@ body {
 [button-edit] {
   margin-left: 4px;
 }
+
+/* --- 1. XỬ LÝ CỘT SẢN PHẨM (Cột thứ 4) --- */
+.table td:nth-child(4) {
+  max-width: 200px; /* Giới hạn chiều rộng cột */
+}
+
+.table td:nth-child(4) a {
+  display: block;
+  width: 100%;
+  white-space: nowrap;      
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+  text-decoration: none;
+  color: #007bff;          
+  font-weight: 500;
+}
+
+/* --- 2. XỬ LÝ CỘT NỘI DUNG (Cột thứ 6) --- */
+.table td:nth-child(6) {
+  max-width: 350px;       
+  min-width: 200px;       
+  white-space: pre-wrap; 
+  word-wrap: break-word;  
+  font-size: 14px;        
+  line-height: 1.5;       
+  color: #333;
+}
 /* End Body */
 
 /* Sider */

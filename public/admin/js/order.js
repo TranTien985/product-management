@@ -89,8 +89,6 @@ if(orderFormChangeMulti) {
   orderFormChangeMulti.addEventListener("submit", (e) => {
     e.preventDefault(); // Luôn chặn submit mặc định trước
 
-    console.log("Đã click nút Cập nhật!"); // Dòng này để debug xem nút có hoạt động không
-
     const form = e.target;
     
     // Tìm các ô checkbox đã được tích
@@ -110,8 +108,6 @@ if(orderFormChangeMulti) {
 
       // Chuyển mảng ids thành chuỗi: "id1, id2, id3"
       inputIds.value = ids.join(", ");
-      
-      console.log("Các ID sẽ gửi đi:", inputIds.value); // Kiểm tra xem đã lấy được ID chưa
 
       if(inputIds.value) {
         form.submit(); // Gửi form
