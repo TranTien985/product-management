@@ -38,7 +38,6 @@ block main
             th 
               input(type="checkbox" name="checkall")
             th STT
-            th Avatar
             th Họ tên
             th Email
             th Số điện thoại
@@ -57,24 +56,6 @@ block main
                 )
               //- Tính STT theo phân trang
               td #{pagination.limitItems * (pagination.currentPage - 1) + (index + 1)}
-              td
-                if(item.avatar)
-                  img(
-                    src=item.avatar
-                    alt=item.fullName
-                    width="40px"
-                    height="40px"
-                    style="border-radius: 50%; object-fit: cover;"
-                  )
-                else
-                  //- Avatar mặc định nếu user chưa up ảnh
-                  img(
-                    src="/images/avatar-default.png" 
-                    alt="Default"
-                    width="40px"
-                    height="40px"
-                    style="border-radius: 50%;"
-                  ) 
 
               td <b>#{item.fullName}</b>
               td #{item.email}

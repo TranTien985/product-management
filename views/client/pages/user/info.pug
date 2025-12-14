@@ -15,7 +15,6 @@ block main
           
           .card-body.p-4
             if (user)
-              //- 1. Bọc thẻ FORM, method POST. Action trỏ về route xử lý update
               form(action=`/user/info/edit/${user.id}?_method=PATCH`
                    method="POST"
                   )
@@ -26,10 +25,9 @@ block main
                     h6.title-header Chỉnh sửa thông tin
 
                   .row
-                    //- HỌ VÀ TÊN (Cho phép sửa)
+                    //- HỌ VÀ TÊN 
                     .col-md-6.mb-4
                       label.label-custom Họ và tên:
-                      //- Bỏ readonly, thêm name="fullName"
                       input.form-control.input-custom(
                         type="text" 
                         name="fullName" 
@@ -37,7 +35,7 @@ block main
                         required
                       )
 
-                    //- EMAIL (Không cho sửa - Để định danh tài khoản)
+                    //- EMAIL 
                     .col-md-6.mb-4
                       label.label-custom Email :
                       input.form-control.input-empty(
@@ -46,17 +44,19 @@ block main
                         readonly
                       )
 
-                    //- SỐ ĐIỆN THOẠI (Cho phép sửa)
+                    //- SỐ ĐIỆN THOẠI 
                     .col-md-6.mb-4
                       label.label-custom Số điện thoại:
                       input.form-control.input-custom(
-                        type="text" 
+                        type="tel"
                         name="phone"
                         value=(user.phone ? user.phone : "")
-                        placeholder="Nhập số điện thoại..."
+                        pattern="[0-9]{10}"
+                        title="Số điện thoại phải bao gồm 10 chữ số"
+                        required
                       )
 
-                    //- TRẠNG THÁI (Không cho sửa)
+                    //- TRẠNG THÁI 
                     .col-md-6.mb-4
                       label.label-custom Trạng thái:
                       input.form-control.input-empty(
@@ -65,10 +65,9 @@ block main
                         readonly
                       )
 
-                    //- NGÀY TẠO (Không cho sửa)
+                    //- NGÀY TẠO 
                     .col-md-6.mb-4
                       label.label-custom Ngày tạo:
-                      //- Dùng hàm xử lý ngày tháng bạn đã thêm ở bước trước
                       input.form-control.input-empty(
                         type="text" 
                         value=(user.createdAt ? new Date(user.createdAt).toLocaleString('vi-VN') : "") 

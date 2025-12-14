@@ -53,89 +53,93 @@ module.exports.index = async (req, res) => {
 // [GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
   try {
+    //  Lấy thông tin sản phẩm 
     const find = {
       deleted: false,
       slug: req.params.slugProduct,
       availabilityStatus: "In Stock"
     };
-
     const product = await Product.findOne(find).lean();
-    // hàm lean này để chuyển product thành obj thuần thì bên view mới dùng dc product.category.title
 
-    if(product.product_category_id){
+    if (product.product_category_id) {
       const category = await ProductCategory.findOne({
-        _id:product.product_category_id,
+        _id: product.product_category_id,
         availabilityStatus: "In Stock",
         deleted: false,
       });
-
       product.category = category;
     }
-
     product.priceNew = productsHelper.priceNewProduct(product);
+    
 
-
-    const filterRating = filterRatingHelper.filterRating(req.query);
-
-    let findRating = {
+    // Tính toán, thống kê rating
+    const allReviews = await Review.find({
       product_id: product._id,
       deleted: false,
-      status: "active" 
-    };
+      status: "active"
+    }).lean();
 
-    // Lọc theo rating
-    if (req.query.rating) {
-      if (req.query.rating === "images") {
-        // Tìm các bản ghi có trường 'images' tồn tại VÀ mảng không rỗng
-        findRating.images = { $exists: true, $ne: [] }; 
-      } else {
-        // --- LOGIC LỌC THEO SỐ SAO (5, 4, 3...) ---
-        const star = parseInt(req.query.rating);
-        
-        // Kiểm tra nếu là số hợp lệ thì thêm vào điều kiện tìm kiếm
-        if (!isNaN(star)) {
-            findRating.rating = star;
-        }
-      }
-    }
-
-    // Chỉ lấy đánh giá đã được duyệt (active)
-    const reviews = await Review.find(findRating).sort({ createdAt: "desc" }).lean();
-    
-    // Khởi tạo biến thống kê
-    let totalRatings = reviews.length;
+    let totalRatings = allReviews.length;
     let averageRating = 0;
-    const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }; 
+    const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     const ratingPercents = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
 
     if (totalRatings > 0) {
       let sumRatings = 0;
-      let validReviewsCount = 0; // Đếm số lượng review hợp lệ thực sự
+      let validReviewsCount = 0;
 
-      reviews.forEach(review => {
-        let rawRating = review.rating || review.star || review.point || 0; 
-        let ratingVal = Number(rawRating); 
+      allReviews.forEach(review => {
+        let rawRating = review.rating || 0;
+        let ratingVal = Number(rawRating);
 
-        // Kiểm tra xem có phải là số hợp lệ từ 1-5 không
         if (!isNaN(ratingVal) && ratingVal >= 1 && ratingVal <= 5) {
-            sumRatings += ratingVal;
-            ratingCounts[Math.floor(ratingVal)]++; // Math.floor đề phòng số lẻ 4.5
-            validReviewsCount++;
-        } else {
-            console.log("Review bị lỗi dữ liệu rating:", review);
+          sumRatings += ratingVal;
+          ratingCounts[Math.floor(ratingVal)]++;
+          validReviewsCount++;
         }
       });
 
-      // Tính trung bình (Chia cho số review hợp lệ)
       if (validReviewsCount > 0) {
         averageRating = (sumRatings / validReviewsCount).toFixed(1);
       }
 
-      // Tính phần trăm (Dùng totalRatings để thể hiện tỷ lệ trên tổng số)
       for (let i = 1; i <= 5; i++) {
         ratingPercents[i] = Math.round((ratingCounts[i] / totalRatings) * 100);
       }
+
+      // --- CẬP NHẬT NGƯỢC LẠI VÀO PRODUCT ---
+      if (Number(product.rating) !== Number(averageRating)) {
+         await Product.updateOne({ _id: product._id }, {
+            rating: Number(averageRating)
+         });
+         product.rating = averageRating; 
+      }
     }
+
+    // Danh sách reviews để hiển thị 
+    const filterRating = filterRatingHelper.filterRating(req.query);
+    let findReviewsList = {
+      product_id: product._id,
+      deleted: false,
+      status: "active"
+    };
+
+    // Áp dụng bộ lọc (rating=5, images...) cho danh sách hiển thị
+    if (req.query.rating) {
+      if (req.query.rating === "images") {
+        findReviewsList.images = { $exists: true, $ne: [] };
+      } else {
+        const star = parseInt(req.query.rating);
+        if (!isNaN(star)) {
+          findReviewsList.rating = star;
+        }
+      }
+    }
+
+    // Lấy danh sách review theo trang, sắp xếp...
+    const reviews = await Review.find(findReviewsList)
+      .sort({ createdAt: "desc" })
+      .lean();
 
     // 3. Chuẩn bị dữ liệu hiển thị (Lấy tên người đánh giá)
     for (const review of reviews) {
