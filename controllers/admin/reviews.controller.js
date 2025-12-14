@@ -57,7 +57,10 @@ module.exports.index = async (req, res) => {
     countReviews
   );
 
-  const reviews = await Review.find(find).sort({ createdAt: -1 });
+  const reviews = await Review.find(find)
+    .sort({ createdAt: -1 })
+    .limit(objectPagination.limitItems)
+    .skip(objectPagination.skip);      
 
   for (const review of reviews) {
     const infoUser = await User.findOne({

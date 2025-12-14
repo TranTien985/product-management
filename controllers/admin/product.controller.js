@@ -12,7 +12,7 @@ const productsHelper = require("../../helpers/products");
 
 // [GET] /admin/product
 module.exports.index = async (req, res) => {
-  const filterStatus = filterStatusHelper(req.query);
+  const filterStatus = filterStatusHelper.filterStatus(req.query);
   const categoryId = req.query.category_id;
 
   // --- 1. KHỞI TẠO BỘ LỌC ---

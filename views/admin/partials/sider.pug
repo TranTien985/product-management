@@ -41,9 +41,8 @@
 
       if(role.permissions.includes("user_view"))
         div(class="products") NGƯỜI DÙNG
-        if(role.permissions.includes("user_view"))
-          li 
-            a(href=`${prefixAdmin}/user`) <i class="fa-solid fa-user-cog"></i> Tài Khoản
+        li 
+          a(href=`${prefixAdmin}/user`) <i class="fa-solid fa-user"></i> Tài Khoản
           
       div(class="products") CÀI ĐẶT
       if(role.permissions.includes("account_view"))

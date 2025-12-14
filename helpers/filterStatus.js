@@ -1,5 +1,5 @@
 // phút 30 bài 21
-module.exports = (query) =>{
+module.exports.filterStatus = (query) =>{
   // mảng này dùng để chứa các trạng thái cho từng nút bấm để
   // vẽ giao diện trong trang products
   let filterStatus = [
@@ -40,4 +40,39 @@ module.exports = (query) =>{
   }
 
   return filterStatus;
+}
+
+
+module.exports.filterUser = (query) =>{
+  let filterStatusUser = [
+    {
+      name : "Tất cả",
+      status : "",
+      class : ""
+    },
+    {
+      name : "Hoạt động",
+      status : "active",
+      class : ""
+    },
+    {
+      name : "Dừng Hoạt động",
+      status : "inactive",
+      class : ""
+    },
+  ]
+  
+  // hàm này để thay đổi trạng thái nút khi bấm vào
+  if(query.status){
+    const index = filterStatusUser.findIndex(item => item.status == query.status)
+    if(index !== -1) {
+        filterStatusUser[index].class = "active";
+    }
+  }
+  else{
+    const index = filterStatusUser.findIndex(item => item.status == "")
+    filterStatusUser[index].class = "active"
+  }
+
+  return filterStatusUser;
 }

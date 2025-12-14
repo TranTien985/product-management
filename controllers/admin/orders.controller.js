@@ -33,11 +33,6 @@ module.exports.index = async (req, res) => {
 
   //Pagination
   const countOrders = await Order.countDocuments(find);
-  // dùng để đếm tổng số lượng sản phẩm có trong db
-
-  // đây dùng để truyền đối số sang cho hàm paginationHelper
-  // sau khi truyền hàm bên kia sẽ thực hiện logic và trả lại kết quả cho bên này
-  // cuối cùng là update object
   let objectPagination = paginationHelper(
     {
       currentPage: 1,
