@@ -1,11 +1,11 @@
 const Order = require("../../models/orders.model"); //database
 const Product = require("../../models/product.model");
 
-const systemConfig = require("../../config/system");
 const filterOrderStatusHelper = require("../../helpers/filterOrderStatus"); // lọc
 const paginationHelper = require("../../helpers/pagination"); // phân trang
 const SearchHelper = require("../../helpers/search"); // tìm kiếm
 const updateStockHelper = require("../../helpers/updateStock");
+
 // [GET] /admin/order
 module.exports.index = async (req, res) => {
   const filterOrderStatus = filterOrderStatusHelper(req.query);
@@ -74,10 +74,8 @@ module.exports.index = async (req, res) => {
 // [PATCH] /admin/orders/change-multi
 module.exports.changeMulti = async (req, res) => {
   try {
-    const status = req.body.status; // Lấy trạng thái từ form (name="status")
-    const ids = req.body.ids.split(", "); // Chuyển chuỗi id thành mảng
-
-    await updateStockHelper(status, ids);
+    const status = req.body.status; 
+    const ids = req.body.ids.split(", "); 
 
     // Cập nhật tất cả đơn hàng có id nằm trong danh sách ids
     await Order.updateMany(
@@ -86,6 +84,8 @@ module.exports.changeMulti = async (req, res) => {
         orderStatus: status 
       }
     );
+
+    await updateStockHelper(status, ids);
 
     req.flash(
       "success",

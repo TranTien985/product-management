@@ -51,9 +51,9 @@ block main
                         type="tel"
                         name="phone"
                         value=(user.phone ? user.phone : "")
-                        pattern="[0-9]{10}"
-                        title="Số điện thoại phải bao gồm 10 chữ số"
-                        required
+                        minlength="10"
+                        maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                       )
 
                     //- TRẠNG THÁI 

@@ -30,13 +30,16 @@ module.exports.registerPost = async (req, res) => {
   await user.save();
 
   res.cookie("tokenUser", user.tokenUser)
-  res.redirect("/"); 
+  res.redirect("/user/info"); 
 }
 
 // [GET] /user/login
 module.exports.login = async (req, res) => {
+  const emailUser = req.cookies.emailUser ? req.cookies.emailUser : "";
+
   res.render("client/pages/user/login", {
     pageTitle: 'Đăng nhập tài khoản',
+    emailUser: emailUser
   });
 }
 
@@ -86,7 +89,21 @@ module.exports.loginPost = async (req, res) => {
     });
   }
 
-  res.cookie("tokenUser", user.tokenUser);
+  const cookieOptions = {
+    httpOnly: true, 
+  };
+
+  if (req.body.remember) {
+    // Nếu chọn "Ghi nhớ": Sống 30 ngày
+    const expiresIn = 30 * 24 * 60 * 60 * 1000;
+    cookieOptions.expires = new Date(Date.now() + expiresIn);
+
+    res.cookie("emailUser", user.email, { 
+      expires: new Date(Date.now() + expiresIn)
+    });
+  }
+
+  res.cookie("tokenUser", user.tokenUser, cookieOptions);
   res.redirect("/"); 
 }
 

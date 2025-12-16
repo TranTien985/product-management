@@ -349,20 +349,32 @@ module.exports.editPatch = async (req, res) => {
 
 // [GET] /admin/news/detail/:id
 module.exports.detail = async (req, res) => {
-  try {
+  // try {
     const find = {
       deleted: false,
       _id: req.params.id,
     };
+    
+    const news = await News.findOne(find).lean();
 
-    const news = await News.findOne(find);
+    if (news.news_category_id) {
+      const category = await NewsCategory.findOne({
+        _id: news.news_category_id,
+        availabilityStatus: "In Stock", 
+        deleted: false,
+      }).lean(); 
+
+      if (category) {
+        news.category = category;
+      }
+    }
 
     res.render("admin/pages/news/detail", {
       pageTitle: news.title,
       news: news,
     });
-  } catch (error) {
-    req.flash("error", "Không tồn tại tin tức");
-    res.redirect(`${systemConfig.prefixAdmin}/news`);
-  }
+  // } catch (error) {
+  //   req.flash("error", "Không tồn tại tin tức");
+  //   res.redirect(`${systemConfig.prefixAdmin}/news`);
+  // }
 };

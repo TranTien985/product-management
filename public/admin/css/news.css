@@ -1,0 +1,19 @@
+/* Style cho khung hiển thị nội dung tin tức */
+.news-content-viewer {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.news-content-viewer img {
+  max-width: 100% !important; /* Đảm bảo ảnh trong bài viết không bị tràn khung */
+  height: auto !important;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.news-content-viewer h2, 
+.news-content-viewer h3 {
+  margin-top: 20px;
+  color: #007bff;
+}

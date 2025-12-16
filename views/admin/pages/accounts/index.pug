@@ -75,10 +75,6 @@ block main
                   class="badge badge-danger"
                 ) Dừng hoạt động
           td 
-            a(
-              href=`${prefixAdmin}/accounts/detail/${item.id}`
-              class="btn btn-secondary btn-sm"
-            ) Chi tiết
             if(role.permissions.includes("account_edit"))
               a(
                 href=`${prefixAdmin}/accounts/edit/${item.id}`

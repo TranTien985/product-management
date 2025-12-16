@@ -1,95 +1,105 @@
-const ProductCategory = require("../../models/product-category.model")
-const Product = require("../../models/product.model")
-const Account = require("../../models/account.model")
-const User = require("../../models/user.model")
+const ProductCategory = require("../../models/product-category.model");
+const Product = require("../../models/product.model");
+const Order = require("../../models/orders.model"); 
+const User = require("../../models/user.model");
 
-// [GET] /adim/dashboard
+// [GET] /admin/dashboard
 module.exports.dashboard = async (req, res) => {
+  // KHAI BÁO (Initialize)
   const statistic = {
     categoryProduct: {
       total: 0,
       active: 0,
-      inactive: 0.
+      inactive: 0
     },
     product: {
       total: 0,
       active: 0,
-      inactive: 0.
+      inactive: 0
     },
-    account: {
+    order: { 
       total: 0,
       active: 0,
-      inactive: 0.
+      inactive: 0
     },
     user: {
       total: 0,
       active: 0,
-      inactive: 0.
-    },
+      inactive: 0
+    }
   };
 
-  // productCategory
+  // --- Category ---
   statistic.categoryProduct.total = await ProductCategory.countDocuments({
     deleted: false,
   });
-
   statistic.categoryProduct.active = await ProductCategory.countDocuments({
     availabilityStatus: "In Stock",
     deleted: false,
   });
-
   statistic.categoryProduct.inactive = await ProductCategory.countDocuments({
     availabilityStatus: "Low Stock",
     deleted: false,
   });
 
-  // product
+  // --- Product ---
   statistic.product.total = await Product.countDocuments({
     deleted: false,
   });
-
   statistic.product.active = await Product.countDocuments({
     availabilityStatus: "In Stock",
     deleted: false,
   });
-
   statistic.product.inactive = await Product.countDocuments({
     availabilityStatus: "Low Stock",
     deleted: false,
   });
 
-  // account
-  statistic.account.total = await Account.countDocuments({
+  // --- Order ---
+  statistic.order.total = await Order.countDocuments({
+    deleted: false,
+  });
+  
+  statistic.order.active = await Order.countDocuments({
+    orderStatus: "Delivered", 
     deleted: false,
   });
 
-  statistic.account.active = await Account.countDocuments({
-    status: "active",
+  statistic.order.inactive = await Order.countDocuments({
+    orderStatus: "Cancelled",
     deleted: false,
   });
 
-  statistic.account.inactive = await Account.countDocuments({
-    status: "inactive",
-    deleted: false,
-  });
-
-  // user
+  // --- User ---
   statistic.user.total = await User.countDocuments({
     deleted: false,
   });
-
   statistic.user.active = await User.countDocuments({
     status: "active",
     deleted: false,
   });
-
   statistic.user.inactive = await User.countDocuments({
     status: "inactive",
     deleted: false,
   });
 
+  // Lấy đơn hàng mới nhất (Giữ nguyên)
+  const recentOrders = await Order.find({ deleted: false })
+    .sort({ createdAt: -1 })
+    .limit(5);
+
+  // Lấy Top 5 sản phẩm bán chạy (Dựa trên field quantity_sold)
+  const topSellingProducts = await Product.find({
+    deleted: false
+  })
+  .sort({ quantity_sold: -1 }) 
+  .limit(5);                  
+
+  // 3. TRẢ VỀ VIEW
   res.render("admin/pages/dashboard/index", {
-    pageTitle: 'Trang tổng quan',
-    statistic: statistic
-});
-}
+    pageTitle: "Trang tổng quan",
+    statistic: statistic,
+    recentOrders: recentOrders,
+    topSellingProducts: topSellingProducts,
+  });
+};

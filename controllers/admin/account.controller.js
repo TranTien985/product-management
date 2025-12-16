@@ -116,7 +116,7 @@ module.exports.edit = async (req, res) => {
   }
 }
 
-// [PATCH] /adim/roles/edit/:id
+// [PATCH] /adim/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id
 

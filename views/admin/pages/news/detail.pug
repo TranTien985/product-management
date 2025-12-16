@@ -1,37 +1,96 @@
 extends ../../layouts/default.pug
 
 block main 
-  if(news.title)
-    h1(class="mb-4") #{news.title}
+  //- 1. Header: Tiêu đề + Các nút hành động
+  .d-flex.justify-content-between.align-items-center.mb-4
+    h1.h3 Chi tiết tin tức
 
-  .row 
-    .col-12 
-      if(news.thumbnail)
-        div(class="mb-4") 
-          img(
-            image-detail-news
-            src=news.thumbnail 
-          )
-    
-    .col-12 
-      if(news.availabilityStatus)
-        div(class="mb-4")
-          span Trạng thái: 
-          if (news.availabilityStatus === "In Stock")
-            span(class="badge badge-success") Hoạt động
-          else 
-            span(class="badge badge-danger") Dừng hoạt động
+    div
+      a(
+        href=`${prefixAdmin}/news`
+        class="btn btn-outline-secondary mr-2"
+      ) <i class="fa-solid fa-arrow-left"></i> Quay lại
 
-      if(news.position)
-        div(class="mb-4") Vị trí: <b>#{news.position}</b>
+      a(
+        href=`${prefixAdmin}/news/edit/${news.id}`
+        class="btn btn-warning"
+      ) <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa
 
+  //- 2. Khối thông tin chính
+  .card.mb-4.border-0.shadow-sm
+    .card-body
+      .row 
+        //- Cột trái: Ảnh đại diện tin tức
+        .col-md-4
+          .news-detail-image
+            if(news.thumbnail)
+              img(
+                src=news.thumbnail 
+                alt=news.title
+                class="img-fluid rounded"
+                style="width: 100%; object-fit: cover;"
+              )
+            else 
+              img(src="/admin/images/no-image.png" class="img-fluid rounded")
+          
+        //- Cột phải: Thông tin chi tiết
+        .col-md-8
+          h3.mb-3 #{news.title}
+
+          //- Bảng thông tin thuộc tính
+          table.table.table-borderless.table-sm
+            tbody
+              tr 
+                td(width="150px").text-muted Danh mục:
+                td 
+                  if (news.category)
+                    span.font-weight-bold #{news.category.title}
+                  else
+                    span.text-muted ---
+
+              tr 
+                td(width="150px").text-muted Trạng thái:
+                td 
+                  if (news.availabilityStatus === "In Stock")
+                    span(class="badge badge-success") Hoạt động
+                  else 
+                    span(class="badge badge-danger") Dừng hoạt động
+
+              tr
+                td.text-muted Vị trí sắp xếp:
+                td 
+                  if(news.position)
+                    span #{news.position}
+                  else
+                    span.text-muted Tự động
+
+              //- Nếu có thông tin người tạo (tùy vào controller bạn populate chưa)
+              if(news.createdBy)
+                tr
+                  td.text-muted Người tạo:
+                  td 
+                    if(news.createdBy.fullName)
+                      span #{news.createdBy.fullName}
+                    else 
+                      span.text-muted ---
+
+              tr 
+                td.text-muted Ngày tạo:
+                td #{news.createdAt ? news.createdAt.toLocaleString('vi-VN') : '---'}
+              
+              tr 
+                td.text-muted Cập nhật cuối:
+                td #{news.updatedAt ? news.updatedAt.toLocaleString('vi-VN') : '---'}
+
+  //- 3. Khối Nội dung tin tức
+  .card.border-0.shadow-sm
+    .card-header.bg-white.pt-3
+      h5.mb-0 Nội dung bài viết
+    .card-body
       if(news.description)
-        div(class="mb-4") !{news.description}
-        //- nếu dùng #{} thì sẽ hiện lên mã html nên ta phải thay bằng dấu !{}
+        //- Class 'news-content-view' dùng để CSS cho ảnh bên trong không bị vỡ layout
+        .news-content-view !{news.description}
+      else 
+        div.text-muted.text-center.py-5 (Chưa có nội dung cho tin tức này)
 
-  a(
-    href=`${prefixAdmin}/news/edit/${news.id}`
-    class="btn btn-warning"
-  ) Chỉnh sửa 
-
-  script(src="/admin/js/product.js") 
+  script(src="/admin/js/product.js")

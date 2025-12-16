@@ -1,31 +1,67 @@
 extends ../../layouts/default.pug
 
-block main 
-  h1(class="mb-4") Thông tin cá nhân 
+block main
+  h1.mb-4 Hồ sơ cá nhân
 
-  if(user.avatar)
-    img(src=user.avatar width="150px" class="mb-3")
-  else
-    img(src="/admin/images/avatar.png" width="150px" class="mb-3")
+  .card.shadow-sm.mb-4
+    .card-header.py-3.bg-white
+      h6.m-0.font-weight-bold.text-primary Thông tin tài khoản
+    
+    .card-body
+      .row
+        //- CỘT TRÁI: AVATAR VÀ TỔNG QUAN
+        .col-xl-4.col-md-5.text-center.border-right
+          .mb-3.mt-3
+            if (user.avatar)
+              img.rounded-circle.img-thumbnail(src=user.avatar alt=user.fullName style="width: 180px; height: 180px; object-fit: cover;")
+            else
+              img.rounded-circle.img-thumbnail(src="/admin/images/avatar.png" alt="Avatar mặc định" style="width: 180px; height: 180px; object-fit: cover;")
+          
+          h4.font-weight-bold.mb-1 #{user.fullName}
+          
+          if(role.title)
+            p.text-muted.mb-3 #{role.title}
+          
+          //- Trạng thái hiển thị dạng Badge màu sắc
+          div.mb-4
+            if (user.status === "active")
+              span.badge.badge-success.px-3.py-2 
+                i.fa-solid.fa-circle-check.mr-1
+                | Đang hoạt động
+            else
+              span.badge.badge-danger.px-3.py-2 
+                i.fa-solid.fa-circle-xmark.mr-1
+                | Dừng hoạt động
 
-  if(user.fullName)
-    p Họ tên: <b>#{user.fullName}</b>
+        //- CỘT PHẢI: CHI TIẾT THÔNG TIN
+        .col-xl-8.col-md-7
+          .p-3
+            h5.mb-4.text-gray-800 Chi tiết liên hệ
 
-  if(user.email)
-    p Email: <b>#{user.email}</b>
+            .row.mb-3.border-bottom.pb-2
+              .col-sm-4.font-weight-bold.text-gray-600 Họ và tên:
+              .col-sm-8 #{user.fullName}
 
-  if(user.phone)
-    p Số điện thoại: <b>#{user.phone}</b>
+            .row.mb-3.border-bottom.pb-2
+              .col-sm-4.font-weight-bold.text-gray-600 Email:
+              .col-sm-8 #{user.email}
 
-  p 
-    span Trạng thái: 
-    span 
-      <b> #{user.status === "active" ? "Hoạt động" : "Dừng hoạt động"} </b>
+            .row.mb-3.border-bottom.pb-2
+              .col-sm-4.font-weight-bold.text-gray-600 Số điện thoại:
+              .col-sm-8 
+                if (user.phone)
+                  | #{user.phone}
+                else
+                  span.text-muted.font-italic (Chưa cập nhật)
 
-  if(role.title)
-    p Phân quyền: <b>#{role.title}</b>
+            .row.mb-3.border-bottom.pb-2
+              .col-sm-4.font-weight-bold.text-gray-600 Quyền hạn:
+              .col-sm-8 
+                strong.text-primary #{role.title}
 
-  a(
-    href=`${prefixAdmin}/my-account/edit`
-    class="btn btn-primary "
-  ) Chỉnh sửa thông tin 
+            //- Nút bấm
+            .mt-4
+              a.btn.btn-primary.btn-icon-split(href=`${prefixAdmin}/my-account/edit`)
+                span.icon.text-white-50
+                  i.fa-solid.fa-pen-to-square
+                span.text Chỉnh sửa thông tin

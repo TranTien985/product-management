@@ -20,7 +20,10 @@ block main
               id="email"
               name="email"
               required
+              value=(emailUser ? emailUser : "") 
+              autocomplete="username" 
             )
+            
           div(class="form-group")
             label(for="password") Mật Khẩu 
             input(
@@ -30,6 +33,17 @@ block main
               name="password"
               required
             )
+
+          //- Checkbox ghi nhớ
+          div(class="form-group d-flex align-items-center")
+            input(
+              type="checkbox"
+              name="remember"
+              id="remember"
+              checked=(emailUser ? true : false) 
+              style="width: 17px; height: 17px; cursor: pointer;"
+            )
+            div(for="remember" class="mb-0 ml-2") Ghi nhớ đăng nhập
           div(class="form-group")
             button(
               type="submit"
