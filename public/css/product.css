@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -47,9 +47,9 @@ body {
 /* Sidebar danh mục */
 .filter-box {
   margin-bottom: 20px;
-  border-radius: 8px; 
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Header của từng khối lọc (Ví dụ: Danh mục sản phẩm, Giá bán, Thương hiệu) */
@@ -59,22 +59,22 @@ body {
   align-items: center;
   padding: 12px 15px;
   cursor: pointer;
-  background: linear-gradient(to bottom, #ffe342 ,#000);
+  background: linear-gradient(to bottom, #ffe342, #000);
   color: #fff; /* Chữ màu trắng */
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
 .filter-header h3.filter-title {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .filter-toggle {
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
 }
 
 .filter-content {
@@ -89,62 +89,62 @@ body {
 }
 
 .filter-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .filter-content ul li {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .filter-content label {
-    display: flex; 
-    align-items: center;
-    cursor: pointer;
-    font-size: 14px;
-    color: #333;
-    transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: color 0.2s;
 }
 
 .filter-content label:hover {
-    color: #a38e13; /* Màu cam khi hover */
+  color: #a38e13; /* Màu cam khi hover */
 }
 
 /* Tùy chỉnh input checkbox (có thể ẩn input gốc và tạo checkbox tùy chỉnh) */
 .filter-content input[type="checkbox"] {
-    /* Tùy chỉnh kích thước và lề */
-    appearance: none; /* Ẩn checkbox mặc định */
-    width: 16px;
-    height: 16px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 8px;
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    flex-shrink: 0; /* Không cho checkbox bị co lại */
+  /* Tùy chỉnh kích thước và lề */
+  appearance: none; /* Ẩn checkbox mặc định */
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 8px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0; /* Không cho checkbox bị co lại */
 }
 
 /* Tạo dấu tích (check mark) khi checkbox được chọn */
 .filter-content input[type="checkbox"]:checked {
-    background-color: #a38e13;; /* Màu nền cam khi check */
-    border-color: #a38e13;;
+  background-color: #a38e13; /* Màu nền cam khi check */
+  border-color: #a38e13;
 }
 
 .filter-content input[type="checkbox"]:checked::before {
-    content: '\2713'; /* Mã unicode của dấu tick */
-    color: #fff;
-    font-size: 12px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  content: "\2713"; /* Mã unicode của dấu tick */
+  color: #fff;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Text hiển thị (Ví dụ: Vợt cầu lông, 0đ - 1.000.000đ) */
 .filter-content label span {
-    line-height: 1.4;
+  line-height: 1.4;
 }
 
 /* Product area */
@@ -152,7 +152,8 @@ body {
   flex: 1;
 }
 
-.single-product-item, .product-item {
+.single-product-item,
+.product-item {
   width: 100% !important; /* Để nó co giãn theo cột .col-4 bên ngoài */
   max-width: 100%;
 }
@@ -164,7 +165,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
-  border-radius:15px;
+  border-radius: 15px;
   flex-direction: column;
   min-height: 100%;
 }
@@ -175,7 +176,7 @@ body {
 }
 
 .product-images {
-  height: 300px; 
+  height: 300px;
   width: 100%;
   background-color: #f8f9fa;
   display: flex;
@@ -198,7 +199,7 @@ body {
 .product-images img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
 }
 
@@ -281,37 +282,52 @@ body {
   color: #999;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* pagination-reviews */
+.pagination-reviews {
+  display: flex;
+  justify-content:flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  gap: 10px;
 }
 
-@media (max-width: 768px) {
-  .product-page {
-    flex-direction: column;
-  }
-  
-  .category-sidebar {
-    width: 100%;
-  }
-  
-  .category-sidebar.collapsed {
-    width: 100%;
-    height: 50px;
-  }
-  
-  .category-sidebar.collapsed .category-list {
-    display: none;
-  }
-  
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .product-title a {
-    margin-left: 0;
-    text-align: center;
-  }
+.page-link-reviews {
+  width: 30px; 
+  height: 30px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid transparent; 
+  background-color: #f1f1f1;
+  color: #555;
+  border-radius: 10px; 
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
 }
+
+.page-link-reviews:hover {
+  background-color: #e2e2e2;
+  transform: translateY(-2px); /* Hiệu ứng nổi lên nhẹ khi hover */
+}
+
+/* Active State */
+.page-item-reviews.active .page-link-reviews {
+  background-color: #222; /* Màu đen hoặc màu chủ đạo */
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+}
+
+/* Disabled (...) */
+.page-item-reviews.disabled .page-link-reviews {
+  background: transparent;
+  color: #ccc;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* pagination-reviews */

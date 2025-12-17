@@ -1,0 +1,12 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug 
+
+block main 
+  .container.my-5
+    p.mb-4 Thế giới cầu lông cam kết bảo vệ quyền lợi người tiêu dùng. Dưới đây chúng tôi gửi tới chính sách đổi trả hàng để quý khách hàng nắm được.
+
+    if(policy && policy.shippingPolicy)
+      div.content-policy
+        | !{policy.returnPolicy}
+    else
+      p.text-muted Chưa có nội dung cập nhật.

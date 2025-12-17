@@ -13,6 +13,7 @@ const userRouter = require("./user.route");
 const newsRouter = require("./news.route");
 const storeRouter = require("./store.route");
 const trackingProductRouter = require("./tracking-product.route");
+const policyRouter = require("./policy.route");
 
 module.exports = (app) => {
   // khi bất kì vào trang nào thì nó đều đi qua cái thằng này
@@ -40,4 +41,6 @@ module.exports = (app) => {
   app.use("/store",  storeRouter);
 
   app.use("/tracking-product",  trackingProductRouter);
+
+  app.use("/policy",  policyRouter);
 };

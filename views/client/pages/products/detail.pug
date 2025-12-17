@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
 include ../../mixins/filter-rating.pug
+include ../../mixins/pagination.pug
 
 block main
   .product-detail.py-5
@@ -9,16 +10,14 @@ block main
       .row
         //- CỘT TRÁI: ẢNH SẢN PHẨM
         .col-md-7
-          //- Container chính chứa ảnh và nút điều hướng
           .main-image-container.mb-3.position-relative.border.rounded.overflow-hidden
-            //- Nhãn giảm giá (Giữ nguyên)
+            //- Nhãn giảm giá 
             if(product.discountPercentage > 0)
               .tag-discount -#{product.discountPercentage}%
             
             //- Ảnh chính
             img#main-image.img-fluid.w-100(src=product.thumbnail alt=product.title style="object-fit: cover;")
 
-            //- [MỚI] Nút điều hướng Trái/Phải
             //- Chỉ hiển thị khi có nhiều hơn 1 ảnh (thumbnail + images)
             if(product.images && product.images.length > 0)
               button#btn-prev.btn-nav.prev
@@ -50,12 +49,11 @@ block main
               
               if(product.discountPercentage > 0)
                 span.text-price.fs-5.me-2 #{product.price.toLocaleString()}đ
-                //- Đã xóa span.badge ở đây đi cho đỡ rối mắt
             
             if(product.discountPercentage > 0)
               p.price-save.mt-2.mb-0.fw-bold Tiết kiệm: #{(product.price - product.priceNew).toLocaleString()}đ
 
-          //- --- [BẮT ĐẦU] PHẦN ƯU ĐÃI THÊM (MỚI) ---
+          //- ---  PHẦN ƯU ĐÃI THÊM  ---
           .policy-box.border.rounded.p-3.mb-4.bg-light
             //- Tiêu đề nhãn vàng giống mẫu
             .policy-label.fw-bold.mb-3
@@ -77,10 +75,10 @@ block main
 
           //- FORM MUA HÀNG
           form(action=`/cart/add/${product._id}` method="POST")
-            //- Input số lượng ẩn (mặc định là 1)
+            //- Input số lượng ẩn 
             input(type="hidden" name="quantity" value="1")
             .row.g-2.mb-3
-              //- Nút MUA NGAY (Sửa col-md-6 thành col-6)
+              //- Nút MUA NGAY 
               .col-6
                 button.btn.btn-buy-now.w-100.py-2.text-uppercase.fw-bold(
                   type="submit" 
@@ -88,7 +86,7 @@ block main
                   value="buy-now"
                 ) Mua Ngay
                 
-                //- Nút THÊM VÀO GIỎ (Sửa col-md-6 thành col-6)
+                //- Nút THÊM VÀO GIỎ 
               .col-6
                 button.btn.btn-add-cart.w-100.py-2.text-uppercase.fw-bold(
                   type="submit" 
@@ -96,7 +94,7 @@ block main
                   value="add-cart"
                 ) Thêm vào giỏ
             
-            //- Nút Social (Giữ nguyên)
+            //- Nút Social 
             .row.g-2 
               .col-6
                  a.btn.btn-outline-primary.w-100.py-2(href="https://www.facebook.com/84thegioicaulong")
@@ -115,11 +113,10 @@ block main
           //- Wrapper chứa toàn bộ phần mô tả
           .desc-wrapper.bg-white.p-4.border.rounded.position-relative
              
-             //- Nội dung mô tả (bị giới hạn chiều cao lúc đầu)
+             //- Nội dung mô tả 
              #desc-content.inner-desc-content
                 | !{product.description}
              
-             //- Lớp phủ mờ dần (Gradient)
              #desc-overlay.desc-overlay
              
              //- Nút bấm Xem thêm / Thu gọn
@@ -128,7 +125,6 @@ block main
                     span#btn-desc-text Xem thêm
                     i#btn-desc-icon.fa-solid.fa-chevron-down.ms-2
       
-      //- ... (Phần Mô tả sản phẩm ở trên) ...
       //- PHẦN ĐÁNH GIÁ SẢN PHẨM
       //- 1. KHUNG TỔNG QUAN
       .review-section#reviews-section.mt-5.mb-5
@@ -170,7 +166,7 @@ block main
                 .col-md-3.text-center
                   button.btn.btn-primary.btn-lg.btn-block(data-toggle="modal" data-target="#reviewModal") ĐÁNH GIÁ NGAY
 
-          //- KHỐI FORM ĐÁNH GIÁ (Mặc định ẩn) 
+          //- KHỐI FORM ĐÁNH GIÁ 
           #reviewModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true")
               .modal-dialog.modal-dialog-centered
                   .modal-content
@@ -178,7 +174,7 @@ block main
                         //- Đổi tiêu đề Modal theo tên sản phẩm
                         h5#reviewModalLabel.modal-title Đánh giá #{product.title}
                         button.close(type="button" data-dismiss="modal" aria-label="Close")
-                            span(aria-hidden="true") &times;
+                            span(aria-hidden="true") x
 
                       .modal-body
                         if (user)
@@ -290,22 +286,21 @@ block main
 
           //- DANH SÁCH ĐÁNH GIÁ (REVIEWS)           
           if (reviews && reviews.length > 0)
-            .review-list
+            .review-list#reviews-section
               each review in reviews
                 .review-item.border-bottom.py-4
                   .d-flex
-                    //- 1. AVATAR (Giữ nguyên)
+                    //- AVATAR 
                     .avatar.mr-3
                       .rounded-circle.bg-light.d-flex.align-items-center.justify-content-center(style="width: 50px; height: 50px; font-size: 20px; color: #555; font-weight: bold;")
                         | #{review.createdBy && review.createdBy.user_name ? review.createdBy.user_name.charAt(0).toUpperCase() : 'K'}
                     
                     //- PHẦN BODY BÊN PHẢI
                     .review-content.flex-grow-1
-                      //- Tên người dùng (Hàng đầu tiên)
                       h6.font-weight-bold.mb-1 #{review.createdBy ? review.createdBy.user_name : 'Khách hàng ẩn danh'}
 
                       .d-flex.align-items-start.mb-2
-                        //- Khối Sao: Đặt cố định chiều rộng (min-width) để thẳng hàng
+                        //- Khối Sao
                         .rating-stars.mr-3(style="min-width: 85px;")
                           .text-warning.small
                             - for (let j = 1; j <= 5; j++)
@@ -314,11 +309,11 @@ block main
                               else
                                 i.far.fa-star 
 
-                        //- Khối Nội dung: Chiếm phần còn lại
+                        //- Khối Nội dung
                         .comment-text.flex-grow-1
                           p.mb-0(style="line-height: 1.4;") #{review.content}
                       
-                      //- C. Hình ảnh đính kèm (Nếu có - Nằm dưới comment)
+                      //- Hình ảnh đính kèm 
                       if (review.images && review.images.length > 0)
                         .review-images.mt-2
                           each img in review.images
@@ -328,9 +323,11 @@ block main
                               style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #eee; cursor: zoom-in;"
                             )
                       
-                      //- D. Ngày tháng (Nằm dưới cùng)
+                      //- Ngày tháng 
                       small.text-muted.d-block
                         | #{review.createdAt ? review.createdAt.toLocaleDateString('vi-VN') : ''}
+
+            +pagination-reviews(pagination)
 
           else
             //- KHÔNG CÓ ĐÁNH GIÁ

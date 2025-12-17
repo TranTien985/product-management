@@ -1,0 +1,10 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug 
+
+block main 
+  .container.my-5
+    if(policy && policy.shippingPolicy)
+      div.content-policy
+        | !{policy.warrantyPolicy}
+    else
+      p.text-muted Chưa có nội dung cập nhật.

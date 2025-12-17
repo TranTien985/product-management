@@ -1,0 +1,53 @@
+/* Style cho khung chứa nội dung chính sách */
+.content-policy {
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  color: #333;
+}
+
+/* Style cho các đoạn văn */
+.content-policy p {
+  line-height: 1.7;
+  text-align: justify;
+  margin-bottom: 1.5rem;
+}
+
+.content-policy h3,
+.content-policy h4,
+.content-policy h5 {
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+/* Style cho danh sách (nếu có) */
+.content-policy ul,
+.content-policy ol {
+  padding-left: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.content-policy li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Style cho phần chữ in đậm (Ví dụ: Hotline) */
+.content-policy strong,
+.content-policy b {
+  font-weight: 700;
+  color: #000;
+}
+
+.content-policy img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 1.5rem auto;
+}

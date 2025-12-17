@@ -71,6 +71,33 @@ block main
         value= settingGeneral ? settingGeneral.address : ""
       )
     div(class="form-group")
+      label(for="returnPolicy") Chính sách đổi trả
+      textarea(
+        class="form-control textarea-mce"
+        id="returnPolicy"
+        name="returnPolicy"  
+        rows="5"
+      ) #{settingGeneral ? settingGeneral.returnPolicy : ""} 
+
+    div(class="form-group")
+      label(for="shippingPolicy") Chính sách vận chuyển
+      textarea(
+        class="form-control textarea-mce"
+        id="shippingPolicy"
+        name="shippingPolicy" 
+        rows="5"
+      ) #{settingGeneral ? settingGeneral.shippingPolicy : ""}
+
+    div(class="form-group")
+      label(for="warrantyPolicy") Chính sách bảo hành
+      textarea(
+        class="form-control textarea-mce"
+        id="warrantyPolicy"
+        name="warrantyPolicy" 
+        rows="5"
+      ) #{settingGeneral ? settingGeneral.warrantyPolicy : ""}) 
+
+    div(class="form-group")
       label(for="copyright") Copyright 
       input(
         type="text"
@@ -84,5 +111,3 @@ block main
         type="submit"
         class="btn btn-primary"
       ) Cập nhật
-  
-  script(src="/admin/js/map.js") 

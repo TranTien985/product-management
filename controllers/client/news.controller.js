@@ -32,11 +32,27 @@ module.exports.detail = async (req, res) => {
 
       news.category = category;
     }
+
+    // tin tức tương tự
+    const conditions = {
+      news_category_id: news.news_category_id, 
+      deleted: false,
+      availabilityStatus: "In Stock",
+      _id: { $ne: news._id } // Trừ tin tức đang xem
+    };
+
+    // 2. Tìm tất cả tin tức thỏa mãn điều kiện
+    const allRelatedNews = await News.find(conditions);
+
+    const relatedNews = allRelatedNews
+      .sort(() => 0.5 - Math.random()) 
+      .slice(0, 3);
     
     
     res.render("client/pages/news/detail", {
       pageTitle: news.title,
-      news: news
+      news: news,
+      relatedNews: relatedNews,
     });
   } catch (error) {
     res.redirect(`/news`);

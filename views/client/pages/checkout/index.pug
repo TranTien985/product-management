@@ -37,11 +37,12 @@ block main
                   .col-md-6.mb-3
                     label(for="phone" class="form-label") Số điện thoại *
                     input(
-                      type="text"
                       class="form-control"
-                      id="phone"
+                      type="tel"
                       name="phone"
-                      placeholder="Nhập số điện thoại"
+                      minlength="10"
+                      maxlength="10"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                       value= user.phone
                     )
                   .col-md-6.mb-3
@@ -71,11 +72,12 @@ block main
                   .col-md-6.mb-3
                     label(for="phone" class="form-label") Số điện thoại *
                     input(
-                      type="text"
                       class="form-control"
-                      id="phone"
+                      type="tel"
                       name="phone"
-                      placeholder="Nhập số điện thoại"
+                      minlength="10"
+                      maxlength="10"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                     )
                   .col-md-6.mb-3
                     label(for="email" class="form-label") Địa chỉ Email

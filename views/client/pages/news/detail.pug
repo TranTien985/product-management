@@ -1,4 +1,6 @@
 extends ../../layouts/default.pug 
+include ../../mixins/news-layout.pug
+include ../../mixins/moment.pug
 
 block main 
   .news-detail
@@ -19,3 +21,9 @@ block main
       .row 
         .col-12 
           .inner-desc !{news.description}
+
+    .container.my-5
+      h3.text-uppercase.font-weight-bold.mb-4.pb-2 Bài viết liên quan
+
+      .col-md-12.products-list
+        +news-grid(relatedNews)

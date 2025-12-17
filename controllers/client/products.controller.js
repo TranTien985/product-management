@@ -136,9 +136,18 @@ module.exports.detail = async (req, res) => {
       }
     }
 
+    const countReviews = await Review.countDocuments(findReviewsList);
+    let objectPagination = paginationHelper(
+      { currentPage: 1, limitItems: 5 },
+      req.query,
+      countReviews
+    );
+
     // Lấy danh sách review theo trang, sắp xếp...
     const reviews = await Review.find(findReviewsList)
       .sort({ createdAt: "desc" })
+      .limit(objectPagination.limitItems)
+      .skip(objectPagination.skip)
       .lean();
 
     // 3. Chuẩn bị dữ liệu hiển thị (Lấy tên người đánh giá)
@@ -153,19 +162,19 @@ module.exports.detail = async (req, res) => {
     }
 
     // sản phẩm tương tự
-    const relatedProducts = await Product.aggregate([
-      {
-        $match: {
-          product_category_id: product.product_category_id, // Lọc cùng danh mục
-          deleted: false,
-          availabilityStatus: "In Stock",
-          _id: { $ne: product._id } // Loại trừ sản phẩm đang xem
-        }
-      },
-      {
-        $sample: { size: 3 } // Lấy ngẫu nhiên 3 sản phẩm từ kết quả lọc trên
-      }
-    ]);
+    const conditions = {
+      product_category_id: product.product_category_id, 
+      deleted: false,
+      availabilityStatus: "In Stock",
+      _id: { $ne: product._id } // Trừ sản phẩm đang xem
+    };
+
+    // 2. Tìm tất cả sản phẩm thỏa mãn điều kiện
+    const allRelatedProducts = await Product.find(conditions);
+
+    const relatedProducts = allRelatedProducts
+      .sort(() => 0.5 - Math.random()) 
+      .slice(0, 3);
 
     // hàm này dùng để tính giá tiền khi có giảm giá
     const newRelatedProducts = productsHelper.priceNewProducts(relatedProducts)
@@ -180,7 +189,8 @@ module.exports.detail = async (req, res) => {
       ratingCounts: ratingCounts, 
       ratingPercents: ratingPercents,
       totalRatings: totalRatings,
-      relatedProducts: newRelatedProducts
+      relatedProducts: newRelatedProducts,
+      pagination: objectPagination,
     });
   } catch (error) {
     res.redirect(`/products`);
