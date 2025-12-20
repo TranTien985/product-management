@@ -17,7 +17,7 @@ module.exports.filterStatus = (query) =>{
       name : "Dừng Hoạt động",
       status : "Low Stock",
       class : ""
-    },
+    },  
     {
       name: "Nổi bật",
       status: "featured", 

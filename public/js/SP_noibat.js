@@ -1,124 +1,201 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const containerProducts = document.querySelector('.container-products');
-    if (!containerProducts) {
-        console.log('Không tìm thấy container products');
+// Hàm khởi tạo slider cho product
+function initializeProductSlider(containerSelector, delay = 5000) {
+    const sliderContainer = document.querySelector(containerSelector);
+    if (!sliderContainer) {
+        console.log(`Không tìm thấy product slider container: ${containerSelector}`);
         return;
     }
 
-    const productSlides = containerProducts.querySelector('.product-slides');
-    const prevBtn = containerProducts.querySelector('.slider-prev');
-    const nextBtn = containerProducts.querySelector('.slider-next');
+    const slidesContainer = sliderContainer.querySelector('.product-slides');
+    const productGroups = slidesContainer.querySelectorAll('.product-group');
+    const prevBtn = sliderContainer.querySelector('.slider-prev');
+    const nextBtn = sliderContainer.querySelector('.slider-next');
 
-    const totalRealGroups = 2; // 2 nhóm thực
+    // Tính số nhóm thực (2 nhóm thực)
+    const totalRealGroups = 2;
     let currentIndex = 1; // Bắt đầu từ nhóm thực đầu tiên
+    let intervalId = null;
+    let lastClickTime = 0;
+    const CLICK_DELAY = 400; // Chỉ cho click mỗi 400ms
 
     // Biến cho tính năng kéo
     let isDragging = false;
-    let startX = 0;
-    let currentX = 0;
-    let dragDistance = 0;
-    const dragThreshold = 50;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let animationID;
+    let currentSlideWidth;
 
-    function goToGroup(index) {
-        // Tổng số nhóm là 4 (2 thực + 2 clone)
-        const translateX = -index * 25; // Mỗi nhóm chiếm 25%
-        productSlides.style.transform = `translateX(${translateX}%)`;
-        productSlides.style.transition = 'transform 0.6s ease-in-out';
+    function startAutoSlide() {
+        stopAutoSlide();
+        intervalId = setInterval(nextSlide, delay);
+    }
+
+    function stopAutoSlide() {
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+    }
+
+    function updateSlideWidth() {
+        currentSlideWidth = sliderContainer.offsetWidth;
+    }
+
+    function goToGroup(index, instant = false) {
+        if (instant) {
+            slidesContainer.style.transition = 'none';
+        } else {
+            slidesContainer.style.transition = 'transform 0.4s ease';
+        }
+
+        // Tính toán transform: mỗi nhóm chiếm 25% (vì có 4 nhóm)
+        const translateX = -index * 25;
+        slidesContainer.style.transform = `translateX(${translateX}%)`;
 
         currentIndex = index;
 
         // Xử lý vòng lặp vô hạn
-        setTimeout(() => {
-            if (currentIndex === 0) {
-                productSlides.style.transition = 'none';
-                currentIndex = totalRealGroups;
-                productSlides.style.transform = `translateX(-${currentIndex * 25}%)`;
-            } else if (currentIndex === totalRealGroups + 1) {
-                productSlides.style.transition = 'none';
-                currentIndex = 1;
-                productSlides.style.transform = `translateX(-${currentIndex * 25}%)`;
-            }
-        }, 600);
+        if (!instant) {
+            setTimeout(() => {
+                if (currentIndex === 0) {
+                    // Nhảy về nhóm thực cuối cùng (index = 2)
+                    goToGroup(2, true);
+                } else if (currentIndex === 3) {
+                    // Nhảy về nhóm thực đầu tiên (index = 1)
+                    goToGroup(1, true);
+                }
+            }, 400);
+        }
     }
 
-    function nextGroup() {
+    function nextSlide() {
+        const now = Date.now();
+        if (now - lastClickTime < CLICK_DELAY) return;
+        lastClickTime = now;
+
         let nextIndex = currentIndex + 1;
         goToGroup(nextIndex);
     }
 
-    function prevGroup() {
+    function prevSlide() {
+        const now = Date.now();
+        if (now - lastClickTime < CLICK_DELAY) return;
+        lastClickTime = now;
+
         let prevIndex = currentIndex - 1;
         goToGroup(prevIndex);
     }
 
-    // Tính năng kéo
-    function handleDragStart(e) {
-        isDragging = true;
-        containerProducts.classList.add('grabbing');
-
-        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        productSlides.style.transition = 'none';
+    // TÍNH NĂNG KÉO
+    function getPositionX(event) {
+        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
     }
 
-    function handleDragMove(e) {
-        if (!isDragging) return;
-
-        e.preventDefault();
-
-        currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        dragDistance = currentX - startX;
-
+    function setSliderPosition() {
         const baseTranslate = -currentIndex * 25;
-        const dragTranslate = (dragDistance / containerProducts.offsetWidth) * 100;
+        const dragTranslate = (currentTranslate / currentSlideWidth) * 100;
         const newTranslate = baseTranslate + dragTranslate;
-
-        productSlides.style.transform = `translateX(${newTranslate}%)`;
+        slidesContainer.style.transform = `translateX(${newTranslate}%)`;
     }
 
-    function handleDragEnd() {
+    function animation() {
+        setSliderPosition();
+        if (isDragging) requestAnimationFrame(animation);
+    }
+
+    function touchStart(event) {
+        isDragging = true;
+        startPos = getPositionX(event);
+        slidesContainer.style.transition = 'none';
+        stopAutoSlide();
+        updateSlideWidth();
+        animationID = requestAnimationFrame(animation);
+        sliderContainer.classList.add('grabbing');
+    }
+
+    function touchMove(event) {
+        if (!isDragging) return;
+        event.preventDefault();
+        const currentPosition = getPositionX(event);
+        currentTranslate = currentPosition - startPos;
+    }
+
+    function touchEnd() {
         if (!isDragging) return;
 
         isDragging = false;
-        containerProducts.classList.remove('grabbing');
-        productSlides.style.transition = 'transform 0.6s ease-in-out';
+        cancelAnimationFrame(animationID);
+        sliderContainer.classList.remove('grabbing');
+        slidesContainer.style.transition = 'transform 0.3s ease';
 
-        if (Math.abs(dragDistance) > dragThreshold) {
-            if (dragDistance > 0) {
-                prevGroup();
+        const movedBy = currentTranslate;
+        const threshold = currentSlideWidth * 0.1;
+
+        if (Math.abs(movedBy) > threshold) {
+            if (movedBy > 0) {
+                prevSlide();
             } else {
-                nextGroup();
+                nextSlide();
             }
         } else {
             goToGroup(currentIndex);
         }
 
-        dragDistance = 0;
+        currentTranslate = 0;
+        setTimeout(startAutoSlide, 3000);
     }
 
-    // Sự kiện cho nút điều khiển - ĐÃ SỬA LỖI
+    // Sự kiện điều khiển
     if (prevBtn) {
         prevBtn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Ngăn sự kiện nổi bọt
-            prevGroup();
+            e.stopPropagation();
+            prevSlide();
+            stopAutoSlide();
+            setTimeout(startAutoSlide, 3000);
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Ngăn sự kiện nổi bọt
-            nextGroup();
+            e.stopPropagation();
+            nextSlide();
+            stopAutoSlide();
+            setTimeout(startAutoSlide, 3000);
         });
     }
 
-    //Gắn sự kiện kéo
-    containerProducts.addEventListener('mousedown', handleDragStart);
-    containerProducts.addEventListener('mousemove', handleDragMove);
-    containerProducts.addEventListener('mouseup', handleDragEnd);
-    containerProducts.addEventListener('mouseleave', handleDragEnd);
+    // Gắn sự kiện kéo
+    sliderContainer.addEventListener('mousedown', touchStart);
+    document.addEventListener('mousemove', touchMove);
+    document.addEventListener('mouseup', touchEnd);
 
-    containerProducts.addEventListener('touchstart', handleDragStart, { passive: false });
-    containerProducts.addEventListener('touchmove', handleDragMove, { passive: false });
-    containerProducts.addEventListener('touchend', handleDragEnd);
+    sliderContainer.addEventListener('touchstart', touchStart, { passive: false });
+    document.addEventListener('touchmove', touchMove, { passive: false });
+    document.addEventListener('touchend', touchEnd);
 
-    console.log('Đã khởi tạo slider sản phẩm với 2 nhóm');
+    // Auto slide control
+    sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+    sliderContainer.addEventListener('mouseleave', startAutoSlide);
+
+    // Xử lý resize
+    window.addEventListener('resize', updateSlideWidth);
+
+    // Khởi tạo
+    updateSlideWidth();
+    goToGroup(currentIndex, true);
+    setTimeout(() => {
+        slidesContainer.style.transition = 'transform 0.4s ease';
+    }, 50);
+    startAutoSlide();
+
+    console.log(`Đã khởi tạo product slider: ${containerSelector}`);
+}
+
+// Khởi tạo product slider khi DOM loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Product slider trong flash sale
+    initializeProductSlider('.flash-sale-product .container-products', 5000);
+    
+    // Product slider trong best seller (nếu có)
+    initializeProductSlider('.best-seller-products .container-products', 5000);
 });

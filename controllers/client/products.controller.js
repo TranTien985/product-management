@@ -53,6 +53,7 @@ module.exports.index = async (req, res) => {
 // [GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
   try {
+    
     //  Lấy thông tin sản phẩm 
     const find = {
       deleted: false,
