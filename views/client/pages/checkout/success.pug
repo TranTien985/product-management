@@ -14,7 +14,7 @@ block main
           //- Hiển thị mã đơn hàng nổi bật
           div.order-code-box.mt-3
             span Mã đơn hàng: 
-            strong.text-success ##{order.orderCode || order._id.toString().slice(-6)}
+            strong.text-success #{order.orderCode || order._id.toString().slice(-6)}
 
         //- 2. KHUNG CHI TIẾT ĐƠN HÀNG (Giống ảnh mẫu)
         .card.summary-card

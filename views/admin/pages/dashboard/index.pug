@@ -102,19 +102,23 @@ block main
                   each item in recentOrders
                     tr
                       td 
-                        strong ##{item.orderCode} 
+                        strong #{item.orderCode} 
                         //- (Chỉ hiện 4 ký tự cuối của ID cho gọn)
                       td #{ item.shippingAddress.fullName }
                       td 
                         //- Giả sử bạn có trường totalPrice, nhớ format tiền tệ
                         | #{item.totalPrice ? item.totalPrice.toLocaleString() : 0}đ
                       td 
-                        if(item.orderStatus === "Delivered")
-                          span.badge.badge-success Đã giao
-                        else if(item.orderStatus === "Cancelled")
-                          span.badge.badge-danger Đã hủy
+                        if(item.orderStatus == "Pending")
+                          span(class="badge badge-pending") Chờ xác nhận
+                        else if(item.orderStatus == "Confirmed")
+                          span(class="badge badge-confirmed") Đã xác nhận
+                        else if(item.orderStatus == "Shipping")
+                          span(class="badge badge-shipping") Đang giao
+                        else if(item.orderStatus == "Delivered")
+                          span(class="badge badge-delivered") Đã giao
                         else
-                          span.badge.badge-warning Chờ xử lý
+                          span(class="badge badge-cancelled") Đã hủy
           else
              p.text-center.text-muted.my-3 Chưa có đơn hàng nào.
 
@@ -132,7 +136,6 @@ block main
                   tr
                     th Sản phẩm
                     th.text-center Đã bán
-                    th.text-right Doanh thu
                 tbody
                   each item in topSellingProducts
                     tr.border-bottom
@@ -151,9 +154,5 @@ block main
                       td.text-center.align-middle
                          //- Sử dụng trường quantity_sold có sẵn trong DB
                          span.badge.badge-success.badge-pill #{item.quantity_sold}
-                      
-                      td.text-right.align-middle.font-weight-bold
-                         //- Tính doanh thu: Giá x quantity_sold
-                         | #{(item.price * item.quantity_sold).toLocaleString()}đ
           else
              p.text-center.text-muted.my-4 Chưa có dữ liệu bán hàng.

@@ -18,7 +18,6 @@ const productSchema = new mongoose.Schema({
   stock: Number, //*
   quantity_sold: Number,
   availabilityStatus: String, //* trạng thái 
-  reviews: Array,
   images: Array,
   thumbnail: String, //*
   position: Number,

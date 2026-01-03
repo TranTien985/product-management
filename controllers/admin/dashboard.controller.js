@@ -86,7 +86,7 @@ module.exports.dashboard = async (req, res) => {
   // Lấy đơn hàng mới nhất (Giữ nguyên)
   const recentOrders = await Order.find({ deleted: false })
     .sort({ createdAt: -1 })
-    .limit(5);
+    .limit(7);
 
   // Lấy Top 5 sản phẩm bán chạy (Dựa trên field quantity_sold)
   const topSellingProducts = await Product.find({
