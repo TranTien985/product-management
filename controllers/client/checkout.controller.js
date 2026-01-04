@@ -83,7 +83,7 @@ module.exports.order = async (req, res) => {
     }
   }
 
-  const fullAddress = `${userInfo.address}, ${userInfo.wardName}, ${userInfo.districtName}, ${userInfo.provinceName}`;
+  const fullAddress = `${userInfo.address}, ${userInfo.wardName}, ${userInfo.provinceName}`;
   let shippingFee = 30000; 
   if (totalOrderPrice >= 500000) {
     shippingFee = 0; 

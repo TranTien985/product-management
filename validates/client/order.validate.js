@@ -29,24 +29,19 @@ module.exports.order = (req, res, next) => {
     errors.push("Vui lòng chọn Tỉnh/Thành phố");
   }
 
-  // 5. Kiểm tra Quận/Huyện
-  if (!district) {
-    errors.push("Vui lòng chọn Quận/Huyện");
-  }
-
-  // 6. Kiểm tra Xã/Phường
+  // 5. Kiểm tra Xã/Phường
   if (!ward) {
     errors.push("Vui lòng chọn Xã/Phường");
   }
 
-  // 7. Kiểm tra Địa chỉ nhà
+  // 6. Kiểm tra Địa chỉ nhà
   if (!address) {
     errors.push("Địa chỉ nhà, tên đường không được để trống");
   } else if (address.length < 5) {
     errors.push("Địa chỉ nhà phải có ít nhất 5 ký tự");
   }
 
-  // 8. Xử lý kết quả
+  // 7. Xử lý kết quả
   if (errors.length > 0) {
     req.flash("error", errors);
     res.redirect("/checkout");

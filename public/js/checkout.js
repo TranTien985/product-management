@@ -1,93 +1,76 @@
-// File: public/js/checkout.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  const host = "https://provinces.open-api.vn/api/";
+  // Đường dẫn tới file mới của bạn
+  const host = "https://production.cas.so/address-kit/2025-07-01/communes";
+
   const provinceEl = document.querySelector("#province");
-  const districtEl = document.querySelector("#district");
   const wardEl = document.querySelector("#ward");
 
   const provinceNameEl = document.querySelector("#provinceName");
-  const districtNameEl = document.querySelector("#districtName");
   const wardNameEl = document.querySelector("#wardName");
 
-  // 1. Hàm gọi API chung
-  const callApi = async (api) => {
-    const response = await fetch(api);
-    return response.json();
+  // Biến lưu trữ toàn bộ dữ liệu
+  let allCommunes = [];
+
+  // 1. Hàm tải dữ liệu và khởi tạo
+  const loadData = async () => {
+    try {
+      const response = await fetch(host);
+      const data = await response.json();
+
+      // Dữ liệu mới nằm trong mảng "communes"
+      allCommunes = data.communes || [];
+
+      loadProvinces();
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu:", error);
+    }
   };
 
-  // 2. Tải danh sách Tỉnh/Thành phố khi load trang
-  const loadProvinces = async () => {
-    try {
-      const provinces = await callApi(host + "?depth=1");
-      provinces.forEach(province => {
-        provinceEl.add(new Option(province.name, province.code));
-      });
-    } catch (error) {
-      console.error("Lỗi khi tải tỉnh/thành phố:", error);
-    }
+  // 2. Tách và hiển thị danh sách Tỉnh/Thành phố
+  const loadProvinces = () => {
+    // Sử dụng Map để lọc các tỉnh duy nhất dựa trên provinceCode
+    const uniqueProvinces = new Map();
+
+    allCommunes.forEach((commune) => {
+      if (!uniqueProvinces.has(commune.provinceCode)) {
+        uniqueProvinces.set(commune.provinceCode, commune.provinceName);
+      }
+    });
+
+    // Thêm option vào thẻ select
+    uniqueProvinces.forEach((name, code) => {
+      provinceEl.add(new Option(name, code));
+    });
   };
 
   // 3. Sự kiện chọn Tỉnh/Thành phố
-  provinceEl.addEventListener("change", async () => {
+  provinceEl.addEventListener("change", () => {
     const provinceCode = provinceEl.value;
-    
-    // --- MỚI: Lấy tên Tỉnh và gán vào input ẩn ---
-    const selectedOption = provinceEl.options[provinceEl.selectedIndex];
-    provinceNameEl.value = selectedOption.text; 
-    // ---------------------------------------------
 
-    // Xóa danh sách quận/huyện và xã/phường cũ
-    districtEl.innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
+    // Lấy tên Tỉnh gán vào input ẩn
+    const selectedOption = provinceEl.options[provinceEl.selectedIndex];
+    provinceNameEl.value = selectedOption.text;
+
     wardEl.innerHTML = '<option value="">-- Chọn xã/phường --</option>';
-    districtNameEl.value = ""; // Reset tên huyện
-    wardNameEl.value = "";     // Reset tên xã
+    wardNameEl.value = "";
 
     if (!provinceCode) return;
+    const wardsInProvince = allCommunes.filter(
+      (c) => c.provinceCode === provinceCode
+    );
 
-    try {
-      const data = await callApi(`${host}p/${provinceCode}?depth=2`);
-      data.districts.forEach(district => {
-        districtEl.add(new Option(district.name, district.code));
-      });
-    } catch (error) {
-      console.error("Lỗi khi tải quận/huyện:", error);
-    }
+    // Đổ dữ liệu thẳng vào ô Xã/Phường
+    wardsInProvince.forEach((ward) => {
+      wardEl.add(new Option(ward.name, ward.code));
+    });
   });
 
-  // 4. Sự kiện chọn Quận/Huyện
-  districtEl.addEventListener("change", async () => {
-    const districtCode = districtEl.value;
-
-    // --- MỚI: Lấy tên Quận và gán vào input ẩn ---
-    const selectedOption = districtEl.options[districtEl.selectedIndex];
-    districtNameEl.value = selectedOption.text;
-    // ---------------------------------------------
-
-    // Xóa danh sách xã/phường cũ
-    wardEl.innerHTML = '<option value="">-- Chọn xã/phường --</option>';
-    wardNameEl.value = ""; // Reset tên xã
-
-    if (!districtCode) return;
-
-    try {
-      const data = await callApi(`${host}d/${districtCode}?depth=2`);
-      data.wards.forEach(ward => {
-        wardEl.add(new Option(ward.name, ward.code));
-      });
-    } catch (error) {
-      console.error("Lỗi khi tải xã/phường:", error);
-    }
-  });
-
-  // 5. Sự kiện chọn Xã/Phường (Mới thêm)
+  // 5. chọn Xã/Phường
   wardEl.addEventListener("change", () => {
-    // --- MỚI: Lấy tên Xã và gán vào input ẩn ---
     const selectedOption = wardEl.options[wardEl.selectedIndex];
     wardNameEl.value = selectedOption.text;
-    // -------------------------------------------
   });
 
-  // Chạy hàm tải tỉnh/thành phố khi trang được load
-  loadProvinces();
+  // Chạy hàm tải dữ liệu khi trang load
+  loadData();
 });
