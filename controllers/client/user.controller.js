@@ -138,11 +138,12 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
   // Lưu thông tin vào database
   const otp = generateHelper.generateRandomNumber(8);
+  const timeExpire = 3;
 
   const objectForgotPassword = {
     email: email,
     otp: otp,
-    expireAt: Date.now()
+    expireAt: Date.now() + timeExpire * 60 * 1000,
   };
 
   const forgotPassword = new ForgotPassword(objectForgotPassword);
@@ -164,9 +165,19 @@ module.exports.forgotPasswordPost = async (req, res) => {
 module.exports.otpPassword = async (req, res) => {
   const email = req.query.email;
 
+  const result = await ForgotPassword.findOne({
+    email: email
+  });
+
+  if (!result) {
+    req.flash("error", "Email không tồn tại hoặc yêu cầu đã hết hạn.");
+    return res.redirect("/user/password/forgot");
+  }
+
   res.render("client/pages/user/otp-password", {
     pageTitle: 'Nhập mã OTP',
     email: email,
+    expireAt: result.expireAt,
   });
 
 }
