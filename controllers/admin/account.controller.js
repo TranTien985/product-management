@@ -28,14 +28,17 @@ module.exports.index = async (req, res) => {
 });
 }
 
-// [PATCH] /adim/accounts/change-status/:id
+// [PATCH] /adim/accounts/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
 
-  await Account.updateOne({ _id: id }, { availabilityStatus: status });
-  // hàm updateOne này dùng để update một sản phầm với các thông số truyền vào
-  // tìm hiểu thêm thông tin ở mongoose -> queries
+  if (id === res.locals.user.id) {
+    req.flash("error", "Bạn không thể tự thay đổi trạng thái của chính mình!");
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  await Account.updateOne({ _id: id }, { status: status });
 
   req.flash("success", "Cập nhật trạng thái thành công");
 
@@ -46,16 +49,29 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
-  // await Product.deleteOne({_id: id}) dùng để xóa vĩnh viễn
+  if (id === res.locals.user.id) {
+    req.flash("error", "Bạn không thể tự xóa tài khoản của chính mình!");
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  const remainingActiveAccounts = await Account.countDocuments({
+    deleted: false,
+    status: "active"
+  });
+
+  if (remainingActiveAccounts <= 1) {
+    req.flash("error", "Hệ thống phải có ít nhất 1 tài khoản quản trị hoạt động, không thể xóa!");
+    return res.redirect(req.get("Referer") || "/");
+  }
 
   await Account.updateOne(
     { _id: id },
     {
       deleted: true,
-      deletedAt: new Date(), // hàm để lấy ra thời gian hiên tại
+      deletedAt: new Date(),
     }
   );
-  req.flash("success", `Xóa thành công sản phẩm!`);
+  req.flash("success", `Xóa thành công tài khoản!`);
 
   res.redirect(req.get("Referer") || "/");
 };

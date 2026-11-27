@@ -36,6 +36,10 @@ module.exports.create = async (req, res) => {
 
 // [Post] /adim/roles/createPost
 module.exports.createPost = async (req, res) => {
+  if (!req.body.title || !req.body.title.trim()) {
+    req.flash("error", "Vui lòng nhập tên nhóm quyền!");
+    return res.redirect(req.get("Referer") || "/");
+  }
 
   const record = new Role(req.body);
   await record.save();
@@ -58,14 +62,19 @@ module.exports.edit = async (req, res) => {
       records: records
     });
   } catch (error) {
-    req.flash("error", "Không tồn tại sản phẩm");
+    req.flash("error", "Không tồn tại nhóm quyền");
     res.redirect(`${systemConfig.prefixAdmin}/roles`);
   }
 }
 
 // [PATCH] /adim/roles/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
+
+  if (!req.body.title || !req.body.title.trim()) {
+    req.flash("error", "Tên nhóm quyền không được để trống!");
+    return res.redirect(req.get("Referer") || "/");
+  }
 
   const updatedBy = {
     account_id : res.locals.user.id,
@@ -86,6 +95,33 @@ module.exports.editPatch = async (req, res) => {
 
   res.redirect(req.get("Referer") || "/");
 }
+
+// [DELETE] /adim/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id;
+
+  // Ràng buộc kiểm tra xem có tài khoản admin nào đang giữ role này không
+  const countAccountsWithRole = await Account.countDocuments({
+    role_id: id,
+    deleted: false
+  });
+
+  if (countAccountsWithRole > 0) {
+    req.flash("error", `Không thể xóa nhóm quyền vì đang có ${countAccountsWithRole} tài khoản sử dụng!`);
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  await Role.updateOne(
+    { _id: id },
+    {
+      deleted: true,
+      deletedAt: new Date()
+    }
+  );
+
+  req.flash("success", "Xóa nhóm quyền thành công!");
+  res.redirect(req.get("Referer") || "/");
+};
 
 // [GET] /adim/roles/permission
 module.exports.permission = async (req, res) => {

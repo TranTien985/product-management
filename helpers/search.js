@@ -7,9 +7,11 @@ module.exports = (query) => {
     regex : ""
   }
   if(query.keyword){
-    ObjectSearch.keyword = query.keyword;
+    ObjectSearch.keyword = query.keyword.trim();
 
-    const regex = new RegExp(ObjectSearch.keyword, "i"); //tìm hiểu thêm regex js (dùng để search thiếu với ko phân biệt chữ thường, hoa)
+    // Escape special regex characters to avoid Regex SyntaxError crashes
+    const escapedKeyword = ObjectSearch.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escapedKeyword, "i"); //tìm hiểu thêm regex js
     ObjectSearch.regex = regex; // nễu tồn tại regex thì sẽ cập nhật cho regex trong Object
   }
 

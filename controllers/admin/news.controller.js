@@ -195,7 +195,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await News.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
           deletedBy: {
@@ -349,7 +349,7 @@ module.exports.editPatch = async (req, res) => {
 
 // [GET] /admin/news/detail/:id
 module.exports.detail = async (req, res) => {
-  // try {
+  try {
     const find = {
       deleted: false,
       _id: req.params.id,
@@ -357,10 +357,14 @@ module.exports.detail = async (req, res) => {
     
     const news = await News.findOne(find).lean();
 
+    if (!news) {
+      req.flash("error", "Không tồn tại tin tức");
+      return res.redirect(`${systemConfig.prefixAdmin}/news`);
+    }
+
     if (news.news_category_id) {
       const category = await NewsCategory.findOne({
         _id: news.news_category_id,
-        availabilityStatus: "In Stock", 
         deleted: false,
       }).lean(); 
 
@@ -373,8 +377,8 @@ module.exports.detail = async (req, res) => {
       pageTitle: news.title,
       news: news,
     });
-  // } catch (error) {
-  //   req.flash("error", "Không tồn tại tin tức");
-  //   res.redirect(`${systemConfig.prefixAdmin}/news`);
-  // }
+  } catch (error) {
+    req.flash("error", "Không tồn tại tin tức");
+    res.redirect(`${systemConfig.prefixAdmin}/news`);
+  }
 };

@@ -21,4 +21,6 @@ router.get('/permission', controller.permission);
 
 router.patch('/permission', controller.permissionPatch);
 
+router.delete('/delete/:id', controller.deleteItem);
+
 module.exports = router;

@@ -76,13 +76,11 @@ module.exports.deleteItem = async (req, res) => {
 };
 
 
-// [PATCH] /adim/reviews/change-multi
+// [PATCH] /admin/user/change-multi
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(",");
-  // dùng split(", ") để convert nó thành một mảng
 
-  // sử dụng updateMany của mongoose
   switch (type) {
     case "active":
       await User.updateMany({ _id: { $in: ids } },{
@@ -91,7 +89,7 @@ module.exports.changeMulti = async (req, res) => {
       );
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} đánh giá!`
+        `Cập nhật trạng thái thành công ${ids.length} người dùng!`
       );
       break;
     case "inactive":
@@ -101,21 +99,22 @@ module.exports.changeMulti = async (req, res) => {
       );
       req.flash(
         "success",
-        `Cập nhật trạng thái thành công ${ids.length} đánh giá!`
+        `Cập nhật trạng thái thành công ${ids.length} người dùng!`
       );
       break;
     case "delete-all":
       await User.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
+          deletedAt: new Date(),
           deletedBy: {
             account_id: res.locals.user.id,
             deletedAt: new Date(), 
           }
         }
       );
-      req.flash("success", `Đã xóa thành công ${ids.length} đánh giá!`);
+      req.flash("success", `Đã xóa thành công ${ids.length} người dùng!`);
       break;
 
     default:

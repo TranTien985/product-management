@@ -136,7 +136,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await Review.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
           deletedBy: {

@@ -16,7 +16,8 @@ module.exports.index = async (req, res) => {
 
   //  Xử lý KEYWORD: Nếu có từ khóa, thêm điều kiện regex vào object 'find'
   if (keyword) {
-    const regex = new RegExp(keyword, "i");
+    const escapedKeyword = keyword.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escapedKeyword, "i");
     find.title = regex;
   }
 

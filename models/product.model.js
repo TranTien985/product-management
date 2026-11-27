@@ -4,20 +4,50 @@ const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
 const productSchema = new mongoose.Schema({
-  title: String, //*
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  }, //*
   product_category_id: {
     type : String,
     default: ""
   },
   description: String, //*
   category: String,
-  price: Number, //*
-  discountPercentage: Number, //*
-  featured: Number,
-  rating: Number,
-  stock: Number, //*
-  quantity_sold: Number,
-  availabilityStatus: String, //* trạng thái 
+  price: {
+    type: Number,
+    min: 0,
+    default: 0
+  }, //*
+  discountPercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0
+  }, //*
+  featured: {
+    type: Number,
+    default: 0
+  },
+  rating: {
+    type: Number,
+    default: 5
+  },
+  stock: {
+    type: Number,
+    min: 0,
+    default: 0
+  }, //*
+  quantity_sold: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  availabilityStatus: {
+    type: String,
+    default: "In Stock"
+  }, //* trạng thái 
   images: Array,
   thumbnail: String, //*
   position: Number,

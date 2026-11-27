@@ -77,6 +77,9 @@ module.exports.changeMulti = async (req, res) => {
     const status = req.body.status; 
     const ids = req.body.ids.split(", "); 
 
+    // Cập nhật kho dựa trên trạng thái cũ trước khi update
+    await updateStockHelper(status, ids);
+
     // Cập nhật tất cả đơn hàng có id nằm trong danh sách ids
     await Order.updateMany(
       { _id: { $in: ids } }, 
@@ -84,8 +87,6 @@ module.exports.changeMulti = async (req, res) => {
         orderStatus: status 
       }
     );
-
-    await updateStockHelper(status, ids);
 
     req.flash(
       "success",

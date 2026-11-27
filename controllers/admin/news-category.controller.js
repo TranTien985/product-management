@@ -96,7 +96,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await NewsCategory.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
           deletedBy: {
@@ -108,13 +108,11 @@ module.exports.changeMulti = async (req, res) => {
       req.flash("success", `Đã xóa thành công ${ids.length} danh mục!`);
       break;
     case "change-position":
-      // vì các giá trị của position khác nhau nên ta sẽ phải sử dụng forof
-      // để có thể duyệt qua từng phần tử trong mảng
       for (const item of ids) {
-        let [id, position] = item.split("-"); // sau đó ta sẽ từ mảng tách chuỗi ra
-        position = parseInt(position); // vì position là number nên ta phải convert lại kiểu cho dữ liệu
+        let [id, position] = item.split("-");
+        position = parseInt(position);
 
-        await News.updateOne(
+        await NewsCategory.updateOne(
           { _id: id },
           {
             position: position,
@@ -138,7 +136,25 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
-  // await ProductCategory.deleteOne({_id: id}) dùng để xóa vĩnh viễn
+  // Ràng buộc kiểm tra danh mục con trực thuộc
+  const hasChildCategory = await NewsCategory.findOne({
+    parent_id: id,
+    deleted: false
+  });
+  if (hasChildCategory) {
+    req.flash("error", "Không thể xóa danh mục này vì còn tồn tại danh mục con trực thuộc!");
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  // Ràng buộc kiểm tra tin tức thuộc danh mục
+  const hasNews = await News.findOne({
+    news_category_id: id,
+    deleted: false
+  });
+  if (hasNews) {
+    req.flash("error", "Không thể xóa danh mục này vì còn tin tức đang thuộc danh mục!");
+    return res.redirect(req.get("Referer") || "/");
+  }
 
   await NewsCategory.updateOne(
     { _id: id },
@@ -224,28 +240,35 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/news-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const permissions = res.locals.role.permissions
+  const permissions = res.locals.role.permissions;
   
   if(permissions.includes("news-category_edit")){
-    const id = req.params.id
-    req.params.position = parseInt(req.params.position)
+    const id = req.params.id;
+
+    if (req.body.parent_id === id) {
+      req.flash("error", "Danh mục cha không thể là chính danh mục này!");
+      return res.redirect(req.get("Referer") || "/");
+    }
+
+    if (req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    }
 
     try {
       const updatedBy = {
         account_id: res.locals.user.id,
         updatedAt: new Date()
-      }
-      req.body.updateBy = updatedBy
+      };
+      req.body.updateBy = updatedBy;
 
       await NewsCategory.updateOne({_id: id}, {
-        ...req.body, // lấy những phần tử cũ trong req.body
-        $push: {updatedBy: updatedBy} // cú pháp của mongoose
+        ...req.body,
+        $push: {updatedBy: updatedBy}
       });
 
       req.flash("success", "Cập nhật thành công!");
     } catch (error) {
       console.log(error);
-      
       req.flash("error", "Cập nhật không thành công!");
     }
 

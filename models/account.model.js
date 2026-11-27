@@ -2,17 +2,33 @@ const mongoose = require("mongoose");
 const generate = require("../helpers/generate")
 
 const accountSchema = new mongoose.Schema({
-  fullName: String, //*
-  email: String,
-  password: String,
+  fullName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
   token: {
     type: String,
-    default: generate.generateRandomString(20)
+    default: () => generate.generateRandomString(30)
   }, // khi lưu dữ liệu tk người dùng thì be sẽ lưu cái token này chứ ko lưu email hay pass
   phone: String,
   avatar: String,
   role_id: String,
-  status: String,
+  status: {
+    type: String,
+    enum: ["active", "inactive"],
+    default: "active"
+  },
   deleted: {
     type: Boolean,
     default: false

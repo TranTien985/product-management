@@ -1,7 +1,8 @@
 const ProductCategory = require("../../models/product-category.model"); //database
 const Product = require("../../models/product.model"); //database
 const systemConfig = require("../../config/system");
-const createTreeHelper = require("../../helpers/createTree")
+const createTreeHelper = require("../../helpers/createTree");
+const getSubCategoryHelper = require("../../helpers/product-category");
 const Account = require("../../models/account.model"); //database
 
 // [GET] /admin/product-category
@@ -96,7 +97,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await ProductCategory.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
           deletedBy: {
@@ -108,13 +109,11 @@ module.exports.changeMulti = async (req, res) => {
       req.flash("success", `Đã xóa thành công ${ids.length} danh mục!`);
       break;
     case "change-position":
-      // vì các giá trị của position khác nhau nên ta sẽ phải sử dụng forof
-      // để có thể duyệt qua từng phần tử trong mảng
       for (const item of ids) {
-        let [id, position] = item.split("-"); // sau đó ta sẽ từ mảng tách chuỗi ra
-        position = parseInt(position); // vì position là number nên ta phải convert lại kiểu cho dữ liệu
+        let [id, position] = item.split("-");
+        position = parseInt(position);
 
-        await Product.updateOne(
+        await ProductCategory.updateOne(
           { _id: id },
           {
             position: position,
@@ -138,7 +137,25 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
-  // await ProductCategory.deleteOne({_id: id}) dùng để xóa vĩnh viễn
+  // Ràng buộc 1: Kiểm tra xem có danh mục con trực thuộc hay không
+  const hasChildCategory = await ProductCategory.findOne({
+    parent_id: id,
+    deleted: false
+  });
+  if (hasChildCategory) {
+    req.flash("error", "Không thể xóa danh mục này vì còn tồn tại danh mục con trực thuộc!");
+    return res.redirect(req.get("Referer") || "/");
+  }
+
+  // Ràng buộc 2: Kiểm tra xem có sản phẩm nào thuộc danh mục này hay không
+  const hasProduct = await Product.findOne({
+    product_category_id: id,
+    deleted: false
+  });
+  if (hasProduct) {
+    req.flash("error", "Không thể xóa danh mục này vì còn sản phẩm đang thuộc danh mục!");
+    return res.redirect(req.get("Referer") || "/");
+  }
 
   await ProductCategory.updateOne(
     { _id: id },
@@ -224,28 +241,46 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const permissions = res.locals.role.permissions
+  const permissions = res.locals.role.permissions;
   
   if(permissions.includes("products-category_edit")){
-    const id = req.params.id
-    req.params.position = parseInt(req.params.position)
+    const id = req.params.id;
+
+    // Ràng buộc chống chọn chính nó làm danh mục cha
+    if (req.body.parent_id === id) {
+      req.flash("error", "Danh mục cha không thể là chính danh mục này!");
+      return res.redirect(req.get("Referer") || "/");
+    }
+
+    // Ràng buộc chống chọn danh mục con làm cha (chống lặp đệ quy vô hạn)
+    if (req.body.parent_id) {
+      const subCategories = await getSubCategoryHelper.getSubCategory(id);
+      const subCategoryIds = subCategories.map(item => item.id);
+      if (subCategoryIds.includes(req.body.parent_id)) {
+        req.flash("error", "Không thể chọn danh mục con của danh mục này làm danh mục cha!");
+        return res.redirect(req.get("Referer") || "/");
+      }
+    }
+
+    if (req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    }
 
     try {
       const updatedBy = {
         account_id: res.locals.user.id,
         updatedAt: new Date()
-      }
-      req.body.updateBy = updatedBy
+      };
+      req.body.updateBy = updatedBy;
 
       await ProductCategory.updateOne({_id: id}, {
-        ...req.body, // lấy những phần tử cũ trong req.body
-        $push: {updatedBy: updatedBy} // cú pháp của mongoose
+        ...req.body,
+        $push: {updatedBy: updatedBy}
       });
 
       req.flash("success", "Cập nhật thành công!");
     } catch (error) {
       console.log(error);
-      
       req.flash("error", "Cập nhật không thành công!");
     }
 

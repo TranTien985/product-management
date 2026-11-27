@@ -58,14 +58,18 @@ module.exports.detail = async (req, res) => {
     const find = {
       deleted: false,
       slug: req.params.slugProduct,
-      availabilityStatus: "In Stock"
+      availabilityStatus: { $ne: "Out of Stock" }
     };
     const product = await Product.findOne(find).lean();
+
+    if (!product) {
+      req.flash("error", "Sản phẩm không tồn tại hoặc đã ngừng kinh doanh!");
+      return res.redirect("/products");
+    }
 
     if (product.product_category_id) {
       const category = await ProductCategory.findOne({
         _id: product.product_category_id,
-        availabilityStatus: "In Stock",
         deleted: false,
       });
       product.category = category;
@@ -200,11 +204,16 @@ module.exports.detail = async (req, res) => {
 
 // [GET] /products/:slugCategory
 module.exports.category = async (req, res) => {
+  try {
     const category = await ProductCategory.findOne({
         slug: req.params.slugCategory,
-        availabilityStatus: "In Stock",
         deleted: false,
     });
+
+    if (!category) {
+      req.flash("error", "Danh mục sản phẩm không tồn tại!");
+      return res.redirect("/products");
+    }
 
     const listSubCategory = await productCategoryHelper.getSubCategory(category.id);
     const listSubCategoryId = listSubCategory.map(item => item.id);
@@ -245,6 +254,10 @@ module.exports.category = async (req, res) => {
         pagination: objectPagination,
         queryParams: req.query,
     });
+  } catch (error) {
+    req.flash("error", "Không thể tải danh mục sản phẩm!");
+    res.redirect("/products");
+  }
 }
 
 // [POST] /products/review/:productId

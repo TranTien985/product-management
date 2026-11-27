@@ -227,15 +227,36 @@ module.exports.resetPasswordPost = async (req, res) => {
   const password = req.body.password;
   const tokenUser = req.cookies.tokenUser;
 
-  await User.updateOne({
+  if (!tokenUser) {
+    req.flash("error", "Phiên đổi mật khẩu không hợp lệ hoặc đã hết hạn!");
+    return res.redirect("/user/login");
+  }
+
+  const user = await User.findOne({
     tokenUser: tokenUser,
-  },{
-    password: md5(password),
+    deleted: false
   });
 
-  req.flash("success", "Xác nhận thành công!");
-  res.redirect("/")
+  if (!user) {
+    req.flash("error", "Người dùng không tồn tại!");
+    return res.redirect("/user/login");
+  }
 
+  await User.updateOne({
+    _id: user._id,
+  },{
+    password: md5(password),
+    tokenUser: generateHelper.generateRandomString(30)
+  });
+
+  // Hủy bỏ mã OTP đã dùng để chống dùng lại
+  await ForgotPassword.deleteMany({
+    email: user.email
+  });
+
+  req.flash("success", "Đổi mật khẩu thành công! Vui lòng đăng nhập bằng mật khẩu mới.");
+  res.clearCookie("tokenUser");
+  res.redirect("/user/login");
 }
 
 // [GET] /user/info
@@ -247,11 +268,28 @@ module.exports.info = async (req, res) => {
 
 // [PATCH] /user/info/:id
 module.exports.infoEdit = async (req, res) => {
-  const id = res.locals.user.id;// Lấy id từ token hoặc session đăng nhập
+  if (!res.locals.user) {
+    req.flash("error", "Vui lòng đăng nhập!");
+    return res.redirect("/user/login");
+  }
+
+  const id = res.locals.user.id;
+  const { fullName, phone } = req.body;
+
+  if (!fullName || !fullName.trim()) {
+    req.flash("error", "Họ tên không được để trống!");
+    return res.redirect("/user/info");
+  }
+
+  const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})\b$/;
+  if (phone && !phoneRegex.test(phone.trim())) {
+    req.flash("error", "Số điện thoại không hợp lệ!");
+    return res.redirect("/user/info");
+  }
 
   const updatedData = {
-    fullName: req.body.fullName,
-    phone: req.body.phone
+    fullName: fullName.trim(),
+    phone: phone ? phone.trim() : ""
   };
 
   await User.updateOne({ _id: id }, updatedData);

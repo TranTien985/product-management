@@ -181,7 +181,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await Product.updateMany(
-        { _id: ids },
+        { _id: { $in: ids } },
         {
           deleted: true,
           deletedBy: {
@@ -268,14 +268,18 @@ module.exports.create = async (req, res) => {
 
 // [POST] /adim/product/createPost
 module.exports.createPost = async (req, res) => {
-  // chuyển dữ liệu từ string -> number
-  req.body.price = parseFloat(req.body.price);
-  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
+  const price = parseFloat(req.body.price);
+  req.body.price = isNaN(price) || price < 0 ? 0 : price;
+
+  const discountPercentage = parseFloat(req.body.discountPercentage);
+  req.body.discountPercentage = isNaN(discountPercentage) || discountPercentage < 0 ? 0 : Math.min(100, discountPercentage);
+
+  const stock = parseInt(req.body.stock);
+  req.body.stock = isNaN(stock) || stock < 0 ? 0 : stock;
 
   try {
     // nếu người dùng không nhập vị trí thì hệ thống sẽ tự động tăng thêm 1
-    if (req.body.position == "") {
+    if (req.body.position == "" || req.body.position === undefined) {
       const countProducts = await Product.countDocuments();
       req.body.position = countProducts + 1;
     } else {
@@ -327,11 +331,18 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
 
-  req.body.price = parseFloat(req.body.price);
-  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
+  const price = parseFloat(req.body.price);
+  req.body.price = isNaN(price) || price < 0 ? 0 : price;
 
-  req.body.position = parseInt(req.body.position);
+  const discountPercentage = parseFloat(req.body.discountPercentage);
+  req.body.discountPercentage = isNaN(discountPercentage) || discountPercentage < 0 ? 0 : Math.min(100, discountPercentage);
+
+  const stock = parseInt(req.body.stock);
+  req.body.stock = isNaN(stock) || stock < 0 ? 0 : stock;
+
+  if (req.body.position) {
+    req.body.position = parseInt(req.body.position);
+  }
 
   try {
     const updatedBy = {
@@ -362,14 +373,20 @@ module.exports.detail = async (req, res) => {
 
     const product = await Product.findOne(find);
 
+    if (!product) {
+      req.flash("error", "Không tồn tại sản phẩm");
+      return res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+
     if(product.product_category_id){
       const category = await ProductCategory.findOne({
-        _id:product.product_category_id,
-        availabilityStatus: "In Stock",
+        _id: product.product_category_id,
         deleted: false,
       });
 
-      product.category.title = category;
+      if (category) {
+        product.category = category.title;
+      }
     }
 
     product.priceNew = productsHelper.priceNewProduct(product);
